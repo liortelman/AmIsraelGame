@@ -207,8 +207,8 @@ body{
 .boardHeader{
   width: 100%;
   display:grid;
-  grid-template-columns: 1fr 340px;
-  gap: 12px;
+  grid-template-columns: 1fr 350px;  
+  gap: 22px;  
   align-items: start;
   margin: 14px 0 10px 0;
 }
@@ -575,3 +575,4 @@ body{
   .board-cell{ min-height: 54px; }
   .board-btn{ font-size: 18px; }
 }
+
