@@ -241,23 +241,31 @@ function buildBoard() {
   const order = QUESTIONS.meta.categoriesOrder;
   const rCount = rowsCount();
 
-  // Header row
+  // ===== Header row (קטגוריות) =====
   order.forEach(catKey => {
     const cell = document.createElement("div");
     cell.className = "board-cell board-header";
+
+    // 🔑
+    // מאפשר ל-CSS לדעת איזה קטגוריה זו
+    cell.dataset.cat = catKey;
+
     cell.textContent = QUESTIONS.categories[catKey]?.label || catKey;
     board.appendChild(cell);
   });
 
-  // Rows
+  // ===== Rows: question numbers =====
   for (let r = 0; r < rCount; r++) {
     const displayNumber = r + 1;
+
     order.forEach(catKey => {
       const q = getQuestionBy(catKey, r);
+
       const btn = document.createElement("button");
       btn.className = "board-cell board-btn";
       btn.type = "button";
       btn.textContent = String(displayNumber);
+
       btn.dataset.cat = catKey;
       btn.dataset.qindex = String(r);
       btn.dataset.qid = q?.id || "";
@@ -268,10 +276,6 @@ function buildBoard() {
 
       btn.addEventListener("click", () => {
         if (!q) return;
-        if (q.type === "duel") {
-          openDuel(catKey, r);
-          return;
-        }
         openQuestionModal(catKey, r);
       });
 
@@ -279,6 +283,8 @@ function buildBoard() {
     });
   }
 }
+
+
 function advanceTurn() {
   if (!state.teams.length) return;
   state.currentTeamIndex = (state.currentTeamIndex + 1) % state.teams.length;
@@ -827,3 +833,4 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
