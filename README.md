@@ -27,10 +27,10 @@ A local-file friendly (no server) trivia board game in Hebrew (RTL), with:
 ### 🎯 Game Flow & UX
 - [x] Add **End Game screen** with **ranking** (1st/2nd/3rd), final scores, and “Play Again”
 - [x] Add a top-bar button: **“End Game”** (with confirmation)
-- [ ] Add **Undo / Back** option (admin safety):
-  - [ ] Undo last scoring action (points + restore used question)
-  - [ ] Undo duel winner selection
-  - [ ] Undo “No points” (restore question)
+- [x] Add **Undo / Back** option (admin safety):
+  - [x] Undo last scoring action (points + restore used question)
+  - [x] Undo duel winner selection
+  - [x] Undo “No points” (restore question)
 - [ ] Add **confirmation** before burning a question (optional toggle)
 - [ ] Add keyboard shortcuts:
   - [ ] `Esc` closes modal / exits duel question view
