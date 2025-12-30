@@ -1,4 +1,9 @@
 /* Auto-generated app.js - local-file friendly (no fetch) */
+
+/* === Optional toggle === */
+const CONFIRM_BURN_QUESTION = false; // אם true -> יש אישור לפני "שריפת" שאלה (לא לתת נקודות / דו-קרב שחוזרים אחרי חשיפה / תשובה שגויה באוטו)
+
+/* === Questions === */
 const QUESTIONS = {
   "meta": {
     "title": "אני והסיפור שלנו",
@@ -89,12 +94,13 @@ const QUESTIONS = {
 
 /* === State === */
 const DEFAULT_STATE = {
-  phase: "start",
+  phase: "start",          // start | board | duel | end
   teamCount: 2,
   teams: [],
   currentTeamIndex: 0,
   used: {},
-  duel: null // {catKey, qIndex, revealed}
+  duel: null,              // {catKey, qIndex, revealed}
+  undoStack: []            // stack of snapshots
 };
 
 let state = loadState() || clone(DEFAULT_STATE);
@@ -127,6 +133,36 @@ function showOnlyScreen(screenId) {
   if (target) target.classList.remove("hidden");
 }
 
+/* === Undo === */
+function snapshotForUndo() {
+  const snap = clone(state);
+  snap.undoStack = []; // לא משכפלים את היסטוריית האנדו בתוך הסנאפשוט
+  return snap;
+}
+function pushUndo() {
+  // אל תשמרי אנדו במסך התחלה
+  if (state.phase === "start") return;
+
+  const stack = Array.isArray(state.undoStack) ? state.undoStack : [];
+  stack.push(snapshotForUndo());
+  // limit
+  while (stack.length > 50) stack.shift();
+  state.undoStack = stack;
+  saveState();
+}
+function undoLastAction() {
+  const stack = Array.isArray(state.undoStack) ? state.undoStack : [];
+  if (!stack.length) {
+    alert("אין מה לבטל 🙂");
+    return;
+  }
+  const prev = stack.pop();
+  prev.undoStack = stack; // שומרים את מה שנשאר
+  state = prev;
+  saveState();
+  applyStateToUI();
+}
+
 /* === Game rules helpers === */
 function rowsCount() {
   return QUESTIONS?.meta?.board?.rows
@@ -137,9 +173,7 @@ function getQuestionBy(catKey, index0) {
   if (!cat) return null;
   return cat.questions[index0] || null;
 }
-function getQuestionPoints(q) {
-  return Number(q?.points || 0);
-}
+function getQuestionPoints(q) { return Number(q?.points || 0); }
 
 /* === Auto-score helper === */
 function isAutoTrivia(q) {
@@ -164,7 +198,6 @@ function buildTeamsForm(teamCount) {
     wrap.appendChild(row);
   }
 }
-
 function initTeamsFromForm() {
   const teamCount = Number($("teamCount")?.value || 2);
   state.teamCount = teamCount;
@@ -176,6 +209,7 @@ function initTeamsFromForm() {
   state.currentTeamIndex = 0;
   state.used = {};
   state.duel = null;
+  state.undoStack = [];
   state.phase = "board";
   saveState();
 }
@@ -192,14 +226,12 @@ function renderScoreBar() {
     bar.appendChild(pill);
   });
 }
-
 function renderTurnLabel() {
   const el = $("turnLabel");
   if (!el) return;
   const t = state.teams[state.currentTeamIndex];
   el.textContent = t ? `תור: ${t.name}` : "";
 }
-
 function buildBoard() {
   const board = $("board");
   if (!board) return;
@@ -217,7 +249,7 @@ function buildBoard() {
     board.appendChild(cell);
   });
 
-  // Rows: question numbers (1..rCount)
+  // Rows
   for (let r = 0; r < rCount; r++) {
     const displayNumber = r + 1;
     order.forEach(catKey => {
@@ -236,12 +268,10 @@ function buildBoard() {
 
       btn.addEventListener("click", () => {
         if (!q) return;
-
         if (q.type === "duel") {
           openDuel(catKey, r);
           return;
         }
-
         openQuestionModal(catKey, r);
       });
 
@@ -249,7 +279,6 @@ function buildBoard() {
     });
   }
 }
-
 function advanceTurn() {
   if (!state.teams.length) return;
   state.currentTeamIndex = (state.currentTeamIndex + 1) % state.teams.length;
@@ -257,14 +286,226 @@ function advanceTurn() {
   renderScoreBar();
   renderTurnLabel();
 }
-
 function rerenderBoardUI() {
   renderScoreBar();
   renderTurnLabel();
   buildBoard();
 }
 
-/* === Duel logic === */
+/* === Modal logic === */
+let activeCatKey = null;
+let activeQIndex = null;
+let timerInterval = null;
+let timerRemaining = 0;
+
+function markUsed(catKey, qIndex) {
+  const q = getQuestionBy(catKey, qIndex);
+  if (!q?.id) return;
+  state.used[q.id] = true;
+  saveState();
+}
+
+function confirmBurnIfNeeded() {
+  if (!CONFIRM_BURN_QUESTION) return true;
+  return confirm("לסמן את השאלה כ'שומשה' ולעבור הלאה?");
+}
+
+function openQuestionModal(catKey, qIndex) {
+  activeCatKey = catKey;
+  activeQIndex = qIndex;
+
+  const q = getQuestionBy(catKey, qIndex);
+  if (!q) return;
+
+  const points = getQuestionPoints(q);
+  const displayNumber = qIndex + 1;
+
+  setText("modalCategory", QUESTIONS.categories[catKey]?.label || catKey);
+  setText("modalMeta", `שאלה ${displayNumber} • ${points} נקודות`);
+  setText("modalQuestion", q.question || "");
+
+  // options
+  const optWrap = $("modalOptions");
+  if (optWrap) {
+    optWrap.innerHTML = "";
+    const hasOptions = Array.isArray(q.options) && q.options.length > 0;
+
+    if (hasOptions) {
+      optWrap.classList.remove("hidden");
+
+      q.options.forEach(opt => {
+        const b = document.createElement("button");
+        b.className = "option-btn";
+        b.type = "button";
+        b.textContent = opt;
+
+        b.addEventListener("click", () => {
+          optWrap.querySelectorAll(".option-btn").forEach(x => x.classList.remove("selected"));
+          b.classList.add("selected");
+
+          if (isAutoTrivia(q)) {
+            optWrap.querySelectorAll(".option-btn").forEach(x => (x.disabled = true));
+
+            const chosen = String(opt).trim();
+            const correct = String(q.answer).trim();
+
+            if (chosen === correct) {
+              pushUndo();
+              awardPoints(state.currentTeamIndex, points);
+            } else {
+              if (!confirmBurnIfNeeded()) {
+                // re-enable and allow change
+                optWrap.querySelectorAll(".option-btn").forEach(x => (x.disabled = false));
+                return;
+              }
+              pushUndo();
+              markUsed(activeCatKey, activeQIndex);
+              closeQuestionModal();
+              advanceTurn();
+              rerenderBoardUI();
+            }
+          }
+        });
+
+        optWrap.appendChild(b);
+      });
+    } else {
+      optWrap.classList.add("hidden");
+    }
+  }
+
+  // answer area reset
+  const ans = $("modalAnswer");
+  if (ans) {
+    ans.classList.add("hidden");
+    ans.textContent = "";
+  }
+
+  $("btnShowAnswer")?.classList.remove("hidden");
+
+  if (!isAutoTrivia(q)) {
+    renderTeamAwardButtons(points);
+  } else {
+    const wrap = $("teamButtons");
+    if (wrap) wrap.innerHTML = "";
+    const none = $("btnNoPoints");
+    if (none) {
+      none.onclick = () => {
+        if (!confirmBurnIfNeeded()) return;
+        pushUndo();
+        markUsed(activeCatKey, activeQIndex);
+        closeQuestionModal();
+        advanceTurn();
+        rerenderBoardUI();
+      };
+    }
+  }
+
+  stopTimer();
+  updateTimerUI(0, 0);
+
+  $("modalOverlay")?.classList.remove("hidden");
+}
+
+function closeQuestionModal() {
+  $("modalOverlay")?.classList.add("hidden");
+  stopTimer();
+  activeCatKey = null;
+  activeQIndex = null;
+}
+
+function renderTeamAwardButtons(points) {
+  const wrap = $("teamButtons");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+
+  state.teams.forEach((t, idx) => {
+    const b = document.createElement("button");
+    b.className = "team-award-btn";
+    b.type = "button";
+    b.textContent = `לתת נקודות ל־${t.name}`;
+    b.addEventListener("click", () => {
+      pushUndo();
+      awardPoints(idx, points);
+    });
+    wrap.appendChild(b);
+  });
+
+  const none = $("btnNoPoints");
+  if (none) {
+    none.onclick = () => {
+      if (!confirmBurnIfNeeded()) return;
+      pushUndo();
+      markUsed(activeCatKey, activeQIndex);
+      closeQuestionModal();
+      advanceTurn();
+      rerenderBoardUI();
+    };
+  }
+}
+
+function awardPoints(teamIndex, points) {
+  if (teamIndex == null) return;
+  const pts = Number(points || 0);
+
+  if (state.teams[teamIndex]) {
+    state.teams[teamIndex].score += pts;
+  }
+
+  markUsed(activeCatKey, activeQIndex);
+  saveState();
+
+  closeQuestionModal();
+  advanceTurn();
+  rerenderBoardUI();
+}
+
+/* === Timer === */
+function startTimer(seconds) {
+  stopTimer();
+  const total = Number(seconds || 0);
+  if (total <= 0) {
+    updateTimerUI(0, 0);
+    return;
+  }
+
+  timerRemaining = total;
+  updateTimerUI(timerRemaining, total);
+
+  timerInterval = setInterval(() => {
+    timerRemaining -= 1;
+    if (timerRemaining <= 0) {
+      stopTimer();
+      updateTimerUI(0, total);
+      return;
+    }
+    updateTimerUI(timerRemaining, total);
+  }, 1000);
+}
+function stopTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+}
+function updateTimerUI(remaining, total) {
+  const bar = $("timerBar");
+  const fill = $("timerFill");
+  const text = $("timerText");
+  if (!bar || !fill || !text) return;
+
+  if (!total || total <= 0) {
+    bar.classList.add("hidden");
+    fill.style.width = "0%";
+    text.textContent = "";
+    return;
+  }
+
+  bar.classList.remove("hidden");
+  const pct = Math.max(0, Math.min(1, remaining / total));
+  fill.style.width = `${pct * 100}%`;
+  text.textContent = `${remaining}s`;
+}
+
+/* === Duel logic (2-stage) === */
 function openDuel(catKey, qIndex) {
   state.phase = "duel";
   state.duel = { catKey, qIndex, revealed: false };
@@ -275,6 +516,8 @@ function openDuel(catKey, qIndex) {
 
 function closeDuel(goNextTurnIfRevealed) {
   if (goNextTurnIfRevealed) {
+    if (!confirmBurnIfNeeded()) return;
+    pushUndo();
     markUsed(state.duel?.catKey, state.duel?.qIndex);
     state.phase = "board";
     state.duel = null;
@@ -302,9 +545,8 @@ function renderDuelFromState() {
   const displayNumber = d.qIndex + 1;
   const catLabel = QUESTIONS.categories[d.catKey]?.label || d.catKey;
 
-  // IMPORTANT: In your HTML there is NO element with id="duelMeta"
-  // so we only update duelIntro (exists) and the question area.
-  setText("duelIntro", `דו־קרב! ${catLabel} • שאלה ${displayNumber} • ${points} נקודות. קודם כולם מוכנים, ואז לוחצים "הצג שאלה".`);
+  setText("duelMeta", `${catLabel} • שאלה ${displayNumber} • ${points} נקודות`);
+  setText("duelIntro", d.revealed ? "בחרו מנצח:" : "דו־קרב! קודם כל כולם מוכנים. רק אחרי זה לוחצים 'הצג שאלה'.");
 
   const area = $("duelQuestionArea");
   const qText = $("duelQuestionText");
@@ -346,14 +588,14 @@ function awardDuelWinner(teamIndex) {
   const q = getQuestionBy(d.catKey, d.qIndex);
   if (!q) return;
 
-  const points = getQuestionPoints(q);
+  pushUndo();
 
+  const points = getQuestionPoints(q);
   if (state.teams[teamIndex]) {
     state.teams[teamIndex].score += Number(points || 0);
   }
 
   markUsed(d.catKey, d.qIndex);
-
   state.phase = "board";
   state.duel = null;
   saveState();
@@ -363,7 +605,7 @@ function awardDuelWinner(teamIndex) {
   showOnlyScreen("screenBoard");
 }
 
-/* === End screen logic === */
+/* === End game === */
 function getRanking() {
   return state.teams
     .map((t, idx) => ({ ...t, _idx: idx }))
@@ -375,7 +617,6 @@ function renderEndScreen() {
   if (!wrap) return;
 
   const ranking = getRanking();
-
   wrap.innerHTML = ranking.map((t, i) => {
     const place = i + 1;
     const medal = place === 1 ? "🥇" : place === 2 ? "🥈" : place === 3 ? "🥉" : "🏅";
@@ -389,202 +630,15 @@ function renderEndScreen() {
   }).join("");
 }
 
-function finishGame() {
+function finishGame(withConfirm = true) {
+  if (withConfirm) {
+    const ok = confirm("לסיים את המשחק ולעבור למסך דירוג?");
+    if (!ok) return;
+  }
   state.phase = "end";
   saveState();
   renderEndScreen();
   showOnlyScreen("screenEnd");
-}
-
-/* === Modal logic === */
-let activeCatKey = null;
-let activeQIndex = null;
-let timerInterval = null;
-let timerRemaining = 0;
-
-function openQuestionModal(catKey, qIndex) {
-  activeCatKey = catKey;
-  activeQIndex = qIndex;
-
-  const q = getQuestionBy(catKey, qIndex);
-  if (!q) return;
-
-  const points = getQuestionPoints(q);
-  const displayNumber = qIndex + 1;
-
-  setText("modalCategory", QUESTIONS.categories[catKey]?.label || catKey);
-  setText("modalMeta", `שאלה ${displayNumber} • ${points} נקודות`);
-  setText("modalQuestion", q.question || "");
-
-  const optWrap = $("modalOptions");
-  if (optWrap) {
-    optWrap.innerHTML = "";
-
-    const hasOptions = Array.isArray(q.options) && q.options.length > 0;
-
-    if (hasOptions) {
-      optWrap.classList.remove("hidden");
-
-      q.options.forEach(opt => {
-        const b = document.createElement("button");
-        b.className = "option-btn";
-        b.type = "button";
-        b.textContent = opt;
-
-        b.addEventListener("click", () => {
-          optWrap.querySelectorAll(".option-btn").forEach(x => x.classList.remove("selected"));
-          b.classList.add("selected");
-
-          if (isAutoTrivia(q)) {
-            optWrap.querySelectorAll(".option-btn").forEach(x => (x.disabled = true));
-
-            const chosen = String(opt).trim();
-            const correct = String(q.answer).trim();
-
-            if (chosen === correct) {
-              awardPoints(state.currentTeamIndex, points);
-            } else {
-              markUsed(activeCatKey, activeQIndex);
-              closeQuestionModal();
-              advanceTurn();
-              rerenderBoardUI();
-            }
-          }
-        });
-
-        optWrap.appendChild(b);
-      });
-    } else {
-      optWrap.classList.add("hidden");
-    }
-  }
-
-  setText("modalAnswer", "");
-  $("btnShowAnswer")?.classList.remove("hidden");
-
-  if (!isAutoTrivia(q)) {
-    renderTeamAwardButtons(points);
-  } else {
-    const wrap = $("teamButtons");
-    if (wrap) wrap.innerHTML = "";
-
-    const none = $("btnNoPoints");
-    if (none) {
-      none.onclick = () => {
-        markUsed(activeCatKey, activeQIndex);
-        closeQuestionModal();
-        advanceTurn();
-        rerenderBoardUI();
-      };
-    }
-  }
-
-  stopTimer();
-  updateTimerUI(0, 0);
-
-  $("modalOverlay")?.classList.remove("hidden");
-}
-
-function closeQuestionModal() {
-  $("modalOverlay")?.classList.add("hidden");
-  stopTimer();
-  activeCatKey = null;
-  activeQIndex = null;
-}
-
-function markUsed(catKey, qIndex) {
-  const q = getQuestionBy(catKey, qIndex);
-  if (!q?.id) return;
-  state.used[q.id] = true;
-  saveState();
-}
-
-function renderTeamAwardButtons(points) {
-  const wrap = $("teamButtons");
-  if (!wrap) return;
-  wrap.innerHTML = "";
-
-  state.teams.forEach((t, idx) => {
-    const b = document.createElement("button");
-    b.className = "team-award-btn";
-    b.type = "button";
-    b.textContent = `לתת נקודות ל־${t.name}`;
-    b.addEventListener("click", () => awardPoints(idx, points));
-    wrap.appendChild(b);
-  });
-
-  const none = $("btnNoPoints");
-  if (none) {
-    none.onclick = () => {
-      markUsed(activeCatKey, activeQIndex);
-      closeQuestionModal();
-      advanceTurn();
-      rerenderBoardUI();
-    };
-  }
-}
-
-function awardPoints(teamIndex, points) {
-  if (teamIndex == null) return;
-  const pts = Number(points || 0);
-
-  if (state.teams[teamIndex]) {
-    state.teams[teamIndex].score += pts;
-  }
-
-  markUsed(activeCatKey, activeQIndex);
-  saveState();
-
-  closeQuestionModal();
-  advanceTurn();
-  rerenderBoardUI();
-}
-
-/* === Timer / Helps === */
-function startTimer(seconds) {
-  stopTimer();
-  const total = Number(seconds || 0);
-  if (total <= 0) {
-    updateTimerUI(0, 0);
-    return;
-  }
-
-  timerRemaining = total;
-  updateTimerUI(timerRemaining, total);
-
-  timerInterval = setInterval(() => {
-    timerRemaining -= 1;
-    if (timerRemaining <= 0) {
-      stopTimer();
-      updateTimerUI(0, total);
-      return;
-    }
-    updateTimerUI(timerRemaining, total);
-  }, 1000);
-}
-
-function stopTimer() {
-  if (timerInterval) clearInterval(timerInterval);
-  timerInterval = null;
-}
-
-function updateTimerUI(remaining, total) {
-  const bar = $("timerBar");
-  const fill = $("timerFill");
-  const text = $("timerText");
-  if (!bar || !fill || !text) return;
-
-  if (!total || total <= 0) {
-    bar.classList.add("hidden");
-    fill.style.width = "0%";
-    text.textContent = "";
-    return;
-  }
-
-  bar.classList.remove("hidden");
-  const pct = Math.max(0, Math.min(1, remaining / total));
-  fill.style.width = `${pct * 100}%`;
-  text.textContent = `${remaining}s`;
 }
 
 /* === Wiring === */
@@ -607,11 +661,14 @@ function wireTopButtons() {
     });
   }
 
-  const finishBtn = $("btnFinishGame");
+  const finishBtn = $("btnFinish");
   if (finishBtn) {
-    finishBtn.addEventListener("click", () => {
-      finishGame();
-    });
+    finishBtn.addEventListener("click", () => finishGame(true));
+  }
+
+  const undoBtn = $("btnUndo");
+  if (undoBtn) {
+    undoBtn.addEventListener("click", undoLastAction);
   }
 }
 
@@ -645,9 +702,11 @@ function wireModalButtons() {
   $("btnShowAnswer")?.addEventListener("click", () => {
     const q = getQuestionBy(activeCatKey, activeQIndex);
     if (!q) return;
-    setText("modalAnswer", `תשובה: ${q.answer ?? ""}`);
-    // אם אצלך ה-answer מוסתר ב-CSS, זה יפתור:
-    $("modalAnswer")?.classList.remove("hidden");
+    const ans = $("modalAnswer");
+    if (ans) {
+      ans.textContent = `תשובה: ${q.answer ?? ""}`;
+      ans.classList.remove("hidden");
+    }
   });
 
   $("modalOverlay")?.addEventListener("click", (e) => {
@@ -658,6 +717,7 @@ function wireModalButtons() {
 function wireDuelButtons() {
   $("btnDuelShowQuestion")?.addEventListener("click", () => {
     if (!state.duel) return;
+    pushUndo();
     state.duel.revealed = true;
     saveState();
     renderDuelFromState();
@@ -673,6 +733,56 @@ function wireDuelButtons() {
   $("btnDuelWinnerTeam2")?.addEventListener("click", () => awardDuelWinner(2));
 }
 
+function wireEndButtons() {
+  $("btnEndPlayAgain")?.addEventListener("click", () => {
+    resetState();
+    applyStateToUI();
+  });
+
+  $("btnEndBackToBoard")?.addEventListener("click", () => {
+    state.phase = "board";
+    saveState();
+    applyStateToUI();
+  });
+}
+
+function wireKeyboardShortcuts() {
+  document.addEventListener("keydown", (e) => {
+    // avoid when typing
+    const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
+    if (tag === "input" || tag === "textarea") return;
+
+    if (e.key === "Escape") {
+      const modalVisible = !$("modalOverlay")?.classList.contains("hidden");
+      if (modalVisible) {
+        closeQuestionModal();
+        return;
+      }
+
+      // duel: esc toggles "question view"
+      if (state.phase === "duel" && state.duel) {
+        if (state.duel.revealed) {
+          pushUndo();
+          state.duel.revealed = false;
+          saveState();
+          renderDuelFromState();
+        } else {
+          closeDuel(false);
+        }
+      }
+    }
+
+    if (e.key === "u" || e.key === "U") {
+      undoLastAction();
+    }
+
+    if (e.key === "e" || e.key === "E") {
+      finishGame(true);
+    }
+  });
+}
+
+/* === Apply state === */
 function applyStateToUI() {
   if (!state.teams || !state.teams.length) {
     state.phase = "start";
@@ -705,17 +815,8 @@ function boot() {
   wireStartScreen();
   wireModalButtons();
   wireDuelButtons();
-
-  $("btnEndReset")?.addEventListener("click", () => {
-    resetState();
-    applyStateToUI();
-  });
-
-  $("btnEndBackToBoard")?.addEventListener("click", () => {
-    state.phase = "board";
-    saveState();
-    applyStateToUI();
-  });
+  wireEndButtons();
+  wireKeyboardShortcuts();
 
   buildTeamsForm(Number($("teamCount")?.value || 2));
 
