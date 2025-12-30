@@ -1,440 +1,540 @@
-/* eslint-disable no-alert */
-
-/* 
-  English-only comments per user's preference.
-*/
-
-const STORAGE_KEY = "amIsraelGameState_v1";
-
-const SCREENS = {
-  start: "screenStart",
-  board: "screenBoard",
-  duel: "screenDuel",
+/* === Data (embedded to avoid file:// fetch issues) === */
+const QUESTIONS = {
+  "meta": {
+    "title": "אני והסיפור שלנו",
+    "version": "0.1",
+    "board": { "rows": 7, "cols": 6, "points": [10, 20, 30, 40, 50, 60, 70] },
+    "categoriesOrder": ["history", "places", "figures", "values", "symbols", "songs"]
+  },
+  "categories": {
+    "history": {
+      "label": "היסטוריה",
+      "questions": [
+        { "id": "history-10", "points": 10, "type": "mcq", "question": "באיזו שנה הוקמה מדינת ישראל?", "options": ["1947", "1948", "1956", "1967"], "answer": "1948", "hint": "" },
+        { "id": "history-20", "points": 20, "type": "tf", "question": "הכרזת העצמאות התקיימה בתל אביב.", "options": ["נכון", "לא נכון"], "answer": "נכון", "hint": "" },
+        { "id": "history-30", "points": 30, "type": "short", "question": "איך נקראה העלייה הגדולה של יהודי תימן בשנים 1949–1950?", "options": [], "answer": "מבצע מרבד הקסמים", "hint": "" },
+        { "id": "history-40", "points": 40, "type": "short", "question": "איזה אירוע התרחש בי\"ד באייר תש\"ח (1948) והוביל להכרזת המדינה?", "options": [], "answer": "סיום המנדט הבריטי (וקבלת החלטת החלוקה/הצורך בהכרזה)", "hint": "" },
+        { "id": "history-50", "points": 50, "type": "mcq", "question": "איזו מלחמה נקראת גם \"מלחמת הקוממיות\"?", "options": ["מלחמת ששת הימים", "מלחמת העצמאות", "מלחמת יום הכיפורים", "מלחמת לבנון הראשונה"], "answer": "מלחמת העצמאות", "hint": "" },
+        { "id": "history-60", "points": 60, "type": "short", "question": "מהו שם מסמך היסוד שמגדיר את הקמת המדינה וזכויות האזרחים?", "options": [], "answer": "מגילת העצמאות", "hint": "" },
+        { "id": "history-70", "points": 70, "type": "short", "question": "איך נקראה תוכנית החלוקה של האו\"ם שהתקבלה בשנת 1947?", "options": [], "answer": "החלטה 181", "hint": "" }
+      ]
+    },
+    "places": {
+      "label": "מקומות",
+      "questions": [
+        { "id": "places-10", "points": 10, "type": "mcq", "question": "מהי בירת ישראל?", "options": ["תל אביב", "חיפה", "ירושלים", "באר שבע"], "answer": "ירושלים", "hint": "" },
+        { "id": "places-20", "points": 20, "type": "short", "question": "באיזה עיר נמצא הכותל המערבי?", "options": [], "answer": "ירושלים", "hint": "" },
+        { "id": "places-30", "points": 30, "type": "mcq", "question": "איזה ים נמצא בדרום ישראל?", "options": ["ים המלח", "ים סוף", "הים התיכון", "ים כנרת"], "answer": "ים סוף", "hint": "" },
+        { "id": "places-40", "points": 40, "type": "short", "question": "איך נקרא המדבר הגדול בדרום הארץ?", "options": [], "answer": "מדבר הנגב", "hint": "" },
+        { "id": "places-50", "points": 50, "type": "short", "question": "איזה מקום בישראל נחשב לנקודה הנמוכה בעולם?", "options": [], "answer": "ים המלח", "hint": "" },
+        { "id": "places-60", "points": 60, "type": "short", "question": "מהו ההר הגבוה בישראל?", "options": [], "answer": "הר חרמון", "hint": "" },
+        { "id": "places-70", "points": 70, "type": "short", "question": "איזה אתר ארכיאולוגי מפורסם נמצא במדבר יהודה ונחשב למצודה?", "options": [], "answer": "מצדה", "hint": "" }
+      ]
+    },
+    "figures": {
+      "label": "דמויות",
+      "questions": [
+        { "id": "figures-10", "points": 10, "type": "mcq", "question": "מי היה ראש הממשלה הראשון של ישראל?", "options": ["יצחק רבין", "דוד בן גוריון", "מנחם בגין", "משה שרת"], "answer": "דוד בן גוריון", "hint": "" },
+        { "id": "figures-20", "points": 20, "type": "mcq", "question": "מי היה הנשיא הראשון של מדינת ישראל?", "options": ["חיים ויצמן", "זלמן שזר", "יצחק בן צבי", "אפרים קציר"], "answer": "חיים ויצמן", "hint": "" },
+        { "id": "figures-30", "points": 30, "type": "short", "question": "מי כתבה את השיר \"ירושלים של זהב\"?", "options": [], "answer": "נעמי שמר", "hint": "" },
+        { "id": "figures-40", "points": 40, "type": "short", "question": "מי היה מפקד האצ\"ל, ולימים ראש ממשלה?", "options": [], "answer": "מנחם בגין", "hint": "" },
+        { "id": "figures-50", "points": 50, "type": "short", "question": "איזו דמות ישראלית ידועה בתור \"הנשר הגדול\" (ברמב\"ם/הלכה)?", "options": [], "answer": "הרמב\"ם", "hint": "" },
+        { "id": "figures-60", "points": 60, "type": "short", "question": "מי היה הרמטכ\"ל במלחמת ששת הימים?", "options": [], "answer": "יצחק רבין", "hint": "" },
+        { "id": "figures-70", "points": 70, "type": "short", "question": "מי קיבל פרס נובל לשלום מישראל יחד עם רבין ב־1994?", "options": [], "answer": "שמעון פרס (וגם יאסר ערפאת)", "hint": "" }
+      ]
+    },
+    "values": {
+      "label": "ערכים",
+      "questions": [
+        { "id": "values-10", "points": 10, "type": "tf", "question": "ערבות הדדית היא ערך מרכזי בחברה הישראלית.", "options": ["נכון", "לא נכון"], "answer": "נכון", "hint": "" },
+        { "id": "values-20", "points": 20, "type": "short", "question": "מהו ערך שמדגיש התנדבות ועזרה לאחר?", "options": [], "answer": "חסד / נתינה / התנדבות", "hint": "" },
+        { "id": "values-30", "points": 30, "type": "short", "question": "איזה ערך מתאר התמודדות ולא לוותר למרות קושי?", "options": [], "answer": "נחישות / התמדה", "hint": "" },
+        { "id": "values-40", "points": 40, "type": "short", "question": "איזה ערך קשור לשמירה על חוק וכללים?", "options": [], "answer": "אחריות / משמעת / שלטון החוק", "hint": "" },
+        { "id": "values-50", "points": 50, "type": "short", "question": "מהו ערך שקשור להכרה בשונות וקבלת האחר?", "options": [], "answer": "סובלנות", "hint": "" },
+        { "id": "values-60", "points": 60, "type": "short", "question": "מהו ערך שמדגיש שוויון הזדמנויות לכל?", "options": [], "answer": "שוויון", "hint": "" },
+        { "id": "values-70", "points": 70, "type": "short", "question": "איזה ערך קשור לזיכרון ושימור סיפורי העבר?", "options": [], "answer": "זיכרון / מורשת", "hint": "" }
+      ]
+    },
+    "symbols": {
+      "label": "סמלים",
+      "questions": [
+        { "id": "symbols-10", "points": 10, "type": "mcq", "question": "מהו צבע מרכזי בדגל ישראל?", "options": ["אדום", "כחול", "ירוק", "שחור"], "answer": "כחול", "hint": "" },
+        { "id": "symbols-20", "points": 20, "type": "short", "question": "מה מופיע במרכז דגל ישראל?", "options": [], "answer": "מגן דוד", "hint": "" },
+        { "id": "symbols-30", "points": 30, "type": "short", "question": "מהו ההמנון הלאומי של ישראל?", "options": [], "answer": "התקווה", "hint": "" },
+        { "id": "symbols-40", "points": 40, "type": "short", "question": "מהו סמל המדינה הרשמי (מלבד הדגל)?", "options": [], "answer": "מנורה ושני ענפי זית", "hint": "" },
+        { "id": "symbols-50", "points": 50, "type": "short", "question": "איזה חיה נחשבת לסמל ירושלים?", "options": [], "answer": "אריה", "hint": "" },
+        { "id": "symbols-60", "points": 60, "type": "short", "question": "איזה פרח מזוהה עם ישראל כפרח הלאומי?", "options": [], "answer": "כלנית (נפוץ כתשובה)", "hint": "" },
+        { "id": "symbols-70", "points": 70, "type": "short", "question": "מה מסמל ענף הזית בסמל המדינה?", "options": [], "answer": "שלום", "hint": "" }
+      ]
+    },
+    "songs": {
+      "label": "השירים",
+      "questions": [
+        { "id": "songs-10", "points": 10, "type": "short", "question": "השלימו: \"עוד לא אבדה ____\".", "options": [], "answer": "תקוותנו", "hint": "" },
+        { "id": "songs-20", "points": 20, "type": "short", "question": "איזה שיר ילדים מוכר מתחיל ב: \"השמש זורחת...\"?", "options": [], "answer": "תשובות שונות אפשריות (למנחה)", "hint": "" },
+        { "id": "songs-30", "points": 30, "type": "short", "question": "מי שר את \"אין לי ארץ אחרת\" (בביצוע המוכר)?", "options": [], "answer": "גלי עטרי (מוכר)", "hint": "" },
+        { "id": "songs-40", "points": 40, "type": "short", "question": "איזה שיר מזוהה עם יום העצמאות ומתחיל ב: \"הבאנו שלום עליכם\"?", "options": [], "answer": "הבאנו שלום עליכם", "hint": "" },
+        { "id": "songs-50", "points": 50, "type": "short", "question": "השלימו: \"אני נושא עמי ____\".", "options": [], "answer": "תפילה", "hint": "" },
+        { "id": "songs-60", "points": 60, "type": "short", "question": "איזה שיר מוכר קשור לירושלים ונכתב ע\"י נעמי שמר?", "options": [], "answer": "ירושלים של זהב", "hint": "" },
+        { "id": "songs-70", "points": 70, "type": "short", "question": "מה השיר שמתחיל ב: \"עוד יבוא שלום עלינו\"?", "options": [], "answer": "עוד יבוא שלום עלינו", "hint": "" }
+      ]
+    }
+  }
 };
 
-let state = null;
-let dataModel = null;
+/* === State === */
+const DEFAULT_STATE = {
+  phase: "start",            // "start" | "board" | "duel"
+  teamCount: 2,
+  teams: [],                 // [{name, score}]
+  currentTeamIndex: 0,
+  used: {},                  // { [questionId]: true }
+  duel: null                 // { questionId, teamIndexes:[...], active:true }
+};
 
-let activeQuestion = null;
-let timerInterval = null;
-let timerEndMs = null;
+let state = loadState() || structuredClone(DEFAULT_STATE);
 
-document.addEventListener("DOMContentLoaded", async () => {
-  wireUI();
-  buildTeamsForm();
-
-  await loadQuestionsData();
-  showScreen(SCREENS.start);
-
-  const saved = loadState();
-  document.getElementById("btnResume").disabled = !saved;
-});
-
-function wireUI() {
-  document.getElementById("teamCount").addEventListener("change", buildTeamsForm);
-
-  document.getElementById("btnStart").addEventListener("click", () => {
-    startNewGameFromForm();
-  });
-
-  document.getElementById("btnReset").addEventListener("click", () => {
-    if (confirm("לאפס את המשחק?")) {
-      clearState();
-      location.reload();
-    }
-  });
-
-  document.getElementById("btnResume").addEventListener("click", () => {
-    const saved = loadState();
-    if (!saved) {
-      alert("אין משחק שמור.");
-      return;
-    }
-    state = saved;
-    showScreen(SCREENS.board);
-    renderBoard();
-    renderHeader();
-  });
-
-  // Modal handlers
-  document.getElementById("btnCloseModal").addEventListener("click", closeModal);
-  document.getElementById("btnNoPoints").addEventListener("click", () => finalizeQuestion(null));
-
-  document.getElementById("btnShowAnswer").addEventListener("click", () => {
-    const el = document.getElementById("modalAnswer");
-    el.classList.remove("hidden");
-  });
-
-  document.getElementById("btnHelpTeacher").addEventListener("click", () => {
-    alert("גלגל הצלה: שאל את המורה ✅");
-  });
-
-  document.getElementById("btnHelpGoogle").addEventListener("click", () => {
-    startTimerSeconds(20, "20 שניות לגוגל");
-    // Note: We do not force opening Google because internet may not exist.
-  });
-
-  // Duel handlers
-  document.getElementById("btnDuelBack").addEventListener("click", () => {
-    activeQuestion = null;
-    showScreen(SCREENS.board);
-    renderBoard();
-    renderHeader();
-  });
-
-  document.getElementById("btnDuelShowQuestion").addEventListener("click", () => {
-    document.getElementById("duelQuestionArea").classList.remove("hidden");
-    document.getElementById("duelQuestionText").textContent = activeQuestion?.text || "";
-  });
-
-  document.getElementById("btnDuelWinnerTeam0").addEventListener("click", () => duelWinner(0));
-  document.getElementById("btnDuelWinnerTeam1").addEventListener("click", () => duelWinner(1));
-  document.getElementById("btnDuelWinnerTeam2").addEventListener("click", () => duelWinner(2));
+/* === Helpers === */
+function $(id) { return document.getElementById(id); }
+function saveState() { localStorage.setItem("amIsraelGameState", JSON.stringify(state)); }
+function loadState() {
+  try { return JSON.parse(localStorage.getItem("amIsraelGameState")); }
+  catch { return null; }
+}
+function resetState() {
+  localStorage.removeItem("amIsraelGameState");
+  state = structuredClone(DEFAULT_STATE);
 }
 
-function showScreen(screenId) {
-  Object.values(SCREENS).forEach((id) => {
-    document.getElementById(id).classList.add("hidden");
-  });
-  document.getElementById(screenId).classList.remove("hidden");
+/* === Screens === */
+function showScreen(name) {
+  const screens = ["screenStart", "screenBoard", "screenDuel"];
+  screens.forEach(s => { const el = $(s); if (el) el.classList.add("hidden"); });
+  const target = $(`screen${capitalize(name)}`);
+  if (target) target.classList.remove("hidden");
+  state.phase = name;
+  saveState();
 }
+function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
-function buildTeamsForm() {
-  const count = Number(document.getElementById("teamCount").value);
-  const wrap = document.getElementById("teamsForm");
+/* === UI Builders === */
+function buildTeamsForm(teamCount) {
+  const wrap = $("teamsForm");
+  if (!wrap) return;
   wrap.innerHTML = "";
-
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < teamCount; i++) {
     const row = document.createElement("div");
-    row.className = "teamRow";
-
-    const label = document.createElement("div");
-    label.className = "label";
-    label.textContent = `קבוצה ${i + 1}`;
-
-    const input = document.createElement("input");
-    input.className = "input";
-    input.type = "text";
-    input.placeholder = `שם קבוצה ${i + 1}`;
-    input.id = `teamName${i}`;
-    input.value = i === 0 ? "קבוצה א׳" : (i === 1 ? "קבוצה ב׳" : "קבוצה ג׳");
-
-    row.appendChild(label);
-    row.appendChild(input);
+    row.className = "team-row";
+    row.innerHTML = `
+      <label class="team-label">קבוצה ${i + 1}</label>
+      <input class="team-input" id="teamName${i}" type="text" placeholder="שם קבוצה ${i + 1}" />
+    `;
     wrap.appendChild(row);
   }
 }
 
-async function loadQuestionsData() {
-  // Note: Using fetch for local JSON usually works when opened from file:// in many browsers,
-  // but some environments block it. If that happens, we can inline the JSON in app.js.
-  try {
-    const res = await fetch("data/questions.json");
-    if (!res.ok) throw new Error("Failed to load questions.json");
-    dataModel = await res.json();
-  } catch (e) {
-    alert(
-      "לא הצלחתי לטעון data/questions.json.\n" +
-      "אם פתחת מ-file:// ודפדפן חסם את זה, תגידי לי ואני אתן לך גרסה ללא fetch."
-    );
-    throw e;
+function initTeamsFromForm() {
+  const teamCount = Number($("teamCount")?.value || 2);
+  state.teamCount = teamCount;
+  state.teams = [];
+  for (let i = 0; i < teamCount; i++) {
+    const name = ($(`teamName${i}`)?.value || `קבוצה ${i + 1}`).trim() || `קבוצה ${i + 1}`;
+    state.teams.push({ name, score: 0 });
   }
-}
-
-function startNewGameFromForm() {
-  const count = Number(document.getElementById("teamCount").value);
-
-  const teams = [];
-  for (let i = 0; i < count; i++) {
-    const name = document.getElementById(`teamName${i}`).value.trim() || `קבוצה ${i + 1}`;
-    teams.push({ name, score: 0 });
-  }
-
-  state = {
-    teams,
-    currentTeam: 0,
-    questionsUsed: {}, // map questionId -> true
-  };
-
+  state.currentTeamIndex = 0;
+  state.used = {};
+  state.duel = null;
   saveState();
-  showScreen(SCREENS.board);
-  renderBoard();
-  renderHeader();
 }
 
-function renderHeader() {
-  const turn = state.teams[state.currentTeam]?.name || "";
-  document.getElementById("turnLabel").textContent = `התור של: ${turn}`;
-
-  const bar = document.getElementById("scoreBar");
+function renderScoreBar() {
+  const bar = $("scoreBar");
+  if (!bar) return;
   bar.innerHTML = "";
-  state.teams.forEach((t) => {
+  state.teams.forEach((t, i) => {
     const pill = document.createElement("div");
-    pill.className = "scorePill";
+    pill.className = "score-pill" + (i === state.currentTeamIndex ? " active" : "");
     pill.textContent = `${t.name}: ${t.score}`;
     bar.appendChild(pill);
   });
 }
 
-function renderBoard() {
-  const board = document.getElementById("board");
+function renderTurnLabel() {
+  const el = $("turnLabel");
+  if (!el) return;
+  const t = state.teams[state.currentTeamIndex];
+  el.textContent = t ? `תור: ${t.name}` : "";
+}
+
+function buildBoard() {
+  const board = $("board");
+  if (!board) return;
+
   board.innerHTML = "";
+  const order = QUESTIONS.meta.categoriesOrder;
+  const points = QUESTIONS.meta.board.points;
 
-  // Header row: empty + 1..7
-  board.appendChild(makeCell("", true));
-  for (let i = 1; i <= 7; i++) {
-    board.appendChild(makeCell(String(i), false));
-  }
-
-  const categories = dataModel.categories;
-  for (const cat of categories) {
-    board.appendChild(makeCategoryCell(cat.title));
-
-    for (let idx = 1; idx <= 7; idx++) {
-      const q = findQuestion(cat.id, idx);
-
-      const cell = document.createElement("div");
-      cell.className = "cell";
-
-      const btn = document.createElement("button");
-      btn.className = "qBtn";
-      btn.type = "button";
-      btn.textContent = String(idx);
-
-      const used = q ? Boolean(state.questionsUsed[q.id]) : true;
-      if (used) {
-        btn.classList.add("used");
-        btn.disabled = true;
-      } else {
-        btn.addEventListener("click", () => onSelectQuestion(q));
-      }
-
-      // If no question exists in JSON for this cell, disable it.
-      if (!q) {
-        btn.classList.add("used");
-        btn.disabled = true;
-      }
-
-      cell.appendChild(btn);
-      board.appendChild(cell);
-    }
-  }
-}
-
-function makeCell(text, isBlank) {
-  const div = document.createElement("div");
-  div.className = "cell";
-  div.textContent = text;
-  if (isBlank) div.style.background = "transparent";
-  return div;
-}
-
-function makeCategoryCell(title) {
-  const div = document.createElement("div");
-  div.className = "cell catCell";
-  div.textContent = title;
-  return div;
-}
-
-function findQuestion(categoryId, index) {
-  return dataModel.questions.find((q) => q.category === categoryId && q.index === index) || null;
-}
-
-function onSelectQuestion(q) {
-  activeQuestion = q;
-
-  if (q.type === "duel") {
-    openDuelScreen(q);
-    return;
-  }
-
-  openModal(q);
-}
-
-function openModal(q) {
-  stopTimer();
-
-  document.getElementById("modalCategory").textContent = categoryTitle(q.category);
-  document.getElementById("modalMeta").textContent = `סוג: ${typeLabel(q.type)} | ניקוד: ${q.points}`;
-  document.getElementById("modalQuestion").textContent = q.text;
-
-  // Options (for trivia mode)
-  const optWrap = document.getElementById("modalOptions");
-  optWrap.innerHTML = "";
-  if (Array.isArray(q.options) && q.options.length > 0) {
-    optWrap.classList.remove("hidden");
-    q.options.forEach((opt) => {
-      const b = document.createElement("button");
-      b.className = "optionBtn";
-      b.type = "button";
-      b.textContent = opt;
-      // In MVP, we do not auto-check correctness; instructor decides.
-      b.addEventListener("click", () => {
-        alert(`נבחר: ${opt}\nהמדריך/ה מסמן/ת נכון או לא נכון.`);
-      });
-      optWrap.appendChild(b);
-    });
-  } else {
-    optWrap.classList.add("hidden");
-  }
-
-  const ansEl = document.getElementById("modalAnswer");
-  ansEl.textContent = q.answer ? `תשובה: ${q.answer}` : "אין תשובה מוגדרת (המדריך/ה מחליט/ה).";
-  ansEl.classList.add("hidden");
-
-  // Team buttons
-  const teamBtns = document.getElementById("teamButtons");
-  teamBtns.innerHTML = "";
-  state.teams.forEach((t, i) => {
-    const b = document.createElement("button");
-    b.className = "btn btn-success";
-    b.type = "button";
-    b.textContent = t.name;
-    b.addEventListener("click", () => finalizeQuestion(i));
-    teamBtns.appendChild(b);
+  // Header row: category labels
+  order.forEach(catKey => {
+    const cell = document.createElement("div");
+    cell.className = "board-cell board-header";
+    cell.textContent = QUESTIONS.categories[catKey].label;
+    board.appendChild(cell);
   });
 
-  document.getElementById("modalOverlay").classList.remove("hidden");
-}
+  // Rows: points
+  for (let r = 0; r < points.length; r++) {
+    const p = points[r];
+    order.forEach(catKey => {
+      const q = QUESTIONS.categories[catKey].questions.find(x => x.points === p);
+      const btn = document.createElement("button");
+      btn.className = "board-cell board-btn";
+      btn.textContent = String(p);
+      btn.dataset.qid = q?.id || "";
+      btn.disabled = !q || !!state.used[q.id];
+      if (btn.disabled) btn.classList.add("used");
 
-function closeModal() {
-  stopTimer();
-  document.getElementById("modalOverlay").classList.add("hidden");
-  activeQuestion = null;
-}
+      btn.addEventListener("click", () => {
+        if (!q) return;
+        openQuestionModal(catKey, q.id);
+      });
 
-function finalizeQuestion(winnerTeamIndexOrNull) {
-  if (!activeQuestion) return;
-
-  // Mark used
-  state.questionsUsed[activeQuestion.id] = true;
-
-  // Award points if requested
-  if (winnerTeamIndexOrNull !== null && winnerTeamIndexOrNull !== undefined) {
-    state.teams[winnerTeamIndexOrNull].score += Number(activeQuestion.points || 0);
-  }
-
-  // Move turn to next team (simple round-robin)
-  state.currentTeam = (state.currentTeam + 1) % state.teams.length;
-
-  saveState();
-  closeModal();
-  renderBoard();
-  renderHeader();
-}
-
-function openDuelScreen(q) {
-  stopTimer();
-  showScreen(SCREENS.duel);
-
-  document.getElementById("duelIntro").textContent =
-    `שאלה דו־קרב (${q.points} נק׳). לחצו "הצג שאלה" כשכולם מוכנים.`;
-
-  document.getElementById("duelQuestionArea").classList.add("hidden");
-  document.getElementById("duelQuestionText").textContent = "";
-
-  // Configure winner buttons
-  document.getElementById("btnDuelWinnerTeam0").textContent = state.teams[0].name;
-  document.getElementById("btnDuelWinnerTeam1").textContent = state.teams[1].name;
-
-  const btn2 = document.getElementById("btnDuelWinnerTeam2");
-  if (state.teams.length === 3) {
-    btn2.classList.remove("hidden");
-    btn2.textContent = state.teams[2].name;
-  } else {
-    btn2.classList.add("hidden");
+      board.appendChild(btn);
+    });
   }
 }
 
-function duelWinner(teamIndex) {
-  if (!activeQuestion) return;
+/* === Modal Logic === */
+let activeQuestionId = null;
+let activeCategoryKey = null;
+let timerInterval = null;
+let timerRemaining = 0;
 
-  // Mark used + award points
-  state.questionsUsed[activeQuestion.id] = true;
-  state.teams[teamIndex].score += Number(activeQuestion.points || 0);
+function openQuestionModal(categoryKey, questionId) {
+  activeCategoryKey = categoryKey;
+  activeQuestionId = questionId;
 
-  // For duel, we still advance turn
-  state.currentTeam = (state.currentTeam + 1) % state.teams.length;
+  const q = findQuestionById(questionId);
+  if (!q) return;
 
-  saveState();
+  // Fill modal
+  setText("modalCategory", QUESTIONS.categories[categoryKey].label);
+  setText("modalMeta", `${q.points} נקודות`);
 
-  activeQuestion = null;
-  showScreen(SCREENS.board);
-  renderBoard();
-  renderHeader();
-}
+  setText("modalQuestion", q.question);
 
-function categoryTitle(categoryId) {
-  return dataModel.categories.find((c) => c.id === categoryId)?.title || categoryId;
-}
-
-function typeLabel(type) {
-  switch (type) {
-    case "regular": return "שאלה רגילה";
-    case "all": return "שאלה לכולם";
-    case "personal": return "שאלה אישית";
-    case "duel": return "דו־קרב";
-    default: return type;
-  }
-}
-
-function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-
-function loadState() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-}
-
-function clearState() {
-  localStorage.removeItem(STORAGE_KEY);
-}
-
-function startTimerSeconds(seconds, label) {
-  stopTimer();
-
-  const bar = document.getElementById("timerBar");
-  const fill = document.getElementById("timerFill");
-  const text = document.getElementById("timerText");
-
-  bar.classList.remove("hidden");
-  fill.style.width = "0%";
-
-  const totalMs = seconds * 1000;
-  const startMs = Date.now();
-  timerEndMs = startMs + totalMs;
-
-  const tick = () => {
-    const now = Date.now();
-    const remaining = Math.max(0, timerEndMs - now);
-    const done = 1 - remaining / totalMs;
-
-    fill.style.width = `${Math.round(done * 100)}%`;
-    text.textContent = `${label} • נשארו ${Math.ceil(remaining / 1000)} שנ׳`;
-
-    if (remaining <= 0) {
-      stopTimer();
-      alert("הזמן נגמר!");
+  // Options
+  const optWrap = $("modalOptions");
+  if (optWrap) {
+    optWrap.innerHTML = "";
+    if (Array.isArray(q.options) && q.options.length) {
+      q.options.forEach((opt) => {
+        const b = document.createElement("button");
+        b.className = "option-btn";
+        b.type = "button";
+        b.textContent = opt;
+        b.addEventListener("click", () => {
+          // Visual selection only (teacher decides correctness)
+          optWrap.querySelectorAll(".option-btn").forEach(x => x.classList.remove("selected"));
+          b.classList.add("selected");
+        });
+        optWrap.appendChild(b);
+      });
     }
-  };
+  }
 
-  tick();
-  timerInterval = setInterval(tick, 100);
+  // Hide answer until requested
+  setText("modalAnswer", "");
+  $("btnShowAnswer")?.classList.remove("hidden");
+
+  // Team award buttons
+  renderTeamAwardButtons(q.points);
+
+  // Show overlay
+  $("modalOverlay")?.classList.remove("hidden");
+
+  stopTimer();
+  updateTimerUI(0, 0);
+}
+
+function closeQuestionModal() {
+  $("modalOverlay")?.classList.add("hidden");
+  stopTimer();
+  activeQuestionId = null;
+  activeCategoryKey = null;
+}
+
+function setText(id, text) {
+  const el = $(id);
+  if (el) el.textContent = text;
+}
+
+function findQuestionById(qid) {
+  for (const catKey of Object.keys(QUESTIONS.categories)) {
+    const q = QUESTIONS.categories[catKey].questions.find(x => x.id === qid);
+    if (q) return q;
+  }
+  return null;
+}
+
+function renderTeamAwardButtons(points) {
+  const wrap = $("teamButtons");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+
+  state.teams.forEach((t, idx) => {
+    const b = document.createElement("button");
+    b.className = "team-award-btn";
+    b.type = "button";
+    b.textContent = `לתת נקודות ל־${t.name}`;
+    b.addEventListener("click", () => awardPoints(idx, points));
+    wrap.appendChild(b);
+  });
+
+  const none = $("btnNoPoints");
+  if (none) {
+    none.onclick = () => {
+      markUsed(activeQuestionId);
+      closeQuestionModal();
+      advanceTurn();
+    };
+  }
+}
+
+function awardPoints(teamIndex, points) {
+  if (teamIndex == null) return;
+  state.teams[teamIndex].score += points;
+
+  markUsed(activeQuestionId);
+  saveState();
+
+  closeQuestionModal();
+
+  // Next turn by default
+  advanceTurn();
+  rerenderBoardUI();
+}
+
+function markUsed(qid) {
+  if (!qid) return;
+  state.used[qid] = true;
+  saveState();
+}
+
+function advanceTurn() {
+  if (!state.teams.length) return;
+  state.currentTeamIndex = (state.currentTeamIndex + 1) % state.teams.length;
+  saveState();
+  renderScoreBar();
+  renderTurnLabel();
+}
+
+function rerenderBoardUI() {
+  renderScoreBar();
+  renderTurnLabel();
+  buildBoard();
+}
+
+/* === Timer / Help === */
+function startTimer(seconds) {
+  stopTimer();
+  timerRemaining = seconds;
+  updateTimerUI(timerRemaining, seconds);
+
+  timerInterval = setInterval(() => {
+    timerRemaining -= 1;
+    if (timerRemaining <= 0) {
+      stopTimer();
+      updateTimerUI(0, seconds);
+      return;
+    }
+    updateTimerUI(timerRemaining, seconds);
+  }, 1000);
 }
 
 function stopTimer() {
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
-  timerEndMs = null;
-
-  document.getElementById("timerBar").classList.add("hidden");
-  document.getElementById("timerFill").style.width = "0%";
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
 }
+
+function updateTimerUI(remaining, total) {
+  const bar = $("timerBar");
+  const fill = $("timerFill");
+  const text = $("timerText");
+
+  if (!bar || !fill || !text) return;
+
+  if (!total || total <= 0) {
+    bar.classList.add("hidden");
+    return;
+  }
+
+  bar.classList.remove("hidden");
+  const pct = Math.max(0, Math.min(1, remaining / total));
+  fill.style.width = `${pct * 100}%`;
+  text.textContent = `${remaining}s`;
+}
+
+/* === Duel (basic placeholder flow) === */
+function startDuel(questionId, teamIndexes) {
+  state.duel = { questionId, teamIndexes, active: true };
+  saveState();
+
+  // Render duel UI
+  const intro = $("duelIntro");
+  if (intro) {
+    const names = teamIndexes.map(i => state.teams[i]?.name).filter(Boolean).join(" מול ");
+    intro.textContent = `דו-קרב: ${names}`;
+  }
+
+  $("duelQuestionArea")?.classList.add("hidden");
+  showScreen("duel");
+}
+
+function renderDuelQuestion() {
+  const duel = state.duel;
+  if (!duel) return;
+  const q = findQuestionById(duel.questionId);
+  if (!q) return;
+
+  $("duelQuestionArea")?.classList.remove("hidden");
+  setText("duelQuestionText", q.question);
+}
+
+function duelAward(winnerTeamIndex) {
+  const duel = state.duel;
+  if (!duel) return;
+  const q = findQuestionById(duel.questionId);
+  if (!q) return;
+
+  state.teams[winnerTeamIndex].score += q.points;
+  markUsed(q.id);
+  state.duel.active = false;
+  saveState();
+
+  showScreen("board");
+  rerenderBoardUI();
+}
+
+/* === Wiring === */
+function wireTopButtons() {
+  const resetBtn = $("btnReset");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      resetState();
+      applyStateToUI();
+    });
+  }
+
+  const resumeBtn = $("btnResume");
+  if (resumeBtn) {
+    resumeBtn.addEventListener("click", () => {
+      const loaded = loadState();
+      if (!loaded) return;
+      state = loaded;
+      applyStateToUI();
+    });
+  }
+}
+
+function wireStartScreen() {
+  const teamCountSel = $("teamCount");
+  if (teamCountSel) {
+    teamCountSel.addEventListener("change", () => buildTeamsForm(Number(teamCountSel.value)));
+  }
+
+  const startBtn = $("btnStart");
+  if (startBtn) {
+    startBtn.addEventListener("click", () => {
+      initTeamsFromForm();
+      showScreen("board");
+      applyStateToUI();
+    });
+  }
+}
+
+function wireModalButtons() {
+  $("btnCloseModal")?.addEventListener("click", closeQuestionModal);
+
+  $("btnHelpTeacher")?.addEventListener("click", () => {
+    // Teacher help is "no timer", just a flag for UI if you want later
+    startTimer(0);
+    alert("עזרת מורה הופעלה (המנחה מחליט איך לעזור).");
+  });
+
+  $("btnHelpGoogle")?.addEventListener("click", () => {
+    // 20 seconds timer for 'Google in 20s'
+    startTimer(20);
+  });
+
+  $("btnShowAnswer")?.addEventListener("click", () => {
+    const q = findQuestionById(activeQuestionId);
+    if (!q) return;
+    setText("modalAnswer", `תשובה: ${q.answer}`);
+  });
+
+  // Close overlay on background click
+  $("modalOverlay")?.addEventListener("click", (e) => {
+    if (e.target && e.target.id === "modalOverlay") closeQuestionModal();
+  });
+}
+
+function wireDuelButtons() {
+  $("btnDuelShowQuestion")?.addEventListener("click", renderDuelQuestion);
+  $("btnDuelBack")?.addEventListener("click", () => {
+    showScreen("board");
+    applyStateToUI();
+  });
+
+  // Optional winner buttons if exist
+  for (let i = 0; i < 6; i++) {
+    const b = $(`btnDuelWinnerTeam${i}`);
+    if (!b) continue;
+    b.addEventListener("click", () => duelAward(i));
+  }
+}
+
+function applyStateToUI() {
+  // Decide screen
+  if (!state.teams || !state.teams.length) {
+    showScreen("start");
+    buildTeamsForm(Number($("teamCount")?.value || 2));
+    return;
+  }
+
+  if (state.phase === "duel") showScreen("duel");
+  else showScreen("board");
+
+  // Render
+  renderScoreBar();
+  renderTurnLabel();
+  buildBoard();
+
+  // In duel screen, render intro names
+  if (state.phase === "duel" && state.duel) {
+    const intro = $("duelIntro");
+    if (intro) {
+      const names = state.duel.teamIndexes.map(i => state.teams[i]?.name).filter(Boolean).join(" מול ");
+      intro.textContent = `דו-קרב: ${names}`;
+    }
+  }
+}
+
+function boot() {
+  wireTopButtons();
+  wireStartScreen();
+  wireModalButtons();
+  wireDuelButtons();
+
+  // Start screen form
+  buildTeamsForm(Number($("teamCount")?.value || 2));
+
+  // Apply persisted state
+  const loaded = loadState();
+  if (loaded) state = loaded;
+
+  applyStateToUI();
+}
+
+// Ensure DOM is ready
+document.addEventListener("DOMContentLoaded", boot);
