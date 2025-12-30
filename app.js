@@ -94,7 +94,7 @@ const DEFAULT_STATE = {
   teams: [],
   currentTeamIndex: 0,
   used: {},
-  duel: null
+  duel: null // {catKey, qIndex, revealed}
 };
 
 let state = loadState() || clone(DEFAULT_STATE);
@@ -237,6 +237,13 @@ function buildBoard() {
 
       btn.addEventListener("click", () => {
         if (!q) return;
+
+        // NEW: duel goes to duel screen (2-stage)
+        if (q.type === "duel") {
+          openDuel(catKey, r);
+          return;
+        }
+
         openQuestionModal(catKey, r);
       });
 
@@ -257,6 +264,114 @@ function rerenderBoardUI() {
   renderScoreBar();
   renderTurnLabel();
   buildBoard();
+}
+
+/* === Duel logic (NEW) === */
+function openDuel(catKey, qIndex) {
+  state.phase = "duel";
+  state.duel = { catKey, qIndex, revealed: false };
+  saveState();
+  renderDuelFromState();
+  showOnlyScreen("screenDuel");
+}
+
+function closeDuel(goNextTurnIfRevealed) {
+  // If the question was actually revealed, we consider it "used"
+  if (goNextTurnIfRevealed) {
+    markUsed(state.duel?.catKey, state.duel?.qIndex);
+    state.phase = "board";
+    state.duel = null;
+    saveState();
+    advanceTurn();
+    rerenderBoardUI();
+    showOnlyScreen("screenBoard");
+    return;
+  }
+
+  // Just cancel (didn't reveal) — do not burn question
+  state.phase = "board";
+  state.duel = null;
+  saveState();
+  showOnlyScreen("screenBoard");
+}
+
+function renderDuelFromState() {
+  const d = state.duel;
+  if (!d) return;
+
+  const q = getQuestionBy(d.catKey, d.qIndex);
+  if (!q) return;
+
+  const points = getQuestionPoints(q);
+  const displayNumber = d.qIndex + 1;
+  const catLabel = QUESTIONS.categories[d.catKey]?.label || d.catKey;
+
+  // Meta + intro (screen 1)
+  setText("duelMeta", `${catLabel} • שאלה ${displayNumber} • ${points} נקודות`);
+  setText("duelIntro", "דו־קרב! קודם כל כולם מוכנים. רק אחרי זה לוחצים 'הצג שאלה'.");
+
+  // Buttons & question area
+  const area = $("duelQuestionArea");
+  const qText = $("duelQuestionText");
+  const showBtn = $("btnDuelShowQuestion");
+
+  if (area) area.classList.toggle("hidden", !d.revealed);
+
+  if (showBtn) {
+    showBtn.disabled = !!d.revealed;
+  }
+
+  if (d.revealed) {
+    if (qText) qText.textContent = q.question || "";
+
+    // Winner buttons
+    const b0 = $("btnDuelWinnerTeam0");
+    const b1 = $("btnDuelWinnerTeam1");
+    const b2 = $("btnDuelWinnerTeam2");
+
+    if (b0) {
+      b0.textContent = `ניצחון: ${state.teams[0]?.name ?? "קבוצה 1"}`;
+      b0.classList.remove("hidden");
+    }
+    if (b1) {
+      b1.textContent = `ניצחון: ${state.teams[1]?.name ?? "קבוצה 2"}`;
+      b1.classList.remove("hidden");
+    }
+    if (b2) {
+      if (state.teams.length >= 3) {
+        b2.textContent = `ניצחון: ${state.teams[2]?.name ?? "קבוצה 3"}`;
+        b2.classList.remove("hidden");
+      } else {
+        b2.classList.add("hidden");
+      }
+    }
+  }
+}
+
+function awardDuelWinner(teamIndex) {
+  const d = state.duel;
+  if (!d) return;
+
+  const q = getQuestionBy(d.catKey, d.qIndex);
+  if (!q) return;
+
+  const points = getQuestionPoints(q);
+
+  if (state.teams[teamIndex]) {
+    state.teams[teamIndex].score += Number(points || 0);
+  }
+
+  // burn question
+  markUsed(d.catKey, d.qIndex);
+
+  // back to board
+  state.phase = "board";
+  state.duel = null;
+  saveState();
+
+  advanceTurn();
+  rerenderBoardUI();
+  showOnlyScreen("screenBoard");
 }
 
 /* === Modal logic === */
@@ -520,12 +635,38 @@ function wireModalButtons() {
   });
 }
 
+function wireDuelButtons() {
+  $("btnDuelShowQuestion")?.addEventListener("click", () => {
+    if (!state.duel) return;
+    state.duel.revealed = true;
+    saveState();
+    renderDuelFromState();
+  });
+
+  $("btnDuelBack")?.addEventListener("click", () => {
+    // אם כבר חשפנו את השאלה → זה "שומש" ונעבור תור (בלי נקודות)
+    const revealed = !!state.duel?.revealed;
+    closeDuel(revealed);
+  });
+
+  $("btnDuelWinnerTeam0")?.addEventListener("click", () => awardDuelWinner(0));
+  $("btnDuelWinnerTeam1")?.addEventListener("click", () => awardDuelWinner(1));
+  $("btnDuelWinnerTeam2")?.addEventListener("click", () => awardDuelWinner(2));
+}
+
 function applyStateToUI() {
   if (!state.teams || !state.teams.length) {
     state.phase = "start";
     saveState();
     showOnlyScreen("screenStart");
     buildTeamsForm(Number($("teamCount")?.value || 2));
+    return;
+  }
+
+  // NEW: resume duel screen if we were in duel
+  if (state.phase === "duel" && state.duel) {
+    showOnlyScreen("screenDuel");
+    renderDuelFromState();
     return;
   }
 
@@ -539,6 +680,7 @@ function boot() {
   wireTopButtons();
   wireStartScreen();
   wireModalButtons();
+  wireDuelButtons();
 
   buildTeamsForm(Number($("teamCount")?.value || 2));
 
