@@ -208,7 +208,7 @@ body{
   width: 100%;
   display:grid;
   grid-template-columns: 1fr 340px;  /* FIT */
-  gap: 26px;                          /* ✅ CHANGED: היה 12 */
+  gap: 36px;                          /* ✅ CHANGED: היה 12 */
   align-items: start;
   margin: 14px 0 10px 0;              /* FIT */
 }
@@ -601,3 +601,4 @@ body{
   .board-cell{ min-height: 50px; }
   .board-btn{ font-size: 17px; }
 }
+
