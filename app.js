@@ -718,6 +718,17 @@ function boot() {
   wireStartScreen();
   wireModalButtons();
   wireDuelButtons();
+  
+  $("btnEndReset")?.addEventListener("click", () => {
+    resetState();
+    applyStateToUI();
+  });
+
+  $("btnEndBackToBoard")?.addEventListener("click", () => {
+    state.phase = "board";
+    saveState();
+    applyStateToUI();
+  });
 
   buildTeamsForm(Number($("teamCount")?.value || 2));
 
@@ -728,6 +739,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
