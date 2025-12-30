@@ -142,6 +142,15 @@ function getQuestionPoints(q) {
   return Number(q?.points || 0);
 }
 
+/* === Auto-score helper (NEW) === */
+function isAutoTrivia(q) {
+  // Works if you set autoScore:true OR if it's clearly a trivia question
+  const hasOptions = Array.isArray(q?.options) && q.options.length > 0;
+  const hasAnswer = String(q?.answer ?? "").trim() !== "";
+  const flag = q?.autoScore === true;
+  return (flag && hasOptions && hasAnswer) || (hasOptions && hasAnswer);
+}
+
 /* === Start screen === */
 function buildTeamsForm(teamCount) {
   const wrap = $("teamsForm");
@@ -280,10 +289,34 @@ function openQuestionModal(catKey, qIndex) {
         b.className = "option-btn";
         b.type = "button";
         b.textContent = opt;
+
+        // UPDATED: auto-scoring for trivia
         b.addEventListener("click", () => {
+          // Visual select
           optWrap.querySelectorAll(".option-btn").forEach(x => x.classList.remove("selected"));
           b.classList.add("selected");
+
+          // Auto-score only for trivia-like questions
+          if (isAutoTrivia(q)) {
+            // disable all options to prevent double clicks
+            optWrap.querySelectorAll(".option-btn").forEach(x => (x.disabled = true));
+
+            const chosen = String(opt).trim();
+            const correct = String(q.answer).trim();
+
+            if (chosen === correct) {
+              // correct -> add points immediately to current team
+              awardPoints(state.currentTeamIndex, points);
+            } else {
+              // wrong -> no points, burn question and advance turn
+              markUsed(activeCatKey, activeQIndex);
+              closeQuestionModal();
+              advanceTurn();
+              rerenderBoardUI();
+            }
+          }
         });
+
         optWrap.appendChild(b);
       });
     }
@@ -490,7 +523,3 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
-
-
-
-
