@@ -12,6 +12,7 @@
     <div class="brand">אני והסיפור שלנו</div>
 
     <div class="topbar-actions">
+      <button id="btnFinishGame" class="btn btn-primary" type="button">סיום המשחק</button>
       <button id="btnReset" class="btn btn-secondary" type="button">איפוס משחק</button>
       <button id="btnResume" class="btn btn-secondary" type="button">המשך משחק</button>
     </div>
@@ -60,10 +61,6 @@
     <section id="screenDuel" class="screen hidden">
       <div class="card">
         <h2 class="h2">דו־קרב</h2>
-
-        <!-- NEW: meta line for category/points/question number -->
-        <div id="duelMeta" class="modalMeta"></div>
-
         <p id="duelIntro" class="p"></p>
 
         <div class="row gap">
@@ -81,6 +78,21 @@
           </div>
 
           <p class="hint">בדו־קרב אין גלגלי הצלה (לפי הכללים).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- End Screen -->
+    <section id="screenEnd" class="screen hidden">
+      <div class="card">
+        <h2 class="h2">סיום המשחק 🏁</h2>
+        <p class="p">כל הכבוד! הנה הדירוג הסופי:</p>
+
+        <div id="endRanking" class="endRanking"></div>
+
+        <div class="row gap">
+          <button id="btnEndBackToBoard" class="btn btn-secondary" type="button">חזרה ללוח</button>
+          <button id="btnEndReset" class="btn btn-primary" type="button">משחק חדש</button>
         </div>
       </div>
     </section>
