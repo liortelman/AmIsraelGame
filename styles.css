@@ -59,13 +59,13 @@ body{
 .hidden{ display:none !important; }
 
 .app{
-  padding: 14px;
+  padding: 14px;                 /* FIT */
   max-width: 1280px;
   margin: 0 auto;
 }
 
 .screen{
-  min-height: calc(100vh - 68px);
+  min-height: calc(100vh - 68px); /* FIT */
   display:flex;
   align-items:center;
   justify-content:center;
@@ -76,7 +76,7 @@ body{
   display:flex;
   justify-content: space-between;
   align-items:center;
-  padding: 12px 14px;
+  padding: 12px 14px;            /* FIT */
 
   background: rgba(255,255,255,.62);
   border-bottom: 1px solid var(--stroke2);
@@ -102,7 +102,7 @@ body{
   border: 1px solid var(--stroke2);
   border-radius: var(--radius2);
   box-shadow: var(--shadow);
-  padding: 16px;
+  padding: 16px;                 /* FIT */
   backdrop-filter: blur(14px);
 }
 
@@ -161,7 +161,7 @@ body{
 .btn{
   border: 1px solid rgba(11,18,32,.12);
   border-radius: 14px;
-  padding: 9px 12px;
+  padding: 9px 12px;             /* FIT */
   cursor:pointer;
   color: var(--ink);
 
@@ -207,14 +207,14 @@ body{
 .boardHeader{
   width: 100%;
   display:grid;
-  grid-template-columns: 1fr 350px;  
-  gap: 22px;  
+  grid-template-columns: 1fr 340px;  /* FIT */
+  gap: 26px;                          /* ✅ CHANGED: היה 12 */
   align-items: start;
-  margin: 14px 0 10px 0;
+  margin: 14px 0 10px 0;              /* FIT */
 }
 
-/* Right HUD */
-.turnLabel{
+/* ===== NEW: Set title card above Turn+Scores ===== */
+.setTitle{
   grid-column: 2;
   background: var(--panelSolid);
   border: 1px solid var(--stroke2);
@@ -227,7 +227,37 @@ body{
   align-items:center;
   justify-content:center;
   text-align:center;
-  font-size: 15px;
+
+  font-size: 16px;
+  color: rgba(11,18,32,.92);
+
+  position: relative;
+  overflow:hidden;
+}
+
+.setTitle::before{
+  content:"";
+  position:absolute;
+  left:0; right:0; top:0;
+  height: 4px;
+  background: linear-gradient(90deg, rgba(56,189,248,.0), rgba(29,78,216,.92), rgba(56,189,248,.0));
+}
+
+/* Right HUD - “looks intentional” */
+.turnLabel{
+  grid-column: 2;
+  background: var(--panelSolid);
+  border: 1px solid var(--stroke2);
+  border-radius: 22px;
+  box-shadow: var(--shadowSoft);
+  padding: 12px;                      /* FIT */
+
+  font-weight: 950;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size: 15px;                    /* FIT */
 
   position: relative;
   overflow:hidden;
@@ -243,19 +273,19 @@ body{
 
 .scoreBar{
   grid-column: 2;
-  margin-top: 8px;
+  margin-top: 8px;                    /* FIT */
   display:grid;
-  gap:8px;
+  gap:8px;                            /* FIT */
 }
 
 .score-pill{
-  padding: 10px 12px;
+  padding: 10px 12px;                 /* FIT */
   border-radius: 18px;
   background: rgba(255,255,255,.86);
   border: 1px solid rgba(11,18,32,.10);
   box-shadow: 0 10px 18px rgba(11,18,32,.08);
   font-weight: 950;
-  font-size: 14px;
+  font-size: 14px;                    /* FIT */
 
   display:flex;
   align-items:center;
@@ -293,13 +323,13 @@ body{
 }
 
 .board{
-  width: min(950px, 96vw);          /* קצת יותר גדול מהקודם */
+  width: min(940px, 96vw);            /* FIT */
   display:grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 11px;                         /* קצת יותר מרווח */
+  gap: 10px;                          /* FIT */
 
-  padding: 15px;                     /* קצת יותר מרווח פנימי */
-  border-radius: 26px;
+  padding: 14px;                      /* FIT */
+  border-radius: 26px;                /* FIT */
 
   background: rgba(255,255,255,.60);
   border: 1px solid rgba(11,18,32,.08);
@@ -313,38 +343,38 @@ body{
   position:absolute;
   left: 14px;
   bottom: 12px;
-  width: 84px;
+  width: 84px;                        /* FIT */
   opacity: .10;
   pointer-events:none;
   filter: grayscale(100%);
 }
 
-/* cells (BIGGER) */
+/* cells */
 .board-cell{
-  border-radius: 20px;              /* יותר “פרימיום” */
-  min-height: 60px;                 /* ✅ הגדלה של המלבנים */
+  border-radius: 18px;                /* FIT */
+  min-height: 54px;                   /* FIT */
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
 }
 
-/* Category headers (BIGGER FONT) */
+/* Category headers (UPDATED: bigger & clearer) */
 .board-header{
   background: rgba(255,255,255,.90);
   border: 1px solid rgba(11,18,32,.10);
   font-weight: 950;
   letter-spacing: .2px;
 
-  font-size: 17px;                  /* ✅ גדול יותר */
+  font-size: 15px;
   line-height: 1.15;
-  padding: 8px 12px;                /* ✅ יותר נוח לקריאה */
-  min-height: 66px;                 /* ✅ נותן מקום לטקסט */
+  padding: 7px 10px;
+  min-height: 60px;
   text-shadow: 0 1px 0 rgba(255,255,255,.65);
 
   position:relative;
   overflow:hidden;
-  padding-top: 10px;
+  padding-top: 8px;
 }
 
 .board-header::before{
@@ -362,17 +392,17 @@ body{
 .board-header[data-cat="symbols"]::before{ background: var(--cat-symbols); }
 .board-header[data-cat="achievements"]::before{ background: var(--cat-achievements); }
 
-/* Question buttons (BIGGER NUMBERS) */
+/* Question buttons – “premium tiles” */
 .board-btn{
   width:100%;
   height:100%;
   cursor:pointer;
 
-  font-size: 20px;                  /* ✅ מספרים גדולים יותר */
+  font-size: 18px;
   font-weight: 950;
 
   color: rgba(11,18,32,.94);
-  border-radius: 20px;
+  border-radius: 18px;
   border: 1px solid rgba(11,18,32,.12);
 
   background:
@@ -394,6 +424,7 @@ body{
   box-shadow: 0 0 0 4px rgba(56,189,248,.18), 0 22px 30px rgba(11,18,32,.14);
 }
 
+/* used state */
 .board-btn.used,
 .board-btn:disabled{
   background: rgba(11,18,32,.04);
@@ -551,7 +582,7 @@ body{
 /* ===== Responsive ===== */
 @media (max-width: 980px){
   .boardHeader{ grid-template-columns: 1fr; }
-  .turnLabel, .scoreBar{ grid-column: 1; }
+  .setTitle, .turnLabel, .scoreBar{ grid-column: 1; } /* ✅ includes setTitle */
   .board{ width: min(980px, 96vw); }
 }
 
@@ -559,20 +590,14 @@ body{
   .modalOptions{ grid-template-columns: 1fr; }
 }
 
-/* ===== Low-height screens: keep row 7 fitting ===== */
+/* ===== Low-height screens: guarantee row 7 fits ===== */
 @media (max-height: 760px){
   .app{ padding: 12px; }
-  .boardHeader{ margin: 12px 0 8px 0; gap: 10px; }
+  .boardHeader{ margin: 12px 0 8px 0; gap: 18px; } /* smaller than 26 for low height */
   .board{ padding: 12px; gap: 8px; }
 
-  /* still readable but a bit smaller on short screens */
-  .board-header{
-    font-size: 15px;
-    min-height: 60px;
-    padding: 7px 10px;
-  }
+  .board-header{ font-size: 14px; min-height: 56px; padding: 6px 8px; }
 
-  .board-cell{ min-height: 54px; }
-  .board-btn{ font-size: 18px; }
+  .board-cell{ min-height: 50px; }
+  .board-btn{ font-size: 17px; }
 }
-
