@@ -1,101 +1,51 @@
-/* === Data (embedded to avoid file:// fetch issues) === */
+/* Auto-generated app.js - local-file friendly (no fetch) */
 const QUESTIONS = {
   "meta": {
     "title": "אני והסיפור שלנו",
-    "version": "0.1",
-    "board": { "rows": 7, "cols": 6, "points": [5, 10, 15, 20] },
-    "categoriesOrder": ["history", "places", "figures", "values", "symbols", "songs"]
+    "version": "1.0",
+    "board": { "rows": 7, "cols": 6 },
+    "categoriesOrder": ["history", "places", "figures", "values", "symbols", "achievements"]
   },
   "categories": {
     "history": {
       "label": "היסטוריה",
       "questions": [
-        { "id": "history-10", "points": 10, "type": "mcq", "question": "באיזו שנה הוקמה מדינת ישראל?", "options": ["1947", "1948", "1956", "1967"], "answer": "1948", "hint": "" },
-        { "id": "history-20", "points": 20, "type": "tf", "question": "הכרזת העצמאות התקיימה בתל אביב.", "options": ["נכון", "לא נכון"], "answer": "נכון", "hint": "" },
-        { "id": "history-30", "points": 30, "type": "short", "question": "איך נקראה העלייה הגדולה של יהודי תימן בשנים 1949–1950?", "options": [], "answer": "מבצע מרבד הקסמים", "hint": "" },
-        { "id": "history-40", "points": 40, "type": "short", "question": "איזה אירוע התרחש בי\"ד באייר תש\"ח (1948) והוביל להכרזת המדינה?", "options": [], "answer": "סיום המנדט הבריטי (וקבלת החלטת החלוקה/הצורך בהכרזה)", "hint": "" },
-        { "id": "history-50", "points": 50, "type": "mcq", "question": "איזו מלחמה נקראת גם \"מלחמת הקוממיות\"?", "options": ["מלחמת ששת הימים", "מלחמת העצמאות", "מלחמת יום הכיפורים", "מלחמת לבנון הראשונה"], "answer": "מלחמת העצמאות", "hint": "" },
-        { "id": "history-60", "points": 60, "type": "short", "question": "מהו שם מסמך היסוד שמגדיר את הקמת המדינה וזכויות האזרחים?", "options": [], "answer": "מגילת העצמאות", "hint": "" },
-        { "id": "history-70", "points": 70, "type": "short", "question": "איך נקראה תוכנית החלוקה של האו\"ם שהתקבלה בשנת 1947?", "options": [], "answer": "החלטה 181", "hint": "" }
+        { "id": "history-1", "points": 5, "type": "regular", "question": "באיזו שנה הוקמה מדינת ישראל?", "options": ["1947", "1948", "1956", "1967"], "answer": "1948", "hint": "" },
+        { "id": "history-2", "points": 5, "type": "regular", "question": "הכרזת העצמאות התקיימה בתל אביב.", "options": ["נכון", "לא נכון"], "answer": "נכון", "hint": "" },
+        { "id": "history-3", "points": 10, "type": "all_or_nothing", "question": "איך נקראה העלייה הגדולה של יהודי תימן בשנים 1949–1950?", "options": [], "answer": "מבצע מרבד הקסמים", "hint": "" },
+        { "id": "history-4", "points": 5, "type": "regular", "question": "איזו מלחמה נקראת גם \"מלחמת הקוממיות\"?", "options": ["מלחמת ששת הימים", "מלחמת העצמאות", "מלחמת יום הכיפורים", "מלחמת לבנון הראשונה"], "answer": "מלחמת העצמאות", "hint": "" },
+        { "id": "history-5", "points": 15, "type": "personal", "question": "שאלה אישית בהיסטוריה (דוגמה).", "options": [], "answer": "", "hint": "" },
+        { "id": "history-6", "points": 5, "type": "regular", "question": "מהו שם מסמך היסוד שמגדיר את הקמת המדינה וזכויות האזרחים?", "options": [], "answer": "מגילת העצמאות", "hint": "" },
+        { "id": "history-7", "points": 20, "type": "duel", "question": "שאלת דו־קרב בהיסטוריה (דוגמה).", "options": [], "answer": "", "hint": "" }
       ]
     },
-    "places": {
-      "label": "מקומות",
-      "questions": [
-        { "id": "places-10", "points": 10, "type": "mcq", "question": "מהי בירת ישראל?", "options": ["תל אביב", "חיפה", "ירושלים", "באר שבע"], "answer": "ירושלים", "hint": "" },
-        { "id": "places-20", "points": 20, "type": "short", "question": "באיזה עיר נמצא הכותל המערבי?", "options": [], "answer": "ירושלים", "hint": "" },
-        { "id": "places-30", "points": 30, "type": "mcq", "question": "איזה ים נמצא בדרום ישראל?", "options": ["ים המלח", "ים סוף", "הים התיכון", "ים כנרת"], "answer": "ים סוף", "hint": "" },
-        { "id": "places-40", "points": 40, "type": "short", "question": "איך נקרא המדבר הגדול בדרום הארץ?", "options": [], "answer": "מדבר הנגב", "hint": "" },
-        { "id": "places-50", "points": 50, "type": "short", "question": "איזה מקום בישראל נחשב לנקודה הנמוכה בעולם?", "options": [], "answer": "ים המלח", "hint": "" },
-        { "id": "places-60", "points": 60, "type": "short", "question": "מהו ההר הגבוה בישראל?", "options": [], "answer": "הר חרמון", "hint": "" },
-        { "id": "places-70", "points": 70, "type": "short", "question": "איזה אתר ארכיאולוגי מפורסם נמצא במדבר יהודה ונחשב למצודה?", "options": [], "answer": "מצדה", "hint": "" }
-      ]
-    },
-    "figures": {
-      "label": "דמויות",
-      "questions": [
-        { "id": "figures-10", "points": 10, "type": "mcq", "question": "מי היה ראש הממשלה הראשון של ישראל?", "options": ["יצחק רבין", "דוד בן גוריון", "מנחם בגין", "משה שרת"], "answer": "דוד בן גוריון", "hint": "" },
-        { "id": "figures-20", "points": 20, "type": "mcq", "question": "מי היה הנשיא הראשון של מדינת ישראל?", "options": ["חיים ויצמן", "זלמן שזר", "יצחק בן צבי", "אפרים קציר"], "answer": "חיים ויצמן", "hint": "" },
-        { "id": "figures-30", "points": 30, "type": "short", "question": "מי כתבה את השיר \"ירושלים של זהב\"?", "options": [], "answer": "נעמי שמר", "hint": "" },
-        { "id": "figures-40", "points": 40, "type": "short", "question": "מי היה מפקד האצ\"ל, ולימים ראש ממשלה?", "options": [], "answer": "מנחם בגין", "hint": "" },
-        { "id": "figures-50", "points": 50, "type": "short", "question": "איזו דמות ישראלית ידועה בתור \"הנשר הגדול\" (ברמב\"ם/הלכה)?", "options": [], "answer": "הרמב\"ם", "hint": "" },
-        { "id": "figures-60", "points": 60, "type": "short", "question": "מי היה הרמטכ\"ל במלחמת ששת הימים?", "options": [], "answer": "יצחק רבין", "hint": "" },
-        { "id": "figures-70", "points": 70, "type": "short", "question": "מי קיבל פרס נובל לשלום מישראל יחד עם רבין ב־1994?", "options": [], "answer": "שמעון פרס (וגם יאסר ערפאת)", "hint": "" }
-      ]
-    },
-    "values": {
-      "label": "ערכים",
-      "questions": [
-        { "id": "values-10", "points": 10, "type": "tf", "question": "ערבות הדדית היא ערך מרכזי בחברה הישראלית.", "options": ["נכון", "לא נכון"], "answer": "נכון", "hint": "" },
-        { "id": "values-20", "points": 20, "type": "short", "question": "מהו ערך שמדגיש התנדבות ועזרה לאחר?", "options": [], "answer": "חסד / נתינה / התנדבות", "hint": "" },
-        { "id": "values-30", "points": 30, "type": "short", "question": "איזה ערך מתאר התמודדות ולא לוותר למרות קושי?", "options": [], "answer": "נחישות / התמדה", "hint": "" },
-        { "id": "values-40", "points": 40, "type": "short", "question": "איזה ערך קשור לשמירה על חוק וכללים?", "options": [], "answer": "אחריות / משמעת / שלטון החוק", "hint": "" },
-        { "id": "values-50", "points": 50, "type": "short", "question": "מהו ערך שקשור להכרה בשונות וקבלת האחר?", "options": [], "answer": "סובלנות", "hint": "" },
-        { "id": "values-60", "points": 60, "type": "short", "question": "מהו ערך שמדגיש שוויון הזדמנויות לכל?", "options": [], "answer": "שוויון", "hint": "" },
-        { "id": "values-70", "points": 70, "type": "short", "question": "איזה ערך קשור לזיכרון ושימור סיפורי העבר?", "options": [], "answer": "זיכרון / מורשת", "hint": "" }
-      ]
-    },
-    "symbols": {
-      "label": "סמלים",
-      "questions": [
-        { "id": "symbols-10", "points": 10, "type": "mcq", "question": "מהו צבע מרכזי בדגל ישראל?", "options": ["אדום", "כחול", "ירוק", "שחור"], "answer": "כחול", "hint": "" },
-        { "id": "symbols-20", "points": 20, "type": "short", "question": "מה מופיע במרכז דגל ישראל?", "options": [], "answer": "מגן דוד", "hint": "" },
-        { "id": "symbols-30", "points": 30, "type": "short", "question": "מהו ההמנון הלאומי של ישראל?", "options": [], "answer": "התקווה", "hint": "" },
-        { "id": "symbols-40", "points": 40, "type": "short", "question": "מהו סמל המדינה הרשמי (מלבד הדגל)?", "options": [], "answer": "מנורה ושני ענפי זית", "hint": "" },
-        { "id": "symbols-50", "points": 50, "type": "short", "question": "איזה חיה נחשבת לסמל ירושלים?", "options": [], "answer": "אריה", "hint": "" },
-        { "id": "symbols-60", "points": 60, "type": "short", "question": "איזה פרח מזוהה עם ישראל כפרח הלאומי?", "options": [], "answer": "כלנית (נפוץ כתשובה)", "hint": "" },
-        { "id": "symbols-70", "points": 70, "type": "short", "question": "מה מסמל ענף הזית בסמל המדינה?", "options": [], "answer": "שלום", "hint": "" }
-      ]
-    },
-    "songs": {
-      "label": "הישגים",
-      "questions": [
-        { "id": "songs-10", "points": 10, "type": "short", "question": "השלימו: \"עוד לא אבדה ____\".", "options": [], "answer": "תקוותנו", "hint": "" },
-        { "id": "songs-20", "points": 20, "type": "short", "question": "איזה שיר ילדים מוכר מתחיל ב: \"השמש זורחת...\"?", "options": [], "answer": "תשובות שונות אפשריות (למנחה)", "hint": "" },
-        { "id": "songs-30", "points": 30, "type": "short", "question": "מי שר את \"אין לי ארץ אחרת\" (בביצוע המוכר)?", "options": [], "answer": "גלי עטרי (מוכר)", "hint": "" },
-        { "id": "songs-40", "points": 40, "type": "short", "question": "איזה שיר מזוהה עם יום העצמאות ומתחיל ב: \"הבאנו שלום עליכם\"?", "options": [], "answer": "הבאנו שלום עליכם", "hint": "" },
-        { "id": "songs-50", "points": 50, "type": "short", "question": "השלימו: \"אני נושא עמי ____\".", "options": [], "answer": "תפילה", "hint": "" },
-        { "id": "songs-60", "points": 60, "type": "short", "question": "איזה שיר מוכר קשור לירושלים ונכתב ע\"י נעמי שמר?", "options": [], "answer": "ירושלים של זהב", "hint": "" },
-        { "id": "songs-70", "points": 70, "type": "short", "question": "מה השיר שמתחיל ב: \"עוד יבוא שלום עלינו\"?", "options": [], "answer": "עוד יבוא שלום עלינו", "hint": "" }
-      ]
-    }
+
+    "places": { "label": "מקומות", "questions": [] },
+    "figures": { "label": "דמויות", "questions": [] },
+    "values": { "label": "ערכים", "questions": [] },
+    "symbols": { "label": "סמלים", "questions": [] },
+    "achievements": { "label": "הישגים", "questions": [] }
   }
 };
 
 /* === State === */
 const DEFAULT_STATE = {
-  phase: "start",            // "start" | "board" | "duel"
+  phase: "start",
   teamCount: 2,
-  teams: [],                 // [{name, score}]
+  teams: [],
   currentTeamIndex: 0,
-  used: {},                  // { [questionId]: true }
-  duel: null                 // { questionId, teamIndexes:[...], active:true }
+  used: {},
+  duel: null
 };
 
-let state = loadState() || structuredClone(DEFAULT_STATE);
+let state = loadState() || clone(DEFAULT_STATE);
 
-/* === Helpers === */
+/* === Utils === */
 function $(id) { return document.getElementById(id); }
+function clone(obj) {
+  if (typeof structuredClone === "function") return structuredClone(obj);
+  return JSON.parse(JSON.stringify(obj));
+}
 function saveState() { localStorage.setItem("amIsraelGameState", JSON.stringify(state)); }
 function loadState() {
   try { return JSON.parse(localStorage.getItem("amIsraelGameState")); }
@@ -103,21 +53,36 @@ function loadState() {
 }
 function resetState() {
   localStorage.removeItem("amIsraelGameState");
-  state = structuredClone(DEFAULT_STATE);
+  state = clone(DEFAULT_STATE);
 }
-
-/* === Screens === */
-function showScreen(name) {
-  const screens = ["screenStart", "screenBoard", "screenDuel"];
-  screens.forEach(s => { const el = $(s); if (el) el.classList.add("hidden"); });
-  const target = $(`screen${capitalize(name)}`);
+function setText(id, text) {
+  const el = $(id);
+  if (el) el.textContent = text;
+}
+function showOnlyScreen(screenId) {
+  ["screenStart", "screenBoard", "screenDuel"].forEach(id => {
+    const el = $(id);
+    if (el) el.classList.add("hidden");
+  });
+  const target = $(screenId);
   if (target) target.classList.remove("hidden");
-  state.phase = name;
-  saveState();
 }
-function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
-/* === UI Builders === */
+/* === Game rules helpers === */
+function rowsCount() {
+  return QUESTIONS?.meta?.board?.rows
+    || Math.max(...Object.values(QUESTIONS.categories).map(c => c.questions.length));
+}
+function getQuestionBy(catKey, index0) {
+  const cat = QUESTIONS.categories[catKey];
+  if (!cat) return null;
+  return cat.questions[index0] || null;
+}
+function getQuestionPoints(q) {
+  return Number(q?.points || 0);
+}
+
+/* === Start screen === */
 function buildTeamsForm(teamCount) {
   const wrap = $("teamsForm");
   if (!wrap) return;
@@ -144,9 +109,11 @@ function initTeamsFromForm() {
   state.currentTeamIndex = 0;
   state.used = {};
   state.duel = null;
+  state.phase = "board";
   saveState();
 }
 
+/* === Board UI === */
 function renderScoreBar() {
   const bar = $("scoreBar");
   if (!bar) return;
@@ -171,32 +138,38 @@ function buildBoard() {
   if (!board) return;
 
   board.innerHTML = "";
-  const order = QUESTIONS.meta.categoriesOrder;
-  const points = QUESTIONS.meta.board.points;
 
-  // Header row: category labels
+  const order = QUESTIONS.meta.categoriesOrder;
+  const rCount = rowsCount();
+
+  // Header row
   order.forEach(catKey => {
     const cell = document.createElement("div");
     cell.className = "board-cell board-header";
-    cell.textContent = QUESTIONS.categories[catKey].label;
+    cell.textContent = QUESTIONS.categories[catKey]?.label || catKey;
     board.appendChild(cell);
   });
 
-  // Rows: points
-  for (let r = 0; r < points.length; r++) {
-    const p = points[r];
+  // Rows: question numbers (1..rCount)
+  for (let r = 0; r < rCount; r++) {
+    const displayNumber = r + 1;
     order.forEach(catKey => {
-      const q = QUESTIONS.categories[catKey].questions.find(x => x.points === p);
+      const q = getQuestionBy(catKey, r);
       const btn = document.createElement("button");
       btn.className = "board-cell board-btn";
-      btn.textContent = String(p);
+      btn.type = "button";
+      btn.textContent = String(displayNumber);
+      btn.dataset.cat = catKey;
+      btn.dataset.qindex = String(r);
       btn.dataset.qid = q?.id || "";
-      btn.disabled = !q || !!state.used[q.id];
+
+      const isUsed = q?.id ? !!state.used[q.id] : true;
+      btn.disabled = !q || isUsed;
       if (btn.disabled) btn.classList.add("used");
 
       btn.addEventListener("click", () => {
         if (!q) return;
-        openQuestionModal(catKey, q.id);
+        openQuestionModal(catKey, r);
       });
 
       board.appendChild(btn);
@@ -204,37 +177,50 @@ function buildBoard() {
   }
 }
 
-/* === Modal Logic === */
-let activeQuestionId = null;
-let activeCategoryKey = null;
+function advanceTurn() {
+  if (!state.teams.length) return;
+  state.currentTeamIndex = (state.currentTeamIndex + 1) % state.teams.length;
+  saveState();
+  renderScoreBar();
+  renderTurnLabel();
+}
+
+function rerenderBoardUI() {
+  renderScoreBar();
+  renderTurnLabel();
+  buildBoard();
+}
+
+/* === Modal logic === */
+let activeCatKey = null;
+let activeQIndex = null;
 let timerInterval = null;
 let timerRemaining = 0;
 
-function openQuestionModal(categoryKey, questionId) {
-  activeCategoryKey = categoryKey;
-  activeQuestionId = questionId;
+function openQuestionModal(catKey, qIndex) {
+  activeCatKey = catKey;
+  activeQIndex = qIndex;
 
-  const q = findQuestionById(questionId);
+  const q = getQuestionBy(catKey, qIndex);
   if (!q) return;
 
-  // Fill modal
-  setText("modalCategory", QUESTIONS.categories[categoryKey].label);
-  setText("modalMeta", `${q.points} נקודות`);
+  const points = getQuestionPoints(q);
+  const displayNumber = qIndex + 1;
 
-  setText("modalQuestion", q.question);
+  setText("modalCategory", QUESTIONS.categories[catKey]?.label || catKey);
+  setText("modalMeta", `שאלה ${displayNumber} • ${points} נקודות`);
+  setText("modalQuestion", q.question || "");
 
-  // Options
   const optWrap = $("modalOptions");
   if (optWrap) {
     optWrap.innerHTML = "";
     if (Array.isArray(q.options) && q.options.length) {
-      q.options.forEach((opt) => {
+      q.options.forEach(opt => {
         const b = document.createElement("button");
         b.className = "option-btn";
         b.type = "button";
         b.textContent = opt;
         b.addEventListener("click", () => {
-          // Visual selection only (teacher decides correctness)
           optWrap.querySelectorAll(".option-btn").forEach(x => x.classList.remove("selected"));
           b.classList.add("selected");
         });
@@ -243,38 +229,29 @@ function openQuestionModal(categoryKey, questionId) {
     }
   }
 
-  // Hide answer until requested
   setText("modalAnswer", "");
   $("btnShowAnswer")?.classList.remove("hidden");
 
-  // Team award buttons
-  renderTeamAwardButtons(q.points);
-
-  // Show overlay
-  $("modalOverlay")?.classList.remove("hidden");
+  renderTeamAwardButtons(points);
 
   stopTimer();
   updateTimerUI(0, 0);
+
+  $("modalOverlay")?.classList.remove("hidden");
 }
 
 function closeQuestionModal() {
   $("modalOverlay")?.classList.add("hidden");
   stopTimer();
-  activeQuestionId = null;
-  activeCategoryKey = null;
+  activeCatKey = null;
+  activeQIndex = null;
 }
 
-function setText(id, text) {
-  const el = $(id);
-  if (el) el.textContent = text;
-}
-
-function findQuestionById(qid) {
-  for (const catKey of Object.keys(QUESTIONS.categories)) {
-    const q = QUESTIONS.categories[catKey].questions.find(x => x.id === qid);
-    if (q) return q;
-  }
-  return null;
+function markUsed(catKey, qIndex) {
+  const q = getQuestionBy(catKey, qIndex);
+  if (!q?.id) return;
+  state.used[q.id] = true;
+  saveState();
 }
 
 function renderTeamAwardButtons(points) {
@@ -294,61 +271,50 @@ function renderTeamAwardButtons(points) {
   const none = $("btnNoPoints");
   if (none) {
     none.onclick = () => {
-      markUsed(activeQuestionId);
+      markUsed(activeCatKey, activeQIndex);
       closeQuestionModal();
       advanceTurn();
+      rerenderBoardUI();
     };
   }
 }
 
 function awardPoints(teamIndex, points) {
   if (teamIndex == null) return;
-  state.teams[teamIndex].score += points;
+  const pts = Number(points || 0);
 
-  markUsed(activeQuestionId);
+  if (state.teams[teamIndex]) {
+    state.teams[teamIndex].score += pts;
+  }
+
+  markUsed(activeCatKey, activeQIndex);
   saveState();
 
   closeQuestionModal();
-
-  // Next turn by default
   advanceTurn();
   rerenderBoardUI();
 }
 
-function markUsed(qid) {
-  if (!qid) return;
-  state.used[qid] = true;
-  saveState();
-}
-
-function advanceTurn() {
-  if (!state.teams.length) return;
-  state.currentTeamIndex = (state.currentTeamIndex + 1) % state.teams.length;
-  saveState();
-  renderScoreBar();
-  renderTurnLabel();
-}
-
-function rerenderBoardUI() {
-  renderScoreBar();
-  renderTurnLabel();
-  buildBoard();
-}
-
-/* === Timer / Help === */
+/* === Timer / Helps === */
 function startTimer(seconds) {
   stopTimer();
-  timerRemaining = seconds;
-  updateTimerUI(timerRemaining, seconds);
+  const total = Number(seconds || 0);
+  if (total <= 0) {
+    updateTimerUI(0, 0);
+    return;
+  }
+
+  timerRemaining = total;
+  updateTimerUI(timerRemaining, total);
 
   timerInterval = setInterval(() => {
     timerRemaining -= 1;
     if (timerRemaining <= 0) {
       stopTimer();
-      updateTimerUI(0, seconds);
+      updateTimerUI(0, total);
       return;
     }
-    updateTimerUI(timerRemaining, seconds);
+    updateTimerUI(timerRemaining, total);
   }, 1000);
 }
 
@@ -361,11 +327,12 @@ function updateTimerUI(remaining, total) {
   const bar = $("timerBar");
   const fill = $("timerFill");
   const text = $("timerText");
-
   if (!bar || !fill || !text) return;
 
   if (!total || total <= 0) {
     bar.classList.add("hidden");
+    fill.style.width = "0%";
+    text.textContent = "";
     return;
   }
 
@@ -373,47 +340,6 @@ function updateTimerUI(remaining, total) {
   const pct = Math.max(0, Math.min(1, remaining / total));
   fill.style.width = `${pct * 100}%`;
   text.textContent = `${remaining}s`;
-}
-
-/* === Duel (basic placeholder flow) === */
-function startDuel(questionId, teamIndexes) {
-  state.duel = { questionId, teamIndexes, active: true };
-  saveState();
-
-  // Render duel UI
-  const intro = $("duelIntro");
-  if (intro) {
-    const names = teamIndexes.map(i => state.teams[i]?.name).filter(Boolean).join(" מול ");
-    intro.textContent = `דו-קרב: ${names}`;
-  }
-
-  $("duelQuestionArea")?.classList.add("hidden");
-  showScreen("duel");
-}
-
-function renderDuelQuestion() {
-  const duel = state.duel;
-  if (!duel) return;
-  const q = findQuestionById(duel.questionId);
-  if (!q) return;
-
-  $("duelQuestionArea")?.classList.remove("hidden");
-  setText("duelQuestionText", q.question);
-}
-
-function duelAward(winnerTeamIndex) {
-  const duel = state.duel;
-  if (!duel) return;
-  const q = findQuestionById(duel.questionId);
-  if (!q) return;
-
-  state.teams[winnerTeamIndex].score += q.points;
-  markUsed(q.id);
-  state.duel.active = false;
-  saveState();
-
-  showScreen("board");
-  rerenderBoardUI();
 }
 
 /* === Wiring === */
@@ -447,7 +373,6 @@ function wireStartScreen() {
   if (startBtn) {
     startBtn.addEventListener("click", () => {
       initTeamsFromForm();
-      showScreen("board");
       applyStateToUI();
     });
   }
@@ -457,88 +382,51 @@ function wireModalButtons() {
   $("btnCloseModal")?.addEventListener("click", closeQuestionModal);
 
   $("btnHelpTeacher")?.addEventListener("click", () => {
-    // Teacher help is "no timer", just a flag for UI if you want later
     startTimer(0);
     alert("עזרת מורה הופעלה (המנחה מחליט איך לעזור).");
   });
 
   $("btnHelpGoogle")?.addEventListener("click", () => {
-    // 20 seconds timer for 'Google in 20s'
     startTimer(20);
   });
 
   $("btnShowAnswer")?.addEventListener("click", () => {
-    const q = findQuestionById(activeQuestionId);
+    const q = getQuestionBy(activeCatKey, activeQIndex);
     if (!q) return;
-    setText("modalAnswer", `תשובה: ${q.answer}`);
+    setText("modalAnswer", `תשובה: ${q.answer ?? ""}`);
   });
 
-  // Close overlay on background click
   $("modalOverlay")?.addEventListener("click", (e) => {
     if (e.target && e.target.id === "modalOverlay") closeQuestionModal();
   });
 }
 
-function wireDuelButtons() {
-  $("btnDuelShowQuestion")?.addEventListener("click", renderDuelQuestion);
-  $("btnDuelBack")?.addEventListener("click", () => {
-    showScreen("board");
-    applyStateToUI();
-  });
-
-  // Optional winner buttons if exist
-  for (let i = 0; i < 6; i++) {
-    const b = $(`btnDuelWinnerTeam${i}`);
-    if (!b) continue;
-    b.addEventListener("click", () => duelAward(i));
-  }
-}
-
 function applyStateToUI() {
-  // Decide screen
   if (!state.teams || !state.teams.length) {
-    showScreen("start");
+    state.phase = "start";
+    saveState();
+    showOnlyScreen("screenStart");
     buildTeamsForm(Number($("teamCount")?.value || 2));
     return;
   }
 
-  if (state.phase === "duel") showScreen("duel");
-  else showScreen("board");
-
-  // Render
+  showOnlyScreen("screenBoard");
   renderScoreBar();
   renderTurnLabel();
   buildBoard();
-
-  // In duel screen, render intro names
-  if (state.phase === "duel" && state.duel) {
-    const intro = $("duelIntro");
-    if (intro) {
-      const names = state.duel.teamIndexes.map(i => state.teams[i]?.name).filter(Boolean).join(" מול ");
-      intro.textContent = `דו-קרב: ${names}`;
-    }
-  }
 }
 
 function boot() {
   wireTopButtons();
   wireStartScreen();
   wireModalButtons();
-  wireDuelButtons();
 
-  // Start screen form
   buildTeamsForm(Number($("teamCount")?.value || 2));
 
-  // Apply persisted state
   const loaded = loadState();
   if (loaded) state = loaded;
 
   applyStateToUI();
 }
 
-// Ensure DOM is ready
 document.addEventListener("DOMContentLoaded", boot);
-
-
-
-
