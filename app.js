@@ -10,7 +10,7 @@ const QUESTIONS = {
     "history": {
       "label": "היסטוריה",
       "questions": [
-        { "id": "history-1", "points": 10, "type": "for_everyone","autoScore": true, "question": "למי נאמר: \"לך לך מארצך, ממולדתך ומבית אביך אל הארץ אשר אראך\"?", "options": ["אברהם", "יצחק", "יעקב", "משה"], "answer": "אברהם", "hint": "" },
+        { "id": "history-1", "points": 10, "type": "for_everyone", "autoScore": true, "question": "למי נאמר: \"לך לך מארצך, ממולדתך ומבית אביך אל הארץ אשר אראך\"?", "options": ["אברהם", "יצחק", "יעקב", "משה"], "answer": "אברהם", "hint": "" },
         { "id": "history-2", "points": 15, "type": "personal", "question": "איזה חג חוגגים כזכרון ליציאת מצרים? ואיזה מצווה בחג היא זכרון לתקופה?.", "options": [], "answer": "חג הפסח", "hint": "" },
         { "id": "history-3", "points": 20, "type": "duel", "question": "כל קבוצה אומרת בתורה אחד מעשרת הדיברות. 5 שניות בלי תשובה- ניצחון לקבוצה השניה.", "options": [], "answer": "", "hint": "" },
         { "id": "history-4", "points": 5, "type": "regular", "question": "", "options": [""], "answer": "", "hint": "" },
@@ -20,71 +20,70 @@ const QUESTIONS = {
       ]
     },
 
-   "places": {
-  "label": "מקומות",
-  "questions": [
-    { "id": "places-1", "points": 20, "type": "duel", "question": "דו־קרב: הר הבית — ע\"פ המסורת היהודית, מה מיוחד במקום הזה?", "options": [], "answer": "מקום בית המקדש (אבן השתייה / קודש הקודשים).", "hint": "אין גלגל הצלה" },
-    { "id": "places-2", "points": 5, "type": "regular", "question": "הכנסת — מהו שם נרדף לכנסת?", "options": [], "answer": "בית המחוקקים / בית הנבחרים.", "hint": "" },
-    { "id": "places-3", "points": 5, "type": "regular", "question": "שער האריות — איזה אירוע מכונן ארע במקום הזה?", "options": [], "answer": "שחרור ירושלים/העיר העתיקה במלחמת ששת הימים (1967) דרך שער האריות.", "hint": "" },
-    { "id": "places-4", "points": 5, "type": "regular", "question": "יד ושם — מה פירוש הביטוי \"חסידי אומות העולם\"?", "options": [], "answer": "לא־יהודים שסיכנו את חייהם להצלת יהודים בשואה.", "hint": "" },
-    { "id": "places-5", "points": 5, "type": "regular", "question": "מנו שלושה מקומות/אזורים בארץ שקרויים על שם השבטים שהתיישבו שם.", "options": [], "answer": "דוגמאות: גוש דן (דן), מטה יהודה (יהודה), רמת מנשה (מנשה), מעלה אפרים (אפרים), מטה זבולון (זבולון).", "hint": "" },
-    { "id": "places-6", "points": 15, "type": "personal", "question": "שאלה אישית: באיזו עיר בארץ צולמה התמונה הבאה? (להציג תמונה)", "options": [], "answer": "", "hint": "המנחה מציג תמונה" },
-    { "id": "places-7", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: זהו את התמונות הבאות (כל תמונה = 2 נק׳): כותל, מערת המכפילה, מצדה, ים המלח, בנייני עזריאלי.", "options": [], "answer": "כותל / מערת המכפילה / מצדה / ים המלח / עזריאלי.", "hint": "סה\"כ 10 נק׳" }
-  ]
-},
+    "places": {
+      "label": "מקומות",
+      "questions": [
+        { "id": "places-1", "points": 20, "type": "duel", "question": "דו־קרב: הר הבית — ע\"פ המסורת היהודית, מה מיוחד במקום הזה?", "options": [], "answer": "מקום בית המקדש (אבן השתייה / קודש הקודשים).", "hint": "אין גלגל הצלה" },
+        { "id": "places-2", "points": 5, "type": "regular", "question": "הכנסת — מהו שם נרדף לכנסת?", "options": [], "answer": "בית המחוקקים / בית הנבחרים.", "hint": "" },
+        { "id": "places-3", "points": 5, "type": "regular", "question": "שער האריות — איזה אירוע מכונן ארע במקום הזה?", "options": [], "answer": "שחרור ירושלים/העיר העתיקה במלחמת ששת הימים (1967) דרך שער האריות.", "hint": "" },
+        { "id": "places-4", "points": 5, "type": "regular", "question": "יד ושם — מה פירוש הביטוי \"חסידי אומות העולם\"?", "options": [], "answer": "לא־יהודים שסיכנו את חייהם להצלת יהודים בשואה.", "hint": "" },
+        { "id": "places-5", "points": 5, "type": "regular", "question": "מנו שלושה מקומות/אזורים בארץ שקרויים על שם השבטים שהתיישבו שם.", "options": [], "answer": "דוגמאות: גוש דן (דן), מטה יהודה (יהודה), רמת מנשה (מנשה), מעלה אפרים (אפרים), מטה זבולון (זבולון).", "hint": "" },
+        { "id": "places-6", "points": 15, "type": "personal", "question": "שאלה אישית: באיזו עיר בארץ צולמה התמונה הבאה? (להציג תמונה)", "options": [], "answer": "", "hint": "המנחה מציג תמונה" },
+        { "id": "places-7", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: זהו את התמונות הבאות (כל תמונה = 2 נק׳): כותל, מערת המכפילה, מצדה, ים המלח, בנייני עזריאלי.", "options": [], "answer": "כותל / מערת המכפילה / מצדה / ים המלח / עזריאלי.", "hint": "סה\"כ 10 נק׳" }
+      ]
+    },
 
-"figures": {
-  "label": "דמויות",
-  "questions": [
-    { "id": "figures-1", "points": 15, "type": "personal", "question": "שאלה אישית: מי כתב את ספר תהילים?", "options": [], "answer": "דוד המלך (עיקר הספר מיוחס לו).", "hint": "" },
-    { "id": "figures-2", "points": 20, "type": "duel", "question": "דו־קרב: נכון/לא נכון על אסתר המלכה (כל תשובה נכונה = 4 נק׳). 1) אסתר הייתה אשתו של המן. 2) אסתר הלכה לארמון מרצון כדי לבחור בה. 3) אסתר צמה שלושה ימים ושלושה לילות. 4) אסתר נתלתה על העץ כי מרדה במלך. 5) אסתר עשתה שתי משתהות לאחשוורוש ולהמן יום אחרי יום.", "options": [], "answer": "1) לא נכון. 2) לא נכון. 3) נכון. 4) לא נכון. 5) נכון.", "hint": "אין גלגל הצלה" },
-    { "id": "figures-3", "points": 5, "type": "regular", "question": "המנהיג הראשון של עם ישראל (מי הוביל את העם ביציאת מצרים)?", "options": [], "answer": "משה רבנו.", "hint": "" },
-    { "id": "figures-4", "points": 5, "type": "regular", "question": "חתמתי על מגילת העצמאות, אני ראש הממשלה הרביעי של מדינת ישראל. שם משפחתי הראשון היה מאירסון, הייתי רה\"מ בזמן מלחמת יום הכיפורים… מי אני?", "options": [], "answer": "גולדה מאיר.", "hint": "" },
-    { "id": "figures-5", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: מוצגת תמונה של פרופ׳ אלברט איינשטיין — זהו את הדמות ומה פועלה.", "options": [], "answer": "אלברט איינשטיין — פיזיקאי; תורת היחסות ועוד.", "hint": "" },
-    { "id": "figures-6", "points": 15, "type": "personal", "question": "שאלה אישית בשני חלקים: 1) מי היה ש\"י עגנון? 2) מה הם ראשי התיבות ש\"י?", "options": [], "answer": "1) סופר עברי, חתן פרס נובל לספרות. 2) שמואל יוסף.", "hint": "" },
-    { "id": "figures-7", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: המנחה מציג חפצים — למי הם שייכים? (דגל חיל האוויר, ציור של פטר גינז, \"כדור הארץ במבט מהירח\", דגל ישראל, תנ\"ך, דגלון סוכנות החלל הישראלית).", "options": [], "answer": "חיל האוויר / פטר גינז (טרזין) / אפולו-8 \"Earthrise\" / מדינת ישראל / העם היהודי-תנ\"ך / סוכנות החלל הישראלית.", "hint": "" }
-  ]
-},
+    "figures": {
+      "label": "דמויות",
+      "questions": [
+        { "id": "figures-1", "points": 15, "type": "personal", "question": "שאלה אישית: מי כתב את ספר תהילים?", "options": [], "answer": "דוד המלך (עיקר הספר מיוחס לו).", "hint": "" },
+        { "id": "figures-2", "points": 20, "type": "duel", "question": "דו־קרב: נכון/לא נכון על אסתר המלכה (כל תשובה נכונה = 4 נק׳). 1) אסתר הייתה אשתו של המן. 2) אסתר הלכה לארמון מרצון כדי לבחור בה. 3) אסתר צמה שלושה ימים ושלושה לילות. 4) אסתר נתלתה על העץ כי מרדה במלך. 5) אסתר עשתה שתי משתהות לאחשוורוש ולהמן יום אחרי יום.", "options": [], "answer": "1) לא נכון. 2) לא נכון. 3) נכון. 4) לא נכון. 5) נכון.", "hint": "אין גלגל הצלה" },
+        { "id": "figures-3", "points": 5, "type": "regular", "question": "המנהיג הראשון של עם ישראל (מי הוביל את העם ביציאת מצרים)?", "options": [], "answer": "משה רבנו.", "hint": "" },
+        { "id": "figures-4", "points": 5, "type": "regular", "question": "חתמתי על מגילת העצמאות, אני ראש הממשלה הרביעי של מדינת ישראל. שם משפחתי הראשון היה מאירסון, הייתי רה\"מ בזמן מלחמת יום הכיפורים… מי אני?", "options": [], "answer": "גולדה מאיר.", "hint": "" },
+        { "id": "figures-5", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: מוצגת תמונה של פרופ׳ אלברט איינשטיין — זהו את הדמות ומה פועלה.", "options": [], "answer": "אלברט איינשטיין — פיזיקאי; תורת היחסות ועוד.", "hint": "" },
+        { "id": "figures-6", "points": 15, "type": "personal", "question": "שאלה אישית בשני חלקים: 1) מי היה ש\"י עגנון? 2) מה הם ראשי התיבות ש\"י?", "options": [], "answer": "1) סופר עברי, חתן פרס נובל לספרות. 2) שמואל יוסף.", "hint": "" },
+        { "id": "figures-7", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: המנחה מציג חפצים — למי הם שייכים? (דגל חיל האוויר, ציור של פטר גינז, \"כדור הארץ במבט מהירח\", דגל ישראל, תנ\"ך, דגלון סוכנות החלל הישראלית).", "options": [], "answer": "חיל האוויר / פטר גינז (טרזין) / אפולו-8 \"Earthrise\" / מדינת ישראל / העם היהודי-תנ\"ך / סוכנות החלל הישראלית.", "hint": "" }
+      ]
+    },
 
-"values": {
-  "label": "ערכים",
-  "questions": [
-    { "id": "values-1", "points": 15, "type": "personal", "question": "שאלה אישית: מה הם ראשי התיבות גמ\"ח?", "options": [], "answer": "גמילות חסדים.", "hint": "" },
-    { "id": "values-2", "points": 5, "type": "regular", "question": "איזו צדקה גדולה יותר: לסייע לאדם במציאת עבודה או לתת לו צדקה?", "options": [], "answer": "לעזור לו לעמוד על רגליו (מציאת עבודה) נחשב מעלה גדולה יותר.", "hint": "" },
-    { "id": "values-3", "points": 5, "type": "regular", "question": "ממי לומדים את הערך של הכנסת אורחים ומאיזה אירוע?", "options": [], "answer": "מאברהם אבינו — הכנסת האורחים לשלושת המלאכים.", "hint": "" },
-    { "id": "values-4", "points": 15, "type": "personal", "question": "שאלה אישית: משמיעים את השיר \"אליעזר בן יהודה\" (בית ראשון בלי פזמון). על מי נכתב השיר ומה הוא ניסה לקדם?", "options": [], "answer": "על אליעזר בן־יהודה; תחיית השפה העברית.", "hint": "" },
-    { "id": "values-5", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: אני מתנה שעם ישראל קיבל במיוחד. מאז ועד היום תרבויות רבות למדו מעם ישראל. אולי ראשון, אולי שישי — אבל המקור זה אני… מי אני?", "options": [], "answer": "התורה (אפשר גם: עשרת הדיברות/ערכים מוסריים מהתורה).", "hint": "" },
-    { "id": "values-6", "points": 20, "type": "duel", "question": "דו־קרב: גימטריה של הפסוק \"וַאֲהַבְתֶּם אֶת-הַגֵּר כִּי-גֵרִים הֱיִיתֶם בְּאֶרֶץ מִצְרָיִם\". מי מגיע ראשון לתשובה הנכונה?", "options": [], "answer": "", "hint": "אין גלגל הצלה" },
-    { "id": "values-7", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: אני מופיע בעשרת הדיברות ביחס למשפחה, כבסיס לחברה מתוקנת, כמצווה שצריך לעשות ולא להימנע ממנה. מה אני?", "options": [], "answer": "כבד את אביך ואת אמך.", "hint": "" }
-  ]
-},
+    "values": {
+      "label": "ערכים",
+      "questions": [
+        { "id": "values-1", "points": 15, "type": "personal", "question": "שאלה אישית: מה הם ראשי התיבות גמ\"ח?", "options": [], "answer": "גמילות חסדים.", "hint": "" },
+        { "id": "values-2", "points": 5, "type": "regular", "question": "איזו צדקה גדולה יותר: לסייע לאדם במציאת עבודה או לתת לו צדקה?", "options": [], "answer": "לעזור לו לעמוד על רגליו (מציאת עבודה) נחשב מעלה גדולה יותר.", "hint": "" },
+        { "id": "values-3", "points": 5, "type": "regular", "question": "ממי לומדים את הערך של הכנסת אורחים ומאיזה אירוע?", "options": [], "answer": "מאברהם אבינו — הכנסת האורחים לשלושת המלאכים.", "hint": "" },
+        { "id": "values-4", "points": 15, "type": "personal", "question": "שאלה אישית: משמיעים את השיר \"אליעזר בן יהודה\" (בית ראשון בלי פזמון). על מי נכתב השיר ומה הוא ניסה לקדם?", "options": [], "answer": "על אליעזר בן־יהודה; תחיית השפה העברית.", "hint": "" },
+        { "id": "values-5", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: אני מתנה שעם ישראל קיבל במיוחד. מאז ועד היום תרבויות רבות למדו מעם ישראל. אולי ראשון, אולי שישי — אבל המקור זה אני… מי אני?", "options": [], "answer": "התורה (אפשר גם: עשרת הדיברות/ערכים מוסריים מהתורה).", "hint": "" },
+        { "id": "values-6", "points": 20, "type": "duel", "question": "דו־קרב: גימטריה של הפסוק \"וַאֲהַבְתֶּם אֶת-הַגֵּר כִּי-גֵרִים הֱיִיתֶם בְּאֶרֶץ מִצְרָיִם\". מי מגיע ראשון לתשובה הנכונה?", "options": [], "answer": "", "hint": "אין גלגל הצלה" },
+        { "id": "values-7", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: אני מופיע בעשרת הדיברות ביחס למשפחה, כבסיס לחברה מתוקנת, כמצווה שצריך לעשות ולא להימנע ממנה. מה אני?", "options": [], "answer": "כבד את אביך ואת אמך.", "hint": "" }
+      ]
+    },
 
-"symbols": {
-  "label": "סמלים",
-  "questions": [
-    { "id": "symbols-1", "points": 5, "type": "regular", "question": "מאיזה אלמנט יהודי אחר הגיעו שני פסי התכלת בדגל ישראל?", "options": [], "answer": "מהטלית (טלית עם פסי תכלת).", "hint": "" },
-    { "id": "symbols-2", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: מי כתב את \"התקווה\"?", "options": [], "answer": "נפתלי הרץ אימבר.", "hint": "" },
-    { "id": "symbols-3", "points": 15, "type": "personal", "question": "שאלה אישית: מה הסמל של המדינה ומאיפה הגיעו הסמלים שבו?", "options": [], "answer": "מנורה ושני ענפי זית; המנורה בהשראת מנורת בית המקדש (תבליטים עתיקים), ענפי הזית כסמל לשלום.", "hint": "" },
-    { "id": "symbols-4", "points": 15, "type": "personal", "question": "שאלה אישית: מה הם ראשי התיבות תנ\"ך?", "options": [], "answer": "תורה, נביאים, כתובים.", "hint": "" },
-    { "id": "symbols-5", "points": 5, "type": "regular", "question": "מה יש בתוך המזוזה?", "options": [], "answer": "קלף עם פרשיות \"שמע\" ו\"והיה אם שמוע\".", "hint": "" },
-    { "id": "symbols-6", "points": 20, "type": "duel", "question": "דו־קרב: אומרים כמה שיותר שירי ירושלים תור־תור. מי שאחרי 5 שניות לא מוצא — מפסיד.", "options": [], "answer": "", "hint": "אין גלגל הצלה" },
-    { "id": "symbols-7", "points": 10, "type": "for_everyone", "question": "שאלה לכולם (בכתיבה): באיזה תאריך עברי ולועזי נכתבה מגילת העצמאות? ואיפה?", "options": [], "answer": "ה׳ באייר תש\"ח (14 במאי 1948), בתל אביב — במוזיאון תל אביב (בית דיזנגוף/שד' רוטשילד 16).", "hint": "" }
-  ]
-},
+    "symbols": {
+      "label": "סמלים",
+      "questions": [
+        { "id": "symbols-1", "points": 5, "type": "regular", "question": "מאיזה אלמנט יהודי אחר הגיעו שני פסי התכלת בדגל ישראל?", "options": [], "answer": "מהטלית (טלית עם פסי תכלת).", "hint": "" },
+        { "id": "symbols-2", "points": 10, "type": "for_everyone", "question": "שאלה לכולם: מי כתב את \"התקווה\"?", "options": [], "answer": "נפתלי הרץ אימבר.", "hint": "" },
+        { "id": "symbols-3", "points": 15, "type": "personal", "question": "שאלה אישית: מה הסמל של המדינה ומאיפה הגיעו הסמלים שבו?", "options": [], "answer": "מנורה ושני ענפי זית; המנורה בהשראת מנורת בית המקדש (תבליטים עתיקים), ענפי הזית כסמל לשלום.", "hint": "" },
+        { "id": "symbols-4", "points": 15, "type": "personal", "question": "שאלה אישית: מה הם ראשי התיבות תנ\"ך?", "options": [], "answer": "תורה, נביאים, כתובים.", "hint": "" },
+        { "id": "symbols-5", "points": 5, "type": "regular", "question": "מה יש בתוך המזוזה?", "options": [], "answer": "קלף עם פרשיות \"שמע\" ו\"והיה אם שמוע\".", "hint": "" },
+        { "id": "symbols-6", "points": 20, "type": "duel", "question": "דו־קרב: אומרים כמה שיותר שירי ירושלים תור־תור. מי שאחרי 5 שניות לא מוצא — מפסיד.", "options": [], "answer": "", "hint": "אין גלגל הצלה" },
+        { "id": "symbols-7", "points": 10, "type": "for_everyone", "question": "שאלה לכולם (בכתיבה): באיזה תאריך עברי ולועזי נכתבה מגילת העצמאות? ואיפה?", "options": [], "answer": "ה׳ באייר תש\"ח (14 במאי 1948), בתל אביב — במוזיאון תל אביב (בית דיזנגוף/שד' רוטשילד 16).", "hint": "" }
+      ]
+    },
 
-"achievements": {
-  "label": "הישגים",
-  "questions": [
-    { "id": "achievements-1", "points": 10, "type": "for_everyone", "question": "בעיה: חוסר מים בשטח מדברי — מה הפתרון הישראלי?", "options": [], "answer": "התפלת מים.", "hint": "" },
-    { "id": "achievements-2", "points": 10, "type": "for_everyone", "question": "בעיה: סגידה לאלילי אבן וחומר — מה הרעיון/הפתרון שהביא עם ישראל?", "options": [], "answer": "אמונה בא־ל אחד.", "hint": "" },
-    { "id": "achievements-3", "points": 10, "type": "for_everyone", "question": "בעיה: ניצול אנרגיה זמינה — מה הפתרון הישראלי הנפוץ?", "options": [], "answer": "דודי שמש.", "hint": "" },
-    { "id": "achievements-4", "points": 10, "type": "for_everyone", "question": "בעיה: דאגה לעובד — מה העיקרון/הפתרון?", "options": [], "answer": "השבת (מנוחה שבועית).", "hint": "" },
-    { "id": "achievements-5", "points": 10, "type": "for_everyone", "question": "בעיה: שימור מאגרי מידע ותוכנות — מה הפתרון (לפי המשחק)?", "options": [], "answer": "דיסק און קי.", "hint": "" },
-    { "id": "achievements-6", "points": 10, "type": "for_everyone", "question": "בעיה: הגעה ליעד בדרך הקצרה — מה הפתרון הישראלי?", "options": [], "answer": "Waze (ווייז).", "hint": "" },
-    { "id": "achievements-7", "points": 10, "type": "for_everyone", "question": "בעיה: ירי טילים — מה הפתרון ההגנתי הישראלי?", "options": [], "answer": "כיפת ברזל.", "hint": "" }
-  ]
-}
-
+    "achievements": {
+      "label": "הישגים",
+      "questions": [
+        { "id": "achievements-1", "points": 10, "type": "for_everyone", "question": "בעיה: חוסר מים בשטח מדברי — מה הפתרון הישראלי?", "options": [], "answer": "התפלת מים.", "hint": "" },
+        { "id": "achievements-2", "points": 10, "type": "for_everyone", "question": "בעיה: סגידה לאלילי אבן וחומר — מה הרעיון/הפתרון שהביא עם ישראל?", "options": [], "answer": "אמונה בא־ל אחד.", "hint": "" },
+        { "id": "achievements-3", "points": 10, "type": "for_everyone", "question": "בעיה: ניצול אנרגיה זמינה — מה הפתרון הישראלי הנפוץ?", "options": [], "answer": "דודי שמש.", "hint": "" },
+        { "id": "achievements-4", "points": 10, "type": "for_everyone", "question": "בעיה: דאגה לעובד — מה העיקרון/הפתרון?", "options": [], "answer": "השבת (מנוחה שבועית).", "hint": "" },
+        { "id": "achievements-5", "points": 10, "type": "for_everyone", "question": "בעיה: שימור מאגרי מידע ותוכנות — מה הפתרון (לפי המשחק)?", "options": [], "answer": "דיסק און קי.", "hint": "" },
+        { "id": "achievements-6", "points": 10, "type": "for_everyone", "question": "בעיה: הגעה ליעד בדרך הקצרה — מה הפתרון הישראלי?", "options": [], "answer": "Waze (ווייז).", "hint": "" },
+        { "id": "achievements-7", "points": 10, "type": "for_everyone", "question": "בעיה: ירי טילים — מה הפתרון ההגנתי הישראלי?", "options": [], "answer": "כיפת ברזל.", "hint": "" }
+      ]
+    }
   }
 };
 
@@ -142,12 +141,12 @@ function getQuestionPoints(q) {
   return Number(q?.points || 0);
 }
 
-/* === Auto-score helper (NEW) === */
+/* === Auto-score helper === */
 function isAutoTrivia(q) {
-  // Works if you set autoScore:true OR if it's clearly a trivia question
   const hasOptions = Array.isArray(q?.options) && q.options.length > 0;
   const hasAnswer = String(q?.answer ?? "").trim() !== "";
   const flag = q?.autoScore === true;
+  // Auto-score ONLY if explicitly flagged OR trivially a trivia (options+answer).
   return (flag && hasOptions && hasAnswer) || (hasOptions && hasAnswer);
 }
 
@@ -280,25 +279,31 @@ function openQuestionModal(catKey, qIndex) {
   setText("modalMeta", `שאלה ${displayNumber} • ${points} נקודות`);
   setText("modalQuestion", q.question || "");
 
+  // --- OPTIONS (FIXED: show/hide correctly) ---
   const optWrap = $("modalOptions");
   if (optWrap) {
     optWrap.innerHTML = "";
-    if (Array.isArray(q.options) && q.options.length) {
+
+    const hasOptions = Array.isArray(q.options) && q.options.length > 0;
+
+    if (hasOptions) {
+      // IMPORTANT: show options container (it was hidden in HTML)
+      optWrap.classList.remove("hidden");
+
       q.options.forEach(opt => {
         const b = document.createElement("button");
         b.className = "option-btn";
         b.type = "button";
         b.textContent = opt;
 
-        // UPDATED: auto-scoring for trivia
         b.addEventListener("click", () => {
           // Visual select
           optWrap.querySelectorAll(".option-btn").forEach(x => x.classList.remove("selected"));
           b.classList.add("selected");
 
-          // Auto-score only for trivia-like questions
+          // Auto-score for trivia
           if (isAutoTrivia(q)) {
-            // disable all options to prevent double clicks
+            // prevent double clicks
             optWrap.querySelectorAll(".option-btn").forEach(x => (x.disabled = true));
 
             const chosen = String(opt).trim();
@@ -319,13 +324,34 @@ function openQuestionModal(catKey, qIndex) {
 
         optWrap.appendChild(b);
       });
+
+    } else {
+      // hide options when none
+      optWrap.classList.add("hidden");
     }
   }
 
   setText("modalAnswer", "");
   $("btnShowAnswer")?.classList.remove("hidden");
 
-  renderTeamAwardButtons(points);
+  // --- Award buttons ---
+  // If this is auto-trivia, we hide manual award buttons (but keep "לא לתת נקודות" working)
+  if (!isAutoTrivia(q)) {
+    renderTeamAwardButtons(points);
+  } else {
+    const wrap = $("teamButtons");
+    if (wrap) wrap.innerHTML = "";
+
+    const none = $("btnNoPoints");
+    if (none) {
+      none.onclick = () => {
+        markUsed(activeCatKey, activeQIndex);
+        closeQuestionModal();
+        advanceTurn();
+        rerenderBoardUI();
+      };
+    }
+  }
 
   stopTimer();
   updateTimerUI(0, 0);
