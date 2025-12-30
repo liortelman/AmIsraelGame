@@ -226,12 +226,17 @@ function renderScoreBar() {
     bar.appendChild(pill);
   });
 }
+
 function renderTurnLabel() {
   const el = $("turnLabel");
   if (!el) return;
   const t = state.teams[state.currentTeamIndex];
   el.textContent = t ? `תור: ${t.name}` : "";
+
+  // NEW: color the turn label by team
+  el.dataset.team = String(state.currentTeamIndex); // "0" | "1" | "2"
 }
+
 function buildBoard() {
   const board = $("board");
   if (!board) return;
@@ -827,3 +832,4 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
