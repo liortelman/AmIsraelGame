@@ -3,7 +3,7 @@ const QUESTIONS = {
   "meta": {
     "title": "אני והסיפור שלנו",
     "version": "0.1",
-    "board": { "rows": 7, "cols": 6, "points": [10, 20, 30, 40, 50, 60, 70] },
+    "board": { "rows": 7, "cols": 6, "points": [5, 10, 15, 20] },
     "categoriesOrder": ["history", "places", "figures", "values", "symbols", "songs"]
   },
   "categories": {
@@ -538,3 +538,4 @@ function boot() {
 
 // Ensure DOM is ready
 document.addEventListener("DOMContentLoaded", boot);
+
