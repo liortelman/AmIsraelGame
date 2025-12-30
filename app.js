@@ -584,6 +584,10 @@ function wireTopButtons() {
       resetState();
       applyStateToUI();
     });
+   if (finishBtn) {
+    finishBtn.addEventListener("click", () => {
+      finishGame();
+    });
   }
 
   const resumeBtn = $("btnResume");
@@ -724,5 +728,6 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
