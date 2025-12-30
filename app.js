@@ -654,6 +654,39 @@ function wireDuelButtons() {
   $("btnDuelWinnerTeam2")?.addEventListener("click", () => awardDuelWinner(2));
 }
 
+function getRanking() {
+  // Returns array sorted by score desc, tie-breaker by original order
+  return state.teams
+    .map((t, idx) => ({ ...t, _idx: idx }))
+    .sort((a, b) => (b.score - a.score) || (a._idx - b._idx));
+}
+
+function renderEndScreen() {
+  const wrap = $("endRanking");
+  if (!wrap) return;
+
+  const ranking = getRanking();
+
+  wrap.innerHTML = ranking.map((t, i) => {
+    const place = i + 1;
+    const medal = place === 1 ? "🥇" : place === 2 ? "🥈" : place === 3 ? "🥉" : "🏅";
+    return `
+      <div class="rankingRow">
+        <div class="rankingPlace">${medal} מקום ${place}</div>
+        <div class="rankingTeam">${t.name}</div>
+        <div class="rankingScore">${t.score} נק׳</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function finishGame() {
+  state.phase = "end";
+  saveState();
+  renderEndScreen();
+  showOnlyScreen("screenEnd");
+}
+
 function applyStateToUI() {
   if (!state.teams || !state.teams.length) {
     state.phase = "start";
@@ -691,4 +724,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
