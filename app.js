@@ -10,13 +10,13 @@ const QUESTIONS = {
     "history": {
       "label": "היסטוריה",
       "questions": [
-        { "id": "history-1", "points": 5, "type": "regular", "question": "באיזו שנה הוקמה מדינת ישראל?", "options": ["1947", "1948", "1956", "1967"], "answer": "1948", "hint": "" },
-        { "id": "history-2", "points": 5, "type": "regular", "question": "הכרזת העצמאות התקיימה בתל אביב.", "options": ["נכון", "לא נכון"], "answer": "נכון", "hint": "" },
-        { "id": "history-3", "points": 10, "type": "all_or_nothing", "question": "איך נקראה העלייה הגדולה של יהודי תימן בשנים 1949–1950?", "options": [], "answer": "מבצע מרבד הקסמים", "hint": "" },
-        { "id": "history-4", "points": 5, "type": "regular", "question": "איזו מלחמה נקראת גם \"מלחמת הקוממיות\"?", "options": ["מלחמת ששת הימים", "מלחמת העצמאות", "מלחמת יום הכיפורים", "מלחמת לבנון הראשונה"], "answer": "מלחמת העצמאות", "hint": "" },
-        { "id": "history-5", "points": 15, "type": "personal", "question": "שאלה אישית בהיסטוריה (דוגמה).", "options": [], "answer": "", "hint": "" },
-        { "id": "history-6", "points": 5, "type": "regular", "question": "מהו שם מסמך היסוד שמגדיר את הקמת המדינה וזכויות האזרחים?", "options": [], "answer": "מגילת העצמאות", "hint": "" },
-        { "id": "history-7", "points": 20, "type": "duel", "question": "שאלת דו־קרב בהיסטוריה (דוגמה).", "options": [], "answer": "", "hint": "" }
+        { "id": "history-1", "points": 10, "type": "for_everyone", "question": "למי נאמר: "לך לך מארצך, ממולדתך ומבית אביך אל הארץ אשר אראך"?", "options": ["אברהם", "יצחק", "יעקב", "משה"], "answer": "אברהם", "hint": "" },
+        { "id": "history-2", "points": 15, "type": "personal", "question": "איזה חג חוגגים כזכרון ליציאת מצרים? ואיזה מצווה בחג היא זכרון לתקופה?.", "options": [], "answer": "חג הפסח", "hint": "" },
+        { "id": "history-3", "points": 20, "type": "duel", "question": "כל קבוצה אומרת בתורה אחד מעשרת הדיברות. 5 שניות בלי תשובה- ניצחון לקבוצה השניה.", "options": [], "answer": "", "hint": "" },
+        { "id": "history-4", "points": 5, "type": "regular", "question": "", "options": [""], "answer": "", "hint": "" },
+        { "id": "history-5", "points": 15, "type": "personal", "question": "מי בנה את בית המקדש הראשון?", "options": [], "answer": "", "hint": "" },
+        { "id": "history-6", "points": 5, "type": "regular", "question": "בין אילו שנים הייתנ מלחמת העולם השניה? לרשום על הדף ולהראות.", "options": [], "answer": "", "hint": "" },
+        { "id": "history-7", "points": 5, "type": "regular", "question": "כמה אנשים חתומים על מגילת העצמאות?.", "options": [], "answer": "", "hint": "" }
       ]
     },
 
@@ -430,3 +430,4 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
