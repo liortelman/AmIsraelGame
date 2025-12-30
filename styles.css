@@ -59,13 +59,13 @@ body{
 .hidden{ display:none !important; }
 
 .app{
-  padding: 14px;                 /* FIT: היה 18 */
+  padding: 14px;
   max-width: 1280px;
   margin: 0 auto;
 }
 
 .screen{
-  min-height: calc(100vh - 68px); /* FIT: היה 76 */
+  min-height: calc(100vh - 68px);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -76,7 +76,7 @@ body{
   display:flex;
   justify-content: space-between;
   align-items:center;
-  padding: 12px 14px;            /* FIT: היה 14 16 */
+  padding: 12px 14px;
 
   background: rgba(255,255,255,.62);
   border-bottom: 1px solid var(--stroke2);
@@ -102,11 +102,11 @@ body{
   border: 1px solid var(--stroke2);
   border-radius: var(--radius2);
   box-shadow: var(--shadow);
-  padding: 16px;                 /* FIT: היה 18 */
+  padding: 16px;
   backdrop-filter: blur(14px);
 }
 
-.h1{ margin:0 0 10px 0; font-size: 28px; } /* FIT: היה 30 */
+.h1{ margin:0 0 10px 0; font-size: 28px; }
 .h2{ margin:0 0 10px 0; font-size: 22px; }
 .p{ margin:8px 0; color: var(--muted); }
 
@@ -117,7 +117,7 @@ body{
 .label.small{ min-width:auto; font-size: 13px; }
 
 .hint{
-  margin-top: 12px;              /* FIT: היה 14 */
+  margin-top: 12px;
   color: rgba(11,18,32,.60);
   font-size: 13px;
 }
@@ -161,7 +161,7 @@ body{
 .btn{
   border: 1px solid rgba(11,18,32,.12);
   border-radius: 14px;
-  padding: 9px 12px;             /* FIT: היה 10 14 */
+  padding: 9px 12px;
   cursor:pointer;
   color: var(--ink);
 
@@ -207,27 +207,28 @@ body{
 .boardHeader{
   width: 100%;
   display:grid;
-  grid-template-columns: 1fr 340px; /* FIT: היה 360 */
-  gap: 12px;                        /* FIT: היה 14 */
+  grid-template-columns: 1fr 340px;
+  gap: 12px;
   align-items: start;
-  margin: 14px 0 10px 0;            /* FIT: היה 18 0 12 0 */
+  margin: 14px 0 10px 0;
 }
 
-/* Right HUD - “looks intentional” */
+/* Right HUD */
 .turnLabel{
   grid-column: 2;
   background: var(--panelSolid);
   border: 1px solid var(--stroke2);
   border-radius: 22px;
   box-shadow: var(--shadowSoft);
-  padding: 12px;                    /* FIT: היה 14 */
+  padding: 12px;
 
   font-weight: 950;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
-  font-size: 15px;                  /* FIT: הקטנה */
+  font-size: 15px;
+
   position: relative;
   overflow:hidden;
 }
@@ -242,19 +243,19 @@ body{
 
 .scoreBar{
   grid-column: 2;
-  margin-top: 8px;                  /* FIT: היה 10 */
+  margin-top: 8px;
   display:grid;
-  gap:8px;                          /* FIT: היה 10 */
+  gap:8px;
 }
 
 .score-pill{
-  padding: 10px 12px;               /* FIT: היה 12 14 */
+  padding: 10px 12px;
   border-radius: 18px;
   background: rgba(255,255,255,.86);
   border: 1px solid rgba(11,18,32,.10);
   box-shadow: 0 10px 18px rgba(11,18,32,.08);
   font-weight: 950;
-  font-size: 14px;                  /* FIT */
+  font-size: 14px;
 
   display:flex;
   align-items:center;
@@ -273,7 +274,7 @@ body{
   content:"";
   position:absolute;
   top:0; bottom:0;
-  right:0;              /* RTL: accent on the right */
+  right:0;
   width: 6px;
   background: var(--teamAccent, rgba(29,78,216,.50));
 }
@@ -292,13 +293,13 @@ body{
 }
 
 .board{
-  width: min(940px, 96vw);          /* FIT: היה 960 */
+  width: min(950px, 96vw);          /* קצת יותר גדול מהקודם */
   display:grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;                         /* FIT: היה 12 */
+  gap: 11px;                         /* קצת יותר מרווח */
 
-  padding: 14px;                     /* FIT: היה 18 */
-  border-radius: 26px;               /* FIT: היה 28 */
+  padding: 15px;                     /* קצת יותר מרווח פנימי */
+  border-radius: 26px;
 
   background: rgba(255,255,255,.60);
   border: 1px solid rgba(11,18,32,.08);
@@ -310,36 +311,40 @@ body{
 /* optional watermark logo */
 .boardLogo{
   position:absolute;
-  left: 14px;                        /* FIT */
-  bottom: 12px;                      /* FIT */
-  width: 84px;                       /* FIT: היה 96 */
+  left: 14px;
+  bottom: 12px;
+  width: 84px;
   opacity: .10;
   pointer-events:none;
   filter: grayscale(100%);
 }
 
-/* cells */
+/* cells (BIGGER) */
 .board-cell{
-  border-radius: 18px;               /* FIT: היה 20 */
-  min-height: 56px;                  /* FIT: היה 68 (זה העיקר!) */
+  border-radius: 20px;              /* יותר “פרימיום” */
+  min-height: 60px;                 /* ✅ הגדלה של המלבנים */
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
 }
 
-/* Category headers */
+/* Category headers (BIGGER FONT) */
 .board-header{
-  background: rgba(255,255,255,.88);
+  background: rgba(255,255,255,.90);
   border: 1px solid rgba(11,18,32,.10);
   font-weight: 950;
-  letter-spacing:.2px;
-  font-size: 13px;                   /* FIT: הקטנה כדי להיכנס */
-  padding: 6px 8px;                  /* FIT: מוסיף “חיסכון” גובה */
+  letter-spacing: .2px;
+
+  font-size: 17px;                  /* ✅ גדול יותר */
+  line-height: 1.15;
+  padding: 8px 12px;                /* ✅ יותר נוח לקריאה */
+  min-height: 66px;                 /* ✅ נותן מקום לטקסט */
+  text-shadow: 0 1px 0 rgba(255,255,255,.65);
 
   position:relative;
   overflow:hidden;
-  padding-top: 6px;                  /* FIT: היה padding-top 4 + min-height גדול */
+  padding-top: 10px;
 }
 
 .board-header::before{
@@ -357,17 +362,17 @@ body{
 .board-header[data-cat="symbols"]::before{ background: var(--cat-symbols); }
 .board-header[data-cat="achievements"]::before{ background: var(--cat-achievements); }
 
-/* Question buttons – “premium tiles” */
+/* Question buttons (BIGGER NUMBERS) */
 .board-btn{
   width:100%;
   height:100%;
   cursor:pointer;
 
-  font-size: 18px;                   /* FIT: היה 20 */
+  font-size: 20px;                  /* ✅ מספרים גדולים יותר */
   font-weight: 950;
 
   color: rgba(11,18,32,.94);
-  border-radius: 18px;               /* FIT: היה 20 */
+  border-radius: 20px;
   border: 1px solid rgba(11,18,32,.12);
 
   background:
@@ -389,7 +394,6 @@ body{
   box-shadow: 0 0 0 4px rgba(56,189,248,.18), 0 22px 30px rgba(11,18,32,.14);
 }
 
-/* used state */
 .board-btn.used,
 .board-btn:disabled{
   background: rgba(11,18,32,.04);
@@ -504,7 +508,7 @@ body{
   overflow:hidden;
   border: 1px solid rgba(11,18,32,.10);
   position: relative;
-  height: 30px;            /* FIT: היה 32 */
+  height: 30px;
 }
 
 .timerFill{
@@ -518,7 +522,7 @@ body{
 .timerText{
   position: relative;
   z-index: 2;
-  height: 30px;            /* FIT */
+  height: 30px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -555,12 +559,19 @@ body{
   .modalOptions{ grid-template-columns: 1fr; }
 }
 
-/* ===== Low-height screens: guarantee row 7 fits ===== */
+/* ===== Low-height screens: keep row 7 fitting ===== */
 @media (max-height: 760px){
   .app{ padding: 12px; }
   .boardHeader{ margin: 12px 0 8px 0; gap: 10px; }
   .board{ padding: 12px; gap: 8px; }
-  .board-cell{ min-height: 52px; }
-  .board-btn{ font-size: 17px; }
-  .board-header{ font-size: 12px; }
+
+  /* still readable but a bit smaller on short screens */
+  .board-header{
+    font-size: 15px;
+    min-height: 60px;
+    padding: 7px 10px;
+  }
+
+  .board-cell{ min-height: 54px; }
+  .board-btn{ font-size: 18px; }
 }
