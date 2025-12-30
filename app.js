@@ -10,7 +10,7 @@ const QUESTIONS = {
     "history": {
       "label": "היסטוריה",
       "questions": [
-        { "id": "history-1", "points": 10, "type": "for_everyone", "question": "למי נאמר: \"לך לך מארצך, ממולדתך ומבית אביך אל הארץ אשר אראך\"?", "options": ["אברהם", "יצחק", "יעקב", "משה"], "answer": "אברהם", "hint": "" },
+        { "id": "history-1", "points": 10, "type": "for_everyone","autoScore": true, "question": "למי נאמר: \"לך לך מארצך, ממולדתך ומבית אביך אל הארץ אשר אראך\"?", "options": ["אברהם", "יצחק", "יעקב", "משה"], "answer": "אברהם", "hint": "" },
         { "id": "history-2", "points": 15, "type": "personal", "question": "איזה חג חוגגים כזכרון ליציאת מצרים? ואיזה מצווה בחג היא זכרון לתקופה?.", "options": [], "answer": "חג הפסח", "hint": "" },
         { "id": "history-3", "points": 20, "type": "duel", "question": "כל קבוצה אומרת בתורה אחד מעשרת הדיברות. 5 שניות בלי תשובה- ניצחון לקבוצה השניה.", "options": [], "answer": "", "hint": "" },
         { "id": "history-4", "points": 5, "type": "regular", "question": "", "options": [""], "answer": "", "hint": "" },
@@ -490,6 +490,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
