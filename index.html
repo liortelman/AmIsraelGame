@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>אני והסיפור שלנו</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">אני והסיפור שלנו</div>
+
+    <div class="topbar-actions">
+      <button id="btnReset" class="btn btn-secondary" type="button">איפוס משחק</button>
+      <button id="btnResume" class="btn btn-secondary" type="button">המשך משחק</button>
+    </div>
+  </header>
+
+  <main class="app">
+
+    <!-- Start Screen -->
+    <section id="screenStart" class="screen">
+      <div class="card">
+        <h1 class="h1">הגדרת משחק</h1>
+
+        <div class="row">
+          <label class="label">מספר קבוצות</label>
+          <select id="teamCount" class="select">
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+
+        <div id="teamsForm" class="teamsForm"></div>
+
+        <div class="row">
+          <button id="btnStart" class="btn btn-primary" type="button">התחל</button>
+        </div>
+
+        <p class="hint">
+          טיפ: מומלץ לפתוח ב-Chrome / Edge.
+        </p>
+      </div>
+    </section>
+
+    <!-- Board Screen -->
+    <section id="screenBoard" class="screen hidden">
+      <div class="boardHeader">
+        <div id="turnLabel" class="turnLabel"></div>
+        <div id="scoreBar" class="scoreBar"></div>
+      </div>
+
+      <div class="boardWrap">
+        <div id="board" class="board"></div>
+      </div>
+    </section>
+
+    <!-- Duel Screen -->
+    <section id="screenDuel" class="screen hidden">
+      <div class="card">
+        <h2 class="h2">דו־קרב</h2>
+        <p id="duelIntro" class="p"></p>
+
+        <div class="row gap">
+          <button id="btnDuelShowQuestion" class="btn btn-primary" type="button">הצג שאלה</button>
+          <button id="btnDuelBack" class="btn btn-secondary" type="button">חזרה ללוח</button>
+        </div>
+
+        <div id="duelQuestionArea" class="duelQuestionArea hidden">
+          <div id="duelQuestionText" class="duelQuestionText"></div>
+
+          <div class="row gap">
+            <button id="btnDuelWinnerTeam0" class="btn btn-success" type="button"></button>
+            <button id="btnDuelWinnerTeam1" class="btn btn-success" type="button"></button>
+            <button id="btnDuelWinnerTeam2" class="btn btn-success hidden" type="button"></button>
+          </div>
+
+          <p class="hint">בדו־קרב אין גלגלי הצלה (לפי הכללים).</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal -->
+  <div id="modalOverlay" class="modalOverlay hidden" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modalHeader">
+        <div>
+          <div id="modalCategory" class="modalCategory"></div>
+          <div id="modalMeta" class="modalMeta"></div>
+        </div>
+        <button id="btnCloseModal" class="btn btn-secondary" type="button">סגור</button>
+      </div>
+
+      <div id="modalQuestion" class="modalQuestion"></div>
+
+      <div id="modalOptions" class="modalOptions hidden"></div>
+
+      <div id="modalAnswer" class="modalAnswer hidden"></div>
+
+      <div class="modalActions">
+        <button id="btnHelpTeacher" class="btn btn-secondary" type="button">גלגל הצלה: שאל את המורה</button>
+        <button id="btnHelpGoogle" class="btn btn-secondary" type="button">גלגל הצלה: גוגל 20 שניות</button>
+        <div class="spacer"></div>
+        <button id="btnShowAnswer" class="btn btn-secondary" type="button">הצג תשובה</button>
+      </div>
+
+      <div class="modalActions">
+        <label class="label small">לתת נקודות ל:</label>
+        <div id="teamButtons" class="teamButtons"></div>
+        <button id="btnNoPoints" class="btn btn-secondary" type="button">לא לתת נקודות</button>
+      </div>
+
+      <div id="timerBar" class="timerBar hidden">
+        <div id="timerFill" class="timerFill"></div>
+        <div id="timerText" class="timerText"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
