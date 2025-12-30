@@ -119,7 +119,7 @@ function setText(id, text) {
   if (el) el.textContent = text;
 }
 function showOnlyScreen(screenId) {
-  ["screenStart", "screenBoard", "screenDuel"].forEach(id => {
+  ["screenStart", "screenBoard", "screenDuel", "screenEnd"].forEach(id => {
     const el = $(id);
     if (el) el.classList.add("hidden");
   });
@@ -691,3 +691,4 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
