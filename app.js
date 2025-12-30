@@ -68,7 +68,7 @@ const QUESTIONS = {
       ]
     },
     "songs": {
-      "label": "השירים",
+      "label": "הישגים",
       "questions": [
         { "id": "songs-10", "points": 10, "type": "short", "question": "השלימו: \"עוד לא אבדה ____\".", "options": [], "answer": "תקוותנו", "hint": "" },
         { "id": "songs-20", "points": 20, "type": "short", "question": "איזה שיר ילדים מוכר מתחיל ב: \"השמש זורחת...\"?", "options": [], "answer": "תשובות שונות אפשריות (למנחה)", "hint": "" },
@@ -538,4 +538,5 @@ function boot() {
 
 // Ensure DOM is ready
 document.addEventListener("DOMContentLoaded", boot);
+
 
