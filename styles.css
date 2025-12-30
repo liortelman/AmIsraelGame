@@ -53,20 +53,19 @@ body{
     radial-gradient(820px 520px at 30% 120%, rgba(147,197,253,.26), transparent 58%),
     linear-gradient(180deg, var(--bg0), var(--bg1));
 
-  /* subtle texture */
   background-blend-mode: normal;
 }
 
 .hidden{ display:none !important; }
 
 .app{
-  padding: 18px;
+  padding: 14px;                 /* FIT: היה 18 */
   max-width: 1280px;
   margin: 0 auto;
 }
 
 .screen{
-  min-height: calc(100vh - 76px);
+  min-height: calc(100vh - 68px); /* FIT: היה 76 */
   display:flex;
   align-items:center;
   justify-content:center;
@@ -77,7 +76,7 @@ body{
   display:flex;
   justify-content: space-between;
   align-items:center;
-  padding: 14px 16px;
+  padding: 12px 14px;            /* FIT: היה 14 16 */
 
   background: rgba(255,255,255,.62);
   border-bottom: 1px solid var(--stroke2);
@@ -103,11 +102,11 @@ body{
   border: 1px solid var(--stroke2);
   border-radius: var(--radius2);
   box-shadow: var(--shadow);
-  padding: 18px;
+  padding: 16px;                 /* FIT: היה 18 */
   backdrop-filter: blur(14px);
 }
 
-.h1{ margin:0 0 12px 0; font-size: 30px; }
+.h1{ margin:0 0 10px 0; font-size: 28px; } /* FIT: היה 30 */
 .h2{ margin:0 0 10px 0; font-size: 22px; }
 .p{ margin:8px 0; color: var(--muted); }
 
@@ -118,7 +117,7 @@ body{
 .label.small{ min-width:auto; font-size: 13px; }
 
 .hint{
-  margin-top: 14px;
+  margin-top: 12px;              /* FIT: היה 14 */
   color: rgba(11,18,32,.60);
   font-size: 13px;
 }
@@ -162,7 +161,7 @@ body{
 .btn{
   border: 1px solid rgba(11,18,32,.12);
   border-radius: 14px;
-  padding: 10px 14px;
+  padding: 9px 12px;             /* FIT: היה 10 14 */
   cursor:pointer;
   color: var(--ink);
 
@@ -208,10 +207,10 @@ body{
 .boardHeader{
   width: 100%;
   display:grid;
-  grid-template-columns: 1fr 360px;
-  gap: 14px;
+  grid-template-columns: 1fr 340px; /* FIT: היה 360 */
+  gap: 12px;                        /* FIT: היה 14 */
   align-items: start;
-  margin: 18px 0 12px 0;
+  margin: 14px 0 10px 0;            /* FIT: היה 18 0 12 0 */
 }
 
 /* Right HUD - “looks intentional” */
@@ -221,14 +220,14 @@ body{
   border: 1px solid var(--stroke2);
   border-radius: 22px;
   box-shadow: var(--shadowSoft);
-  padding: 14px;
+  padding: 12px;                    /* FIT: היה 14 */
 
   font-weight: 950;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
-
+  font-size: 15px;                  /* FIT: הקטנה */
   position: relative;
   overflow:hidden;
 }
@@ -243,18 +242,19 @@ body{
 
 .scoreBar{
   grid-column: 2;
-  margin-top: 10px;
+  margin-top: 8px;                  /* FIT: היה 10 */
   display:grid;
-  gap:10px;
+  gap:8px;                          /* FIT: היה 10 */
 }
 
 .score-pill{
-  padding: 12px 14px;
+  padding: 10px 12px;               /* FIT: היה 12 14 */
   border-radius: 18px;
   background: rgba(255,255,255,.86);
   border: 1px solid rgba(11,18,32,.10);
   box-shadow: 0 10px 18px rgba(11,18,32,.08);
   font-weight: 950;
+  font-size: 14px;                  /* FIT */
 
   display:flex;
   align-items:center;
@@ -292,13 +292,13 @@ body{
 }
 
 .board{
-  width: min(960px, 96vw);
+  width: min(940px, 96vw);          /* FIT: היה 960 */
   display:grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
+  gap: 10px;                         /* FIT: היה 12 */
 
-  padding: 18px;
-  border-radius: 28px;
+  padding: 14px;                     /* FIT: היה 18 */
+  border-radius: 26px;               /* FIT: היה 28 */
 
   background: rgba(255,255,255,.60);
   border: 1px solid rgba(11,18,32,.08);
@@ -310,9 +310,9 @@ body{
 /* optional watermark logo */
 .boardLogo{
   position:absolute;
-  left: 16px;
-  bottom: 14px;
-  width: 96px;
+  left: 14px;                        /* FIT */
+  bottom: 12px;                      /* FIT */
+  width: 84px;                       /* FIT: היה 96 */
   opacity: .10;
   pointer-events:none;
   filter: grayscale(100%);
@@ -320,8 +320,8 @@ body{
 
 /* cells */
 .board-cell{
-  border-radius: 20px;
-  min-height: 68px;
+  border-radius: 18px;               /* FIT: היה 20 */
+  min-height: 56px;                  /* FIT: היה 68 (זה העיקר!) */
   display:flex;
   align-items:center;
   justify-content:center;
@@ -334,10 +334,12 @@ body{
   border: 1px solid rgba(11,18,32,.10);
   font-weight: 950;
   letter-spacing:.2px;
+  font-size: 13px;                   /* FIT: הקטנה כדי להיכנס */
+  padding: 6px 8px;                  /* FIT: מוסיף “חיסכון” גובה */
 
   position:relative;
   overflow:hidden;
-  padding-top: 4px;
+  padding-top: 6px;                  /* FIT: היה padding-top 4 + min-height גדול */
 }
 
 .board-header::before{
@@ -361,11 +363,11 @@ body{
   height:100%;
   cursor:pointer;
 
-  font-size: 20px;
+  font-size: 18px;                   /* FIT: היה 20 */
   font-weight: 950;
 
   color: rgba(11,18,32,.94);
-  border-radius: 20px;
+  border-radius: 18px;               /* FIT: היה 20 */
   border: 1px solid rgba(11,18,32,.12);
 
   background:
@@ -502,7 +504,7 @@ body{
   overflow:hidden;
   border: 1px solid rgba(11,18,32,.10);
   position: relative;
-  height: 32px;
+  height: 30px;            /* FIT: היה 32 */
 }
 
 .timerFill{
@@ -516,7 +518,7 @@ body{
 .timerText{
   position: relative;
   z-index: 2;
-  height: 32px;
+  height: 30px;            /* FIT */
   display:flex;
   align-items:center;
   justify-content:center;
@@ -546,8 +548,19 @@ body{
 @media (max-width: 980px){
   .boardHeader{ grid-template-columns: 1fr; }
   .turnLabel, .scoreBar{ grid-column: 1; }
+  .board{ width: min(980px, 96vw); }
 }
 
 @media (max-width: 780px){
   .modalOptions{ grid-template-columns: 1fr; }
+}
+
+/* ===== Low-height screens: guarantee row 7 fits ===== */
+@media (max-height: 760px){
+  .app{ padding: 12px; }
+  .boardHeader{ margin: 12px 0 8px 0; gap: 10px; }
+  .board{ padding: 12px; gap: 8px; }
+  .board-cell{ min-height: 52px; }
+  .board-btn{ font-size: 17px; }
+  .board-header{ font-size: 12px; }
 }
