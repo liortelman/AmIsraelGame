@@ -146,7 +146,6 @@ function isAutoTrivia(q) {
   const hasOptions = Array.isArray(q?.options) && q.options.length > 0;
   const hasAnswer = String(q?.answer ?? "").trim() !== "";
   const flag = q?.autoScore === true;
-  // Auto-score ONLY if explicitly flagged OR trivially a trivia (options+answer).
   return (flag && hasOptions && hasAnswer) || (hasOptions && hasAnswer);
 }
 
@@ -238,7 +237,6 @@ function buildBoard() {
       btn.addEventListener("click", () => {
         if (!q) return;
 
-        // NEW: duel goes to duel screen (2-stage)
         if (q.type === "duel") {
           openDuel(catKey, r);
           return;
@@ -266,7 +264,7 @@ function rerenderBoardUI() {
   buildBoard();
 }
 
-/* === Duel logic (NEW) === */
+/* === Duel logic === */
 function openDuel(catKey, qIndex) {
   state.phase = "duel";
   state.duel = { catKey, qIndex, revealed: false };
@@ -276,7 +274,6 @@ function openDuel(catKey, qIndex) {
 }
 
 function closeDuel(goNextTurnIfRevealed) {
-  // If the question was actually revealed, we consider it "used"
   if (goNextTurnIfRevealed) {
     markUsed(state.duel?.catKey, state.duel?.qIndex);
     state.phase = "board";
@@ -288,7 +285,6 @@ function closeDuel(goNextTurnIfRevealed) {
     return;
   }
 
-  // Just cancel (didn't reveal) — do not burn question
   state.phase = "board";
   state.duel = null;
   saveState();
@@ -306,25 +302,20 @@ function renderDuelFromState() {
   const displayNumber = d.qIndex + 1;
   const catLabel = QUESTIONS.categories[d.catKey]?.label || d.catKey;
 
-  // Meta + intro (screen 1)
-  setText("duelMeta", `${catLabel} • שאלה ${displayNumber} • ${points} נקודות`);
-  setText("duelIntro", "דו־קרב! קודם כל כולם מוכנים. רק אחרי זה לוחצים 'הצג שאלה'.");
+  // IMPORTANT: In your HTML there is NO element with id="duelMeta"
+  // so we only update duelIntro (exists) and the question area.
+  setText("duelIntro", `דו־קרב! ${catLabel} • שאלה ${displayNumber} • ${points} נקודות. קודם כולם מוכנים, ואז לוחצים "הצג שאלה".`);
 
-  // Buttons & question area
   const area = $("duelQuestionArea");
   const qText = $("duelQuestionText");
   const showBtn = $("btnDuelShowQuestion");
 
   if (area) area.classList.toggle("hidden", !d.revealed);
-
-  if (showBtn) {
-    showBtn.disabled = !!d.revealed;
-  }
+  if (showBtn) showBtn.disabled = !!d.revealed;
 
   if (d.revealed) {
     if (qText) qText.textContent = q.question || "";
 
-    // Winner buttons
     const b0 = $("btnDuelWinnerTeam0");
     const b1 = $("btnDuelWinnerTeam1");
     const b2 = $("btnDuelWinnerTeam2");
@@ -361,10 +352,8 @@ function awardDuelWinner(teamIndex) {
     state.teams[teamIndex].score += Number(points || 0);
   }
 
-  // burn question
   markUsed(d.catKey, d.qIndex);
 
-  // back to board
   state.phase = "board";
   state.duel = null;
   saveState();
@@ -372,6 +361,39 @@ function awardDuelWinner(teamIndex) {
   advanceTurn();
   rerenderBoardUI();
   showOnlyScreen("screenBoard");
+}
+
+/* === End screen logic === */
+function getRanking() {
+  return state.teams
+    .map((t, idx) => ({ ...t, _idx: idx }))
+    .sort((a, b) => (b.score - a.score) || (a._idx - b._idx));
+}
+
+function renderEndScreen() {
+  const wrap = $("endRanking");
+  if (!wrap) return;
+
+  const ranking = getRanking();
+
+  wrap.innerHTML = ranking.map((t, i) => {
+    const place = i + 1;
+    const medal = place === 1 ? "🥇" : place === 2 ? "🥈" : place === 3 ? "🥉" : "🏅";
+    return `
+      <div class="rankingRow">
+        <div class="rankingPlace">${medal} מקום ${place}</div>
+        <div class="rankingTeam">${t.name}</div>
+        <div class="rankingScore">${t.score} נק׳</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function finishGame() {
+  state.phase = "end";
+  saveState();
+  renderEndScreen();
+  showOnlyScreen("screenEnd");
 }
 
 /* === Modal logic === */
@@ -394,7 +416,6 @@ function openQuestionModal(catKey, qIndex) {
   setText("modalMeta", `שאלה ${displayNumber} • ${points} נקודות`);
   setText("modalQuestion", q.question || "");
 
-  // --- OPTIONS (FIXED: show/hide correctly) ---
   const optWrap = $("modalOptions");
   if (optWrap) {
     optWrap.innerHTML = "";
@@ -402,7 +423,6 @@ function openQuestionModal(catKey, qIndex) {
     const hasOptions = Array.isArray(q.options) && q.options.length > 0;
 
     if (hasOptions) {
-      // IMPORTANT: show options container (it was hidden in HTML)
       optWrap.classList.remove("hidden");
 
       q.options.forEach(opt => {
@@ -412,23 +432,18 @@ function openQuestionModal(catKey, qIndex) {
         b.textContent = opt;
 
         b.addEventListener("click", () => {
-          // Visual select
           optWrap.querySelectorAll(".option-btn").forEach(x => x.classList.remove("selected"));
           b.classList.add("selected");
 
-          // Auto-score for trivia
           if (isAutoTrivia(q)) {
-            // prevent double clicks
             optWrap.querySelectorAll(".option-btn").forEach(x => (x.disabled = true));
 
             const chosen = String(opt).trim();
             const correct = String(q.answer).trim();
 
             if (chosen === correct) {
-              // correct -> add points immediately to current team
               awardPoints(state.currentTeamIndex, points);
             } else {
-              // wrong -> no points, burn question and advance turn
               markUsed(activeCatKey, activeQIndex);
               closeQuestionModal();
               advanceTurn();
@@ -439,9 +454,7 @@ function openQuestionModal(catKey, qIndex) {
 
         optWrap.appendChild(b);
       });
-
     } else {
-      // hide options when none
       optWrap.classList.add("hidden");
     }
   }
@@ -449,8 +462,6 @@ function openQuestionModal(catKey, qIndex) {
   setText("modalAnswer", "");
   $("btnShowAnswer")?.classList.remove("hidden");
 
-  // --- Award buttons ---
-  // If this is auto-trivia, we hide manual award buttons (but keep "לא לתת נקודות" working)
   if (!isAutoTrivia(q)) {
     renderTeamAwardButtons(points);
   } else {
@@ -584,10 +595,6 @@ function wireTopButtons() {
       resetState();
       applyStateToUI();
     });
-   if (finishBtn) {
-    finishBtn.addEventListener("click", () => {
-      finishGame();
-    });
   }
 
   const resumeBtn = $("btnResume");
@@ -597,6 +604,13 @@ function wireTopButtons() {
       if (!loaded) return;
       state = loaded;
       applyStateToUI();
+    });
+  }
+
+  const finishBtn = $("btnFinishGame");
+  if (finishBtn) {
+    finishBtn.addEventListener("click", () => {
+      finishGame();
     });
   }
 }
@@ -632,6 +646,8 @@ function wireModalButtons() {
     const q = getQuestionBy(activeCatKey, activeQIndex);
     if (!q) return;
     setText("modalAnswer", `תשובה: ${q.answer ?? ""}`);
+    // אם אצלך ה-answer מוסתר ב-CSS, זה יפתור:
+    $("modalAnswer")?.classList.remove("hidden");
   });
 
   $("modalOverlay")?.addEventListener("click", (e) => {
@@ -648,7 +664,6 @@ function wireDuelButtons() {
   });
 
   $("btnDuelBack")?.addEventListener("click", () => {
-    // אם כבר חשפנו את השאלה → זה "שומש" ונעבור תור (בלי נקודות)
     const revealed = !!state.duel?.revealed;
     closeDuel(revealed);
   });
@@ -656,39 +671,6 @@ function wireDuelButtons() {
   $("btnDuelWinnerTeam0")?.addEventListener("click", () => awardDuelWinner(0));
   $("btnDuelWinnerTeam1")?.addEventListener("click", () => awardDuelWinner(1));
   $("btnDuelWinnerTeam2")?.addEventListener("click", () => awardDuelWinner(2));
-}
-
-function getRanking() {
-  // Returns array sorted by score desc, tie-breaker by original order
-  return state.teams
-    .map((t, idx) => ({ ...t, _idx: idx }))
-    .sort((a, b) => (b.score - a.score) || (a._idx - b._idx));
-}
-
-function renderEndScreen() {
-  const wrap = $("endRanking");
-  if (!wrap) return;
-
-  const ranking = getRanking();
-
-  wrap.innerHTML = ranking.map((t, i) => {
-    const place = i + 1;
-    const medal = place === 1 ? "🥇" : place === 2 ? "🥈" : place === 3 ? "🥉" : "🏅";
-    return `
-      <div class="rankingRow">
-        <div class="rankingPlace">${medal} מקום ${place}</div>
-        <div class="rankingTeam">${t.name}</div>
-        <div class="rankingScore">${t.score} נק׳</div>
-      </div>
-    `;
-  }).join("");
-}
-
-function finishGame() {
-  state.phase = "end";
-  saveState();
-  renderEndScreen();
-  showOnlyScreen("screenEnd");
 }
 
 function applyStateToUI() {
@@ -700,7 +682,12 @@ function applyStateToUI() {
     return;
   }
 
-  // NEW: resume duel screen if we were in duel
+  if (state.phase === "end") {
+    renderEndScreen();
+    showOnlyScreen("screenEnd");
+    return;
+  }
+
   if (state.phase === "duel" && state.duel) {
     showOnlyScreen("screenDuel");
     renderDuelFromState();
@@ -718,7 +705,7 @@ function boot() {
   wireStartScreen();
   wireModalButtons();
   wireDuelButtons();
-  
+
   $("btnEndReset")?.addEventListener("click", () => {
     resetState();
     applyStateToUI();
@@ -739,7 +726,3 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
-
-
-
-
