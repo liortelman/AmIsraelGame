@@ -488,7 +488,17 @@ function openQuestionModal(catKey, qIndex) {
   const displayNumber = qIndex + 1;
 
   setText("modalCategory", QUESTIONS.categories[catKey]?.label || catKey);
-  setText("modalMeta", `שאלה ${displayNumber} • ${points} נקודות`);
+  const mm = $("modalMeta");
+  if (mm) {
+    mm.innerHTML = `
+    <span>שאלה ${displayNumber}</span>
+    <span class="metaDot">•</span>
+    <span>${points} נקודות</span>
+    <span class="metaDot">•</span>
+    <span class="qBadge">${escapeHtml(typeLabel(q))}</span>
+  `;
+}
+
   setText("modalQuestion", q.question || "");
 
     // media (image)
@@ -1214,6 +1224,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
