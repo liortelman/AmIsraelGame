@@ -60,7 +60,7 @@ const QUESTIONS = {
       "label": "מקומות",
       "questions": [
         { "id": "places-1", "points": 20, "type": "duel", "autoScore": true,
-          "image": "design/duel.jpg"
+          "image": "design/duel.jpg",
           "question": "הר הבית — ע\"פ המסורת היהודית, מה מיוחד במקום הזה?",
           "options": ["עליו נבנה בית המקדש הראשון והשני", "שם נקרע ים סוף", "שם ניתנה התורה", "שם נבנתה חומת העיר הראשונה בימי יהושע"],
           "answer": "עליו נבנה בית המקדש הראשון והשני", "hint": "אין גלגל הצלה" },
@@ -1299,6 +1299,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
