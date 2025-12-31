@@ -94,7 +94,7 @@ const QUESTIONS = {
 
 /* === State === */
 const DEFAULT_STATE = {
-  phase: "start",          // start | board | duel | end
+  phase: "intro",          // start | board | duel | end
   teamCount: 2,
   teams: [],
   currentTeamIndex: 0,
@@ -125,12 +125,96 @@ function setText(id, text) {
   if (el) el.textContent = text;
 }
 function showOnlyScreen(screenId) {
-  ["screenStart", "screenBoard", "screenDuel", "screenEnd"].forEach(id => {
+  ["screenIntro", "screenStart", "screenBoard", "screenDuel", "screenEnd"].forEach(id => {
     const el = $(id);
     if (el) el.classList.add("hidden");
   });
   const target = $(screenId);
   if (target) target.classList.remove("hidden");
+}
+
+
+/* === Intro === */
+const INTRO_LOGO_SRC = "logo.png"; // אפשר לשנות לשם קובץ אחר (svg/jpg וכו')
+const INTRO_SUBTITLE = "משחק טריוויה קבוצתי";
+
+function renderIntroScreen() {
+  const wrap = $("introWrap");
+  if (!wrap) return;
+
+  const title = escapeHtml(QUESTIONS?.meta?.title || "אני והסיפור שלנו");
+
+  wrap.innerHTML = `
+    <div style="
+      min-height:70vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      padding:28px 18px;
+      position:relative;
+    ">
+      <div style="
+        width:min(920px, 96vw);
+        border-radius:22px;
+        border:1px solid rgba(11,18,32,.10);
+        background:linear-gradient(180deg, rgba(56,189,248,.20), rgba(29,78,216,.08));
+        box-shadow:0 20px 36px rgba(11,18,32,.12);
+        padding:26px 18px;
+        text-align:center;
+      ">
+        <div style="font-weight:950; font-size:42px; line-height:1.1; margin-bottom:8px;">
+          ${title}
+        </div>
+        <div style="font-weight:800; opacity:.85; font-size:16px; margin-bottom:18px;">
+          ${escapeHtml(INTRO_SUBTITLE)}
+        </div>
+
+        <button id="btnIntroGo" type="button" style="
+          border:none;
+          cursor:pointer;
+          font-weight:950;
+          font-size:18px;
+          padding:12px 18px;
+          border-radius:14px;
+          background:rgba(255,255,255,.92);
+          box-shadow:0 14px 22px rgba(11,18,32,.14);
+        ">
+          מתחילים ▶
+        </button>
+
+        <div style="margin-top:14px; font-size:12px; opacity:.65;">
+          טיפ: אפשר לבטל פעולה עם U, ולסיים משחק עם E
+        </div>
+      </div>
+
+      <div style="
+        position:absolute;
+        bottom:14px;
+        left:14px;
+        display:flex;
+        align-items:flex-end;
+        gap:10px;
+        opacity:.95;
+      ">
+        <img src="${escapeHtml(INTRO_LOGO_SRC)}" alt="לוגו העמותה" style="
+          height:54px;
+          width:auto;
+          border-radius:12px;
+          box-shadow:0 10px 18px rgba(11,18,32,.18);
+          background:rgba(255,255,255,.85);
+          padding:6px;
+        " onerror="this.style.display='none'"/>
+      </div>
+    </div>
+  `;
+
+  $("btnIntroGo")?.addEventListener("click", () => {
+    pushUndo(); // 
+    state.phase = "start";
+    saveState();
+    applyStateToUI();
+  });
 }
 
 /* === Undo === */
@@ -497,6 +581,7 @@ function stopTimer() {
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = null;
 }
+
 function updateTimerUI(remaining, total) {
   const bar = $("timerBar");
   const fill = $("timerFill");
@@ -963,6 +1048,14 @@ function wireKeyboardShortcuts() {
 
 /* === Apply state === */
 function applyStateToUI() {
+    // intro screen first (until user clicks "מתחילים")
+  if (state.phase === "intro") {
+    saveState();
+    renderIntroScreen();
+    showOnlyScreen("screenIntro");
+    return;
+  }
+
   if (!state.teams || !state.teams.length) {
     state.phase = "start";
     saveState();
@@ -1006,4 +1099,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
