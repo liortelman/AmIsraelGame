@@ -27,6 +27,7 @@ const QUESTIONS = {
           "answer": "פסח ואכילת מצה", "hint": "" },
 
         { "id": "history-3", "points": 20, "type": "duel",
+          "image": "design/dibrot.jpg",
           "question": "כל קבוצה אומרת בתורה אחד מעשרת הדיברות. 5 שניות בלי תשובה — ניצחון לקבוצה השניה.",
           "options": [], "answer": "", "hint": "" },
 
@@ -37,6 +38,7 @@ const QUESTIONS = {
           "hint": "" },
 
         { "id": "history-5", "points": 15, "type": "personal", "autoScore": true,
+          "image": "design/beytHamikdash.jpg,
           "question": "מי בנה את בית המקדש הראשון?",
           "options": ["שאול המלך", "דוד המלך", "שלמה המלך", "רחבעם המלך"],
           "answer": "שלמה המלך", "hint": "" },
@@ -1296,6 +1298,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
