@@ -805,7 +805,7 @@ function renderEndScreen() {
         font-size:13px;
         opacity:.7;
       ">
-        אם יש אותו ניקוד — זה מוצג כתיקו כדי שלא יהיו ריבים 😊
+        כל הכבוד לכל המשתתפים! 😊
       </div>
     </div>
   `;
@@ -1006,3 +1006,4 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
