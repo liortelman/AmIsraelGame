@@ -146,77 +146,35 @@ function renderIntroScreen() {
   const title = escapeHtml(QUESTIONS?.meta?.title || "אני והסיפור שלנו");
 
   wrap.innerHTML = `
-    <div style="
-      min-height:70vh;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      padding:28px 18px;
-      position:relative;
-    ">
-      <div style="
-        width:min(920px, 96vw);
-        border-radius:22px;
-        border:1px solid rgba(11,18,32,.10);
-        background:linear-gradient(180deg, rgba(56,189,248,.20), rgba(29,78,216,.08));
-        box-shadow:0 20px 36px rgba(11,18,32,.12);
-        padding:26px 18px;
-        text-align:center;
-      ">
-        <div style="font-weight:950; font-size:42px; line-height:1.1; margin-bottom:8px;">
-          ${title}
-        </div>
-        <div style="font-weight:800; opacity:.85; font-size:16px; margin-bottom:18px;">
-          ${escapeHtml(INTRO_SUBTITLE)}
-        </div>
+    <div class="card introCard">
+      <div class="introTitle">${title}</div>
+      <div class="introSubtitle">${escapeHtml(INTRO_SUBTITLE)}</div>
 
-        <button id="btnIntroGo" type="button" style="
-          border:none;
-          cursor:pointer;
-          font-weight:950;
-          font-size:18px;
-          padding:12px 18px;
-          border-radius:14px;
-          background:rgba(255,255,255,.92);
-          box-shadow:0 14px 22px rgba(11,18,32,.14);
-        ">
+      <div class="introActions">
+        <button id="btnIntroGo" class="btn btn-primary" type="button">
           מתחילים ▶
         </button>
-
-        <div style="margin-top:14px; font-size:12px; opacity:.65;">
-          טיפ: אפשר לבטל פעולה עם U, ולסיים משחק עם E
-        </div>
       </div>
 
-      <div style="
-        position:absolute;
-        bottom:14px;
-        left:14px;
-        display:flex;
-        align-items:flex-end;
-        gap:10px;
-        opacity:.95;
-      ">
-        <img src="${escapeHtml(INTRO_LOGO_SRC)}" alt="לוגו העמותה" style="
-          height:54px;
-          width:auto;
-          border-radius:12px;
-          box-shadow:0 10px 18px rgba(11,18,32,.18);
-          background:rgba(255,255,255,.85);
-          padding:6px;
-        " onerror="this.style.display='none'"/>
+      <div class="hint" style="text-align:center; margin-top: 12px;">
+        טיפ: אפשר לבטל פעולה עם U, ולסיים משחק עם E
+      </div>
+
+      <div class="introLogoDock">
+        <img class="introLogo" src="${escapeHtml(INTRO_LOGO_SRC)}" alt="לוגו העמותה"
+             onerror="this.style.display='none'"/>
       </div>
     </div>
   `;
 
   $("btnIntroGo")?.addEventListener("click", () => {
-    pushUndo(); // 
+    pushUndo();
     state.phase = "start";
     saveState();
     applyStateToUI();
   });
 }
+
 
 /* === Undo === */
 function snapshotForUndo() {
@@ -1100,6 +1058,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
