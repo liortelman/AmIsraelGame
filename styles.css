@@ -609,14 +609,6 @@ body{
   justify-content: center;
 }
 
-.introCard {
-  position: relative;
-  width: min(920px, 92vw);
-  min-height: 520px;
-  padding: 34px 28px 110px;
-  border-radius: 22px;
-}
-
 .introTitle {
   font-size: clamp(28px, 4vw, 44px);
   font-weight: 900;
@@ -651,12 +643,15 @@ body{
   pointer-events: none;
 }
 
-.introLogo {
-  height: 82px;
-  max-width: min(520px, 90%);
-  object-fit: contain;
-  pointer-events: none;
-  opacity: 0.95;
+.introCard{
+  width: min(980px, 94vw);
+  min-height: 560px;
+  padding: 44px 34px 140px;
+  border-radius: 22px;
+}
+.introLogo{
+  height: 110px;
+  max-width: min(620px, 92%);
 }
 
 /* === Make Start Screen card bigger === */
@@ -691,4 +686,5 @@ body{
 #screenIntro .h1{
   font-size: clamp(28px, 4vw, 44px);
 }
+
 
