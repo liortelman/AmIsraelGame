@@ -666,7 +666,7 @@ body{
 }
 
 /* =======================
-   INTRO – Premium Style
+   INTRO – Premium (No Scroll)
    ======================= */
 
 #screenIntro{
@@ -675,11 +675,17 @@ body{
   justify-content:center;
 }
 
+/* The big card */
 .introCard{
   position:relative;
   width:min(1040px, 94vw);
-  min-height: 600px;
-  padding: 54px 44px 160px;
+
+  /* ✅ shorter so it won’t force scroll */
+  min-height: 520px;
+
+  /* ✅ less bottom padding to reduce height */
+  padding: 46px 44px 122px;
+
   border-radius: 26px;
 
   background:
@@ -719,13 +725,29 @@ body{
   pointer-events:none;
 }
 
+/* ✅ Title: bigger + premium Hebrew fonts (fallback safe) */
 .introTitle{
   text-align:center;
   font-weight: 950;
   letter-spacing: .2px;
-  font-size: clamp(34px, 4.2vw, 56px);
+
+  /* ✅ bigger than before */
+  font-size: clamp(40px, 5vw, 68px);
+
   line-height: 1.05;
   margin-top: 6px;
+
+  /* ✅ “more premium” font stack */
+  font-family:
+    "Rubik",
+    "Heebo",
+    "Assistant",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
 
   background: linear-gradient(180deg, rgba(11,18,32,.95), rgba(29,78,216,.88));
   -webkit-background-clip: text;
@@ -735,14 +757,14 @@ body{
 
 .introSubtitle{
   text-align:center;
-  margin-top: 14px;
+  margin-top: 12px;
   font-weight: 900;
   font-size: 18px;
   opacity: .82;
 }
 
 .introActions{
-  margin-top: 32px;
+  margin-top: 26px;  /* ✅ slightly smaller to save height */
   display:flex;
   justify-content:center;
 }
@@ -759,17 +781,18 @@ body{
 }
 
 .introHint{
-  margin-top: 16px;
+  margin-top: 12px; /* ✅ smaller spacing to avoid scroll */
   text-align:center;
   font-size: 13px;
   opacity: .68;
   font-weight: 700;
 }
 
+/* ✅ Logo dock: keep inside view */
 .introLogoDock{
   position:absolute;
   left:50%;
-  bottom: 22px;
+  bottom: 18px;  /* ✅ a bit higher to fit */
   transform: translateX(-50%);
   width: 100%;
   display:flex;
@@ -777,9 +800,10 @@ body{
   pointer-events:none;
 }
 
+/* ✅ Logo: slightly bigger */
 .introLogo{
-  height: 120px;
-  max-width: min(720px, 92%);
+  height: 138px; /* ✅ bigger */
+  max-width: min(760px, 92%);
   object-fit: contain;
 
   background: rgba(255,255,255,.82);
@@ -791,5 +815,11 @@ body{
   opacity: .98;
 }
 
-
+/* ✅ Extra safety for short screens */
+@media (max-height: 780px){
+  .introCard{ min-height: 480px; padding: 38px 34px 108px; }
+  .introTitle{ font-size: clamp(34px, 4.6vw, 58px); }
+  .introLogo{ height: 120px; }
+  .introActions{ margin-top: 18px; }
+}
 
