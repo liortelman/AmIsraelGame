@@ -670,3 +670,16 @@ body{
   font-size: clamp(26px, 3.2vw, 38px);
 }
 
+#screenIntro .boardLogo{
+  position: fixed !important;
+  left: 50% !important;
+  bottom: 18px !important;
+  transform: translateX(-50%) !important;
+  width: 140px !important;
+  opacity: 0.95 !important;
+  filter: none !important;
+  z-index: 50;
+}
+
+
+
