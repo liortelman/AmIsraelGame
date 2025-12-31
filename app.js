@@ -2,6 +2,8 @@
 
 /* === Optional toggle === */
 const CONFIRM_BURN_QUESTION = false; // if true -> confirm before burning a question (no points / duel back after reveal / wrong auto)
+/* === Intro screen config === */
+const INTRO_LOGO_SRC = "design/logo.png"; // logo path
 
 /* === Questions === */
 const QUESTIONS = {
@@ -1099,5 +1101,6 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
