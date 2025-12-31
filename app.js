@@ -27,7 +27,7 @@ const QUESTIONS = {
           "answer": "פסח ואכילת מצה", "hint": "" },
 
         { "id": "history-3", "points": 20, "type": "duel",
-          "image": "design/dibrot.jpg",
+          "image": "design/duel.jpg",
           "question": "כל קבוצה אומרת בתורה אחד מעשרת הדיברות. 5 שניות בלי תשובה — ניצחון לקבוצה השניה.",
           "options": [], "answer": "", "hint": "" },
 
@@ -60,6 +60,7 @@ const QUESTIONS = {
       "label": "מקומות",
       "questions": [
         { "id": "places-1", "points": 20, "type": "duel", "autoScore": true,
+          "image": "design/duel.jpg"
           "question": "הר הבית — ע\"פ המסורת היהודית, מה מיוחד במקום הזה?",
           "options": ["עליו נבנה בית המקדש הראשון והשני", "שם נקרע ים סוף", "שם ניתנה התורה", "שם נבנתה חומת העיר הראשונה בימי יהושע"],
           "answer": "עליו נבנה בית המקדש הראשון והשני", "hint": "אין גלגל הצלה" },
@@ -1298,6 +1299,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
