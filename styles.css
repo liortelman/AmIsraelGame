@@ -602,3 +602,71 @@ body{
   .board-btn{ font-size: 17px; }
 }
 
+/* === Intro Screen === */
+#screenIntro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.introCard {
+  position: relative;
+  width: min(920px, 92vw);
+  min-height: 520px;
+  padding: 34px 28px 110px;
+  border-radius: 22px;
+}
+
+.introTitle {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  text-align: center;
+  margin-top: 6px;
+}
+
+.introSubtitle {
+  text-align: center;
+  opacity: 0.8;
+  font-weight: 800;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.introActions {
+  margin-top: 26px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.introLogoDock {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  pointer-events: none;
+}
+
+.introLogo {
+  height: 82px;
+  max-width: min(520px, 90%);
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+/* === Make Start Screen card bigger === */
+#screenStart .card {
+  width: min(920px, 92vw);
+  padding: 34px 28px;
+  border-radius: 22px;
+}
+
+#screenStart .h1 {
+  font-size: clamp(26px, 3.2vw, 38px);
+}
+
