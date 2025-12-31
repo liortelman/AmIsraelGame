@@ -317,6 +317,17 @@ function getQuestionBy(catKey, index0) {
 }
 function getQuestionPoints(q) { return Number(q?.points || 0); }
 
+function typeLabel(q){
+  const base =
+    q.type === "personal" ? "אישית" :
+    q.type === "for_everyone" ? "לכולם" :
+    q.type === "duel" ? "דו־קרב" :
+    "רגילה";
+
+  const extra = (q.autoScore === true) ? " • אמריקאי" : "";
+  return base + extra;
+}
+
 /* === Auto-score helper === */
 function isAutoTrivia(q) {
   const hasOptions = Array.isArray(q?.options) && q.options.length > 0;
@@ -1203,6 +1214,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
