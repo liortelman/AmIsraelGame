@@ -272,7 +272,7 @@ function buildBoard() {
       btn.addEventListener("click", () => {
         if (!q) return;
 
-        // IMPORTANT: duel questions must go through the duel screen (prep + "show question")
+        // duel questions must go through duel screen (prep + "show question")
         if (q.type === "duel") {
           openDuel(catKey, r);
         } else {
@@ -616,29 +616,199 @@ function awardDuelWinner(teamIndex) {
   showOnlyScreen("screenBoard");
 }
 
-/* === End game === */
-function getRanking() {
-  return state.teams
-    .map((t, idx) => ({ ...t, _idx: idx }))
-    .sort((a, b) => (b.score - a.score) || (a._idx - b._idx));
+/* === End game (UPDATED: podium + ties) === */
+function computePlacements() {
+  const teams = (state.teams || []).map((t, idx) => ({
+    idx,
+    name: t.name,
+    score: Number(t.score || 0)
+  }));
+
+  // group by score
+  const scoreToTeams = new Map();
+  teams.forEach(t => {
+    if (!scoreToTeams.has(t.score)) scoreToTeams.set(t.score, []);
+    scoreToTeams.get(t.score).push(t);
+  });
+
+  // distinct scores desc
+  const scores = Array.from(scoreToTeams.keys()).sort((a, b) => b - a);
+
+  const groups = scores.map((score, i) => ({
+    place: i + 1,           // place by distinct score order (not by team count)
+    score,
+    teams: scoreToTeams.get(score)
+  }));
+
+  // Only need up to 3 podium levels
+  const podium = groups.slice(0, 3);
+
+  // detect tie states
+  const tieFirst = podium[0]?.teams?.length > 1;
+  const tieSecond = podium[1]?.teams?.length > 1;
+  const tieThird = podium[2]?.teams?.length > 1;
+
+  return { podium, tieFirst, tieSecond, tieThird };
+}
+
+function renderTeamBadges(teamsArr, score) {
+  // teamsArr: [{name, score, idx}]
+  const chips = teamsArr.map(t => {
+    return `
+      <div style="
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding:10px 12px;
+        border-radius:16px;
+        border:1px solid rgba(11,18,32,.10);
+        background:rgba(255,255,255,.86);
+        box-shadow:0 10px 18px rgba(11,18,32,.08);
+        font-weight:900;
+        margin:6px 0;
+        max-width:100%;
+      ">
+        <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:260px;">${escapeHtml(t.name)}</span>
+        <span style="opacity:.75; font-weight:950;">•</span>
+        <span style="white-space:nowrap;">${score} נק׳</span>
+      </div>
+    `;
+  }).join("");
+
+  return `
+    <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
+      ${chips}
+    </div>
+  `;
+}
+
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function renderEndScreen() {
   const wrap = $("endRanking");
   if (!wrap) return;
 
-  const ranking = getRanking();
-  wrap.innerHTML = ranking.map((t, i) => {
-    const place = i + 1;
-    const medal = place === 1 ? "🥇" : place === 2 ? "🥈" : place === 3 ? "🥉" : "🏅";
+  const { podium } = computePlacements();
+
+  // helper to get group by desired podium slot:
+  // We always want visual slots: 2nd (left), 1st (center), 3rd (right)
+  const g1 = podium[0] || null; // best score
+  const g2 = podium[1] || null;
+  const g3 = podium[2] || null;
+
+  const teamCount = state.teams?.length || 0;
+
+  // Titles with tie awareness
+  const titleFor = (visualPlace, group) => {
+    if (!group) return "";
+    const isTie = (group.teams?.length || 0) > 1;
+    if (isTie) return `תיקו במקום ${visualPlace}`;
+    return `מקום ${visualPlace}`;
+  };
+
+  // If only 2 teams, never show 3rd block
+  const showThird = teamCount >= 3 && !!g3;
+
+  // If there is no 2nd score (everyone tied on first), g2 null.
+  // In that case, we will not show a "2nd" podium.
+  const showSecond = !!g2;
+
+  // Build podium blocks
+  const block = ({ place, group, height, emoji }) => {
+    if (!group) return `<div style="flex:1; min-width:220px;"></div>`;
+
+    const isTie = (group.teams?.length || 0) > 1;
+
     return `
-      <div class="rankingRow">
-        <div class="rankingPlace">${medal} מקום ${place}</div>
-        <div class="rankingTeam">${t.name}</div>
-        <div class="rankingScore">${t.score} נק׳</div>
+      <div style="
+        flex:1;
+        min-width:220px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:flex-end;
+        gap:12px;
+      ">
+        <div style="
+          width:100%;
+          max-width:320px;
+          padding:12px 12px 10px;
+          border-radius:18px;
+          border:1px solid rgba(11,18,32,.10);
+          background:rgba(255,255,255,.88);
+          box-shadow:0 12px 20px rgba(11,18,32,.10);
+          text-align:center;
+        ">
+          <div style="font-weight:950; font-size:${place === 1 ? 18 : 16}px;">
+            ${emoji} ${titleFor(place, group)}
+          </div>
+          <div style="margin-top:8px;">
+            ${renderTeamBadges(group.teams, group.score)}
+          </div>
+          ${isTie ? `<div style="margin-top:6px; font-size:12px; opacity:.7;">(אותו ניקוד)</div>` : ``}
+        </div>
+
+        <div style="
+          width:100%;
+          max-width:320px;
+          height:${height}px;
+          border-radius:18px;
+          background:linear-gradient(180deg, rgba(56,189,248,.26), rgba(29,78,216,.08));
+          border:1px solid rgba(29,78,216,.12);
+          box-shadow:0 18px 32px rgba(11,18,32,.10);
+          display:flex;
+          align-items:flex-end;
+          justify-content:center;
+          padding:10px;
+          font-weight:950;
+          font-size:${place === 1 ? 22 : 18}px;
+          color:rgba(11,18,32,.85);
+        ">
+          ${place}
+        </div>
       </div>
     `;
-  }).join("");
+  };
+
+  const headerText = g1 && (g1.teams?.length || 0) > 1
+    ? "איזה יופי! יש תיקו במקום הראשון 🎉"
+    : "כל הכבוד! הנה הדירוג הסופי 🎉";
+
+  wrap.innerHTML = `
+    <div style="width:100%; display:flex; flex-direction:column; gap:14px;">
+      <div style="text-align:center; font-weight:950; font-size:18px; opacity:.9;">
+        ${headerText}
+      </div>
+
+      <div style="
+        display:flex;
+        gap:18px;
+        align-items:flex-end;
+        justify-content:center;
+        flex-wrap:wrap;
+      ">
+        ${showSecond ? block({ place: 2, group: g2, height: 150, emoji: "🥈" }) : `<div style="flex:1; min-width:220px;"></div>`}
+        ${block({ place: 1, group: g1, height: 210, emoji: "🥇" })}
+        ${showThird ? block({ place: 3, group: g3, height: 125, emoji: "🥉" }) : `<div style="flex:1; min-width:220px;"></div>`}
+      </div>
+
+      <div style="
+        margin-top:4px;
+        text-align:center;
+        font-size:13px;
+        opacity:.7;
+      ">
+        אם יש אותו ניקוד — זה מוצג כתיקו כדי שלא יהיו ריבים 😊
+      </div>
+    </div>
+  `;
 }
 
 function finishGame(withConfirm = true) {
