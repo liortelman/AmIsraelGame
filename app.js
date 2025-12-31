@@ -1,7 +1,7 @@
 /* Auto-generated app.js - local-file friendly (no fetch) */
 
 /* === Optional toggle === */
-const CONFIRM_BURN_QUESTION = false; // אם true -> יש אישור לפני "שריפת" שאלה (לא לתת נקודות / דו-קרב שחוזרים אחרי חשיפה / תשובה שגויה באוטו)
+const CONFIRM_BURN_QUESTION = false; // if true -> confirm before burning a question (no points / duel back after reveal / wrong auto)
 
 /* === Questions === */
 const QUESTIONS = {
@@ -136,16 +136,14 @@ function showOnlyScreen(screenId) {
 /* === Undo === */
 function snapshotForUndo() {
   const snap = clone(state);
-  snap.undoStack = []; // לא משכפלים את היסטוריית האנדו בתוך הסנאפשוט
+  snap.undoStack = []; // do not clone undo history inside snapshot
   return snap;
 }
 function pushUndo() {
-  // אל תשמרי אנדו במסך התחלה
   if (state.phase === "start") return;
 
   const stack = Array.isArray(state.undoStack) ? state.undoStack : [];
   stack.push(snapshotForUndo());
-  // limit
   while (stack.length > 50) stack.shift();
   state.undoStack = stack;
   saveState();
@@ -157,7 +155,7 @@ function undoLastAction() {
     return;
   }
   const prev = stack.pop();
-  prev.undoStack = stack; // שומרים את מה שנשאר
+  prev.undoStack = stack;
   state = prev;
   saveState();
   applyStateToUI();
@@ -232,6 +230,7 @@ function renderTurnLabel() {
   const t = state.teams[state.currentTeamIndex];
   el.textContent = t ? `תור: ${t.name}` : "";
 }
+
 function buildBoard() {
   const board = $("board");
   if (!board) return;
@@ -241,20 +240,16 @@ function buildBoard() {
   const order = QUESTIONS.meta.categoriesOrder;
   const rCount = rowsCount();
 
-  // ===== Header row (קטגוריות) =====
+  // Header row (categories)
   order.forEach(catKey => {
     const cell = document.createElement("div");
     cell.className = "board-cell board-header";
-
-    // 🔑
-    // מאפשר ל-CSS לדעת איזה קטגוריה זו
     cell.dataset.cat = catKey;
-
     cell.textContent = QUESTIONS.categories[catKey]?.label || catKey;
     board.appendChild(cell);
   });
 
-  // ===== Rows: question numbers =====
+  // Rows: question numbers
   for (let r = 0; r < rCount; r++) {
     const displayNumber = r + 1;
 
@@ -276,14 +271,19 @@ function buildBoard() {
 
       btn.addEventListener("click", () => {
         if (!q) return;
-        openQuestionModal(catKey, r);
+
+        // IMPORTANT: duel questions must go through the duel screen (prep + "show question")
+        if (q.type === "duel") {
+          openDuel(catKey, r);
+        } else {
+          openQuestionModal(catKey, r);
+        }
       });
 
       board.appendChild(btn);
     });
   }
 }
-
 
 function advanceTurn() {
   if (!state.teams.length) return;
@@ -323,6 +323,12 @@ function openQuestionModal(catKey, qIndex) {
   const q = getQuestionBy(catKey, qIndex);
   if (!q) return;
 
+  // Safety routing: duel questions should never open in the modal
+  if (q.type === "duel") {
+    openDuel(catKey, qIndex);
+    return;
+  }
+
   const points = getQuestionPoints(q);
   const displayNumber = qIndex + 1;
 
@@ -360,7 +366,6 @@ function openQuestionModal(catKey, qIndex) {
               awardPoints(state.currentTeamIndex, points);
             } else {
               if (!confirmBurnIfNeeded()) {
-                // re-enable and allow change
                 optWrap.querySelectorAll(".option-btn").forEach(x => (x.disabled = false));
                 return;
               }
@@ -754,7 +759,6 @@ function wireEndButtons() {
 
 function wireKeyboardShortcuts() {
   document.addEventListener("keydown", (e) => {
-    // avoid when typing
     const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
     if (tag === "input" || tag === "textarea") return;
 
@@ -765,7 +769,6 @@ function wireKeyboardShortcuts() {
         return;
       }
 
-      // duel: esc toggles "question view"
       if (state.phase === "duel" && state.duel) {
         if (state.duel.revealed) {
           pushUndo();
