@@ -681,5 +681,14 @@ body{
   z-index: 50;
 }
 
+/* הגדלת הכרטיס במסך Intro */
+#screenIntro .card{
+  width: min(980px, 94vw);
+  padding: 34px 28px;
+  border-radius: 22px;
+}
 
+#screenIntro .h1{
+  font-size: clamp(28px, 4vw, 44px);
+}
 
