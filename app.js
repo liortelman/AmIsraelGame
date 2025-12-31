@@ -156,8 +156,8 @@ function renderIntroScreen() {
         </button>
       </div>
 
-      <div class="hint" style="text-align:center; margin-top: 12px;">
-        טיפ: אפשר לבטל פעולה עם U, ולסיים משחק עם E
+      <div class="introHint">
+       טיפ: אפשר לבטל פעולה עם U, ולסיים משחק עם E
       </div>
 
       <div class="introLogoDock">
@@ -1058,6 +1058,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
