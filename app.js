@@ -3,7 +3,6 @@
 /* === Optional toggle === */
 const CONFIRM_BURN_QUESTION = false; // if true -> confirm before burning a question (no points / duel back after reveal / wrong auto)
 /* === Intro screen config === */
-const INTRO_LOGO_SRC = "design/logo.png"; // logo path
 
 /* === Questions === */
 const QUESTIONS = {
@@ -137,7 +136,7 @@ function showOnlyScreen(screenId) {
 
 
 /* === Intro === */
-const INTRO_LOGO_SRC = "logo.png"; // אפשר לשנות לשם קובץ אחר (svg/jpg וכו')
+const INTRO_LOGO_SRC = "design/logo.png"; // logo path
 const INTRO_SUBTITLE = "משחק טריוויה קבוצתי";
 
 function renderIntroScreen() {
@@ -1101,6 +1100,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
