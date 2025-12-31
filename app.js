@@ -812,18 +812,21 @@ function renderDuelFromState() {
   const dm = $("duelMeta");
 
   if (dm) {
-  dm.innerHTML = `
-    <span>${escapeHtml(catLabel)}</span>
-    <span class="metaDot">•</span>
-    <span>שאלה ${displayNumber}</span>
-    <span class="metaDot">•</span>
-    <span>${points} נקודות</span>
-    <span class="metaDot">•</span>
-    <span class="qBadge">${escapeHtml(typeLabel(q))}</span>
-  `;
-}
+    dm.innerHTML = `
+      <span>${escapeHtml(catLabel)}</span>
+      <span class="metaDot">•</span>
+      <span>שאלה ${displayNumber}</span>
+      <span class="metaDot">•</span>
+      <span>${points} נקודות</span>
+      <span class="metaDot">•</span>
+      <span class="qBadge">${escapeHtml(typeLabel(q))}</span>
+    `;
+  }
 
-  setText("duelIntro", d.revealed ? "בחרו מנצח:" : "דו־קרב! קודם כל כולם מוכנים. רק אחרי זה לוחצים 'הצג שאלה'.");
+  setText(
+    "duelIntro",
+    d.revealed ? "בחרו מנצח:" : "דו־קרב! קודם כל כולם מוכנים. רק אחרי זה לוחצים 'הצג שאלה'."
+  );
 
   const area = $("duelQuestionArea");
   const qText = $("duelQuestionText");
@@ -831,6 +834,26 @@ function renderDuelFromState() {
 
   if (area) area.classList.toggle("hidden", !d.revealed);
   if (showBtn) showBtn.disabled = !!d.revealed;
+
+  // ✅ media (image) — show even BEFORE reveal
+  const media = $("duelMedia");
+  const img = $("duelImage");
+  const src = String(q.image || "").trim();
+
+  if (media && img) {
+    if (src) {
+      img.src = src;
+      img.alt = q.question ? q.question : "תמונה לשאלה";
+      img.onerror = () => {
+        media.classList.add("hidden");
+        img.removeAttribute("src");
+      };
+      media.classList.remove("hidden");
+    } else {
+      media.classList.add("hidden");
+      img.removeAttribute("src");
+    }
+  }
 
   if (d.revealed) {
     if (qText) qText.textContent = q.question || "";
@@ -855,27 +878,9 @@ function renderDuelFromState() {
         b2.classList.add("hidden");
       }
     }
-    
-    const media = $("duelMedia");
-    const img = $("duelImage");
-    const src = String(q.image || "").trim();
-
-    if (media && img) {
-      if (src) {
-        img.src = src;
-        img.alt = q.question ? q.question : "תמונה לשאלה";
-        img.onerror = () => {
-          media.classList.add("hidden");
-          img.removeAttribute("src");
-        };
-        media.classList.remove("hidden");
-      } else {
-        media.classList.add("hidden");
-        img.removeAttribute("src");
-      }
-    }
   }
 }
+
 
 function awardDuelWinner(teamIndex) {
   const d = state.duel;
@@ -1299,6 +1304,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
