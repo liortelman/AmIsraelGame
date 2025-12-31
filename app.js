@@ -23,7 +23,7 @@ const QUESTIONS = {
 
         { "id": "history-2", "points": 15, "type": "personal", "autoScore": true,
           "question": "איזה חג חוגגים כזכרון ליציאת מצרים? ואיזו מצווה בחג היא זכרון לתקופה?",
-          "options": ["פסח ואכילת מצה", "שבועות וספירת העומר", "פורים וקריאת מגילה", "סוכות וישיבה בסוכה"],
+          "options": [ "שבועות וספירת העומר", "פורים וקריאת מגילה", "פסח ואכילת מצה" ,"סוכות וישיבה בסוכה" ],
           "answer": "פסח ואכילת מצה", "hint": "" },
 
         { "id": "history-3", "points": 20, "type": "duel",
@@ -38,17 +38,18 @@ const QUESTIONS = {
 
         { "id": "history-5", "points": 15, "type": "personal", "autoScore": true,
           "question": "מי בנה את בית המקדש הראשון?",
-          "options": ["שלמה המלך", "דוד המלך", "שאול המלך", "רחבעם המלך"],
+          "options": ["שאול המלך", "דוד המלך", "שלמה המלך", "רחבעם המלך"],
           "answer": "שלמה המלך", "hint": "" },
 
         { "id": "history-6", "points": 5, "type": "regular", "autoScore": true,
           "question": "בין אילו שנים הייתה מלחמת העולם השניה?",
-          "options": ["1939–1945", "1914–1918", "1947–1949", "1956–1958"],
-          "answer": "1939–1945", "hint": "אפשר גם לכתוב על דף ולהראות" },
+          "options": ["1939–1945", "1956–1958", "1947–1949", "1914–1918"],
+          "answer": "1939–1945", "hint": "" },
 
         { "id": "history-7", "points": 5, "type": "regular", "autoScore": true,
+          "image": "design/atzmaut.jpg",
           "question": "כמה אנשים חתומים על מגילת העצמאות?",
-          "options": ["37", "25", "52", "12"],
+          "options": ["52", "25", "37", "12"],
           "answer": "37", "hint": "" }
       ]
     },
@@ -63,7 +64,7 @@ const QUESTIONS = {
 
         { "id": "places-2", "points": 5, "type": "regular", "autoScore": true,
           "question": "הכנסת — מהו שם נרדף לכנסת?",
-          "options": ["הרשות המחוקקת", "הרשות המבצעת", "בית המשפט העליון", "משרד ראש הממשלה"],
+          "options": ["הרשות המבצעת", "בית המשפט העליון", "הראשות המחוקקת", "משרד ראש הממשלה"],
           "answer": "הרשות המחוקקת", "hint": "" },
 
         { "id": "places-3", "points": 5, "type": "regular", "autoScore": true,
@@ -73,7 +74,7 @@ const QUESTIONS = {
 
         { "id": "places-4", "points": 5, "type": "regular", "autoScore": true,
           "question": "יד ושם — מה פירוש הביטוי \"חסידי אומות העולם\"?",
-          "options": ["לא־יהודים שהצילו יהודים בשואה", "יהודים שעלו לארץ לפני קום המדינה", "לוחמי מחתרות בתקופת המנדט", "ניצולי שואה שקיבלו אזרחות ישראלית"],
+          "options": ["ניצולי שואה שקיבלו אזרחות ישראלית", "יהודים שעלו לארץ לפני קום המדינה", "לוחמי מחתרות בתקופת המנדט", "לא־יהודים שהצילו יהודים בשואה"],
           "answer": "לא־יהודים שהצילו יהודים בשואה", "hint": "" },
 
         { "id": "places-5", "points": 5, "type": "regular",
@@ -85,7 +86,7 @@ const QUESTIONS = {
         { "id": "places-6", "points": 15, "type": "personal", "autoScore": true,
           "question": "באיזו עיר בארץ צולמה התמונה הבאה? (להציג תמונה)",
           "image": "design/eilat_ink_flag.jpg",
-          "options": ["אילת", "ירושלים", "חיפה", "באר שבע"],
+          "options": ["חיפה", "ירושלים", "אילת", "באר שבע"],
           "answer": "אילת", "hint": "דגל הדיו / אום רשרש" },
 
         { "id": "places-7", "points": 10, "type": "for_everyone",
@@ -110,7 +111,7 @@ const QUESTIONS = {
 
         { "id": "figures-3", "points": 5, "type": "regular", "autoScore": true,
           "question": "המנהיג הראשון של עם ישראל (מי הוביל את העם ביציאת מצרים)?",
-          "options": ["משה רבנו", "יהושע בן נון", "אהרן הכהן", "דוד המלך"],
+          "options": ["דוד המלך", "יהושע בן נון", "אהרן הכהן", "משה רבנו"],
           "answer": "משה רבנו", "hint": "" },
 
         { "id": "figures-4", "points": 5, "type": "regular",
@@ -152,7 +153,7 @@ const QUESTIONS = {
 
         { "id": "values-3", "points": 5, "type": "regular", "autoScore": true,
           "question": "ממי לומדים את הערך של הכנסת אורחים ומאיזה אירוע?",
-          "options": ["אברהם אבינו — הכנסת האורחים לשלושת המלאכים", "משה רבנו — קריעת ים סוף", "דוד המלך — כיבוש ירושלים", "יהושע בן נון — חציית הירדן"],
+          "options": [" אברהם אבינו — הכנסת האורחים לשלושת המלאכים", "משה רבנו — קריעת ים סוף עבור ישראל", "יוסף — הכנסת האורחים למשפחתו למצרים", "יהושע בן נון — חציית הירדן עבור האורחים שלו"],
           "answer": "אברהם אבינו — הכנסת האורחים לשלושת המלאכים", "hint": "" },
 
         { "id": "values-4", "points": 15, "type": "personal",
@@ -178,12 +179,13 @@ const QUESTIONS = {
       "questions": [
         { "id": "symbols-1", "points": 5, "type": "regular", "autoScore": true,
           "question": "מאיזה אלמנט יהודי אחר הגיעו שני פסי התכלת בדגל ישראל?",
+          "image": "design/flag.jpg",
           "options": ["הטלית", "החנוכייה", "השופר", "המזוזה"],
           "answer": "הטלית", "hint": "" },
 
         { "id": "symbols-2", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "מי כתב את \"התקווה\"?",
-          "options": ["נפתלי הרץ אימבר", "חיים נחמן ביאליק", "שאול טשרניחובסקי", "אהוד מנור"],
+          "options": ["אהוד מנור", "חיים נחמן ביאליק", "שאול טשרניחובסקי", "נפתלי הרץ אימבר"],
           "answer": "נפתלי הרץ אימבר", "hint": "" },
 
         { "id": "symbols-3", "points": 15, "type": "personal",
@@ -213,30 +215,37 @@ const QUESTIONS = {
       "label": "הישגים",
       "questions": [
         { "id": "achievements-1", "points": 10, "type": "for_everyone",
+          "image": "design/problem.jpg",
           "question": "בעיה: חוסר מים בשטח מדברי — מה הפתרון הישראלי?",
           "options": [], "answer": "התפלת מים.", "hint": "" },
 
         { "id": "achievements-2", "points": 10, "type": "for_everyone",
+          "image": "design/problem.jpg",
           "question": "בעיה: סגידה לאלילי אבן וחומר — מה הרעיון/הפתרון שהביא עם ישראל?",
           "options": [], "answer": "אמונה בא־ל אחד.", "hint": "" },
 
         { "id": "achievements-3", "points": 10, "type": "for_everyone",
+          "image": "design/problem.jpg",
           "question": "בעיה: ניצול אנרגיה זמינה — מה הפתרון הישראלי הנפוץ?",
           "options": [], "answer": "דודי שמש.", "hint": "" },
 
         { "id": "achievements-4", "points": 10, "type": "for_everyone",
+          "image": "design/problem.jpg",
           "question": "בעיה: דאגה לעובד — מה העיקרון/הפתרון?",
           "options": [], "answer": "השבת.", "hint": "" },
 
         { "id": "achievements-5", "points": 10, "type": "for_everyone",
+          "image": "design/problem.jpg",
           "question": "בעיה: שימור מאגרי מידע ותוכנות — מה הפתרון (לפי המשחק)?",
           "options": [], "answer": "דיסק און קי.", "hint": "" },
 
         { "id": "achievements-6", "points": 10, "type": "for_everyone",
+          "image": "design/problem.jpg",
           "question": "בעיה: הגעה ליעד בדרך הקצרה — מה הפתרון הישראלי?",
           "options": [], "answer": "Waze (ווייז).", "hint": "" },
 
         { "id": "achievements-7", "points": 10, "type": "for_everyone",
+          "image": "design/problem.jpg",
           "question": "בעיה: ירי טילים — מה הפתרון ההגנתי הישראלי?",
           "options": [], "answer": "כיפת ברזל.", "hint": "" }
       ]
@@ -1287,6 +1296,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
