@@ -759,6 +759,25 @@ function renderDuelFromState() {
         b2.classList.add("hidden");
       }
     }
+    
+    const media = $("duelMedia");
+    const img = $("duelImage");
+    const src = String(q.image || "").trim();
+
+    if (media && img) {
+      if (src) {
+        img.src = src;
+        img.alt = q.question ? q.question : "תמונה לשאלה";
+        img.onerror = () => {
+          media.classList.add("hidden");
+          img.removeAttribute("src");
+        };
+        media.classList.remove("hidden");
+      } else {
+        media.classList.add("hidden");
+        img.removeAttribute("src");
+      }
+    }
   }
 }
 
@@ -1184,6 +1203,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
