@@ -98,9 +98,10 @@ const QUESTIONS = {
           "question": "חתמתי על מגילת העצמאות, אני ראש הממשלה הרביעי של מדינת ישראל. שם משפחתי הראשון היה מאירסון, הייתי רה\"מ בזמן מלחמת יום הכיפורים… מי אני?",
           "options": [], "answer": "גולדה מאיר.", "hint": "" },
 
-        { "id": "figures-5", "points": 10, "type": "for_everyone",
-          "question": "שאלה לכולם: מוצגת תמונה של פרופ׳ אלברט איינשטיין — זהו את הדמות ומה פועלה.",
-          "options": [], "answer": "אלברט איינשטיין — פיזיקאי יהודי; תורת היחסות.", "hint": "" },
+        {  "id": "figures-5", "points": 10,  "type": "for_everyone",
+         "question": "שאלה לכולם: מוצגת תמונה — זהו את הדמות ומה פועלה.",
+         "image": "design/einstein.jpg",
+         "options": [],  "answer": "אלברט איינשטיין — פיזיקאי יהודי; תורת היחסות.",  "hint": ""},
 
         { "id": "figures-6", "points": 15, "type": "personal",
           "question": "שאלה אישית בשני חלקים: 1) מי היה ש\"י עגנון? 2) מה הם ראשי התיבות ש\"י?",
@@ -1158,6 +1159,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
