@@ -480,6 +480,27 @@ function openQuestionModal(catKey, qIndex) {
   setText("modalMeta", `שאלה ${displayNumber} • ${points} נקודות`);
   setText("modalQuestion", q.question || "");
 
+    // media (image)
+  const media = $("modalMedia");
+  const img = $("modalImage");
+  const src = String(q.image || "").trim();
+
+  if (media && img) {
+    if (src) {
+      img.src = src;
+      img.alt = q.question ? q.question : "תמונה לשאלה";
+      img.onerror = () => {
+        // אם קובץ לא נמצא - פשוט מסתירים כדי לא לשבור את המסך
+        media.classList.add("hidden");
+        img.removeAttribute("src");
+      };
+      media.classList.remove("hidden");
+    } else {
+      media.classList.add("hidden");
+      img.removeAttribute("src");
+    }
+  }
+
   // options
   const optWrap = $("modalOptions");
   if (optWrap) {
@@ -567,6 +588,10 @@ function closeQuestionModal() {
   stopTimer();
   activeCatKey = null;
   activeQIndex = null;
+  const media = $("modalMedia");
+  const img = $("modalImage");
+  if (media) media.classList.add("hidden");
+  if (img) img.removeAttribute("src");
 }
 
 function renderTeamAwardButtons(points) {
@@ -1159,6 +1184,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
