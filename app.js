@@ -88,9 +88,9 @@ const QUESTIONS = {
 
         { "id": "places-6", "points": 15, "type": "personal", "autoScore": true,
           "question": "באיזו עיר בארץ צולמה התמונה הבאה? (להציג תמונה)",
-          "image": "design/eilat_ink_flag.jpg",
+          "image": "design/Degel_HaDyo.jpg",
           "options": ["חיפה", "ירושלים", "אילת", "באר שבע"],
-          "answer": "אילת", "hint": "דגל הדיו / אום רשרש" },
+          "answer": "אילת", "hint": "דגל הדיו / אום אל רשרש" },
 
         { "id": "places-7", "points": 10, "type": "for_everyone",
           "question": "זהו את התמונות הבאות (כל תמונה = 2 נק׳): כותל, מערת המכפילה, מצדה, ים המלח, בנייני עזריאלי.",
@@ -104,6 +104,7 @@ const QUESTIONS = {
       "label": "דמויות",
       "questions": [
         { "id": "figures-1", "points": 15, "type": "personal", "autoScore": true,
+          "image": "design/Tehillim.jpg,
           "question": "מי כתב את ספר תהילים?",
           "options": ["דוד המלך", "שלמה המלך", "משה רבנו", "שמואל הנביא"],
           "answer": "דוד המלך", "hint": "" },
@@ -119,18 +120,19 @@ const QUESTIONS = {
           "answer": "משה רבנו", "hint": "" },
 
         { "id": "figures-4", "points": 5, "type": "regular",
-          "question": "חתמתי על מגילת העצמאות, אני ראש הממשלה הרביעי של מדינת ישראל. שם משפחתי הראשון היה מאירסון, הייתי רה\"מ בזמן מלחמת יום הכיפורים… מי אני?",
+          "question": "חתמתי על מגילת העצמאות, אני ראש הממשלה ה4 של מדינת ישראל. שם משפחתי הראשון היה מאירסון, הייתי רה\"מ בזמן מלחמת יום הכיפורים… מי אני?",
           "options": [], "answer": "גולדה מאיר.", "hint": "" },
 
         { "id": "figures-5", "points": 10, "type": "for_everyone",
-          "question": "מוצגת תמונה — זהו את הדמות ומה פועלה.",
+          "question": "זהו את הדמות ומה פועלה.",
           "image": "design/einstein.jpg",
           "options": [],
           "answer": "אלברט איינשטיין — פיזיקאי יהודי; ממציא/מפתח תורת היחסות.",
           "hint": "" },
 
         { "id": "figures-6", "points": 15, "type": "personal",
-          "question": "בשני חלקים: 1) מי היה ש\"י עגנון? 2) מה הם ראשי התיבות ש\"י?",
+          "image": "design/shai.jpg",
+          "question": "מי היה ש\"י עגנון? מה הם ראשי התיבות ש\"י?",
           "options": [],
           "answer": "1) סופר עברי, חתן פרס נובל לספרות. 2) שמואל יוסף.",
           "hint": "" },
@@ -152,6 +154,7 @@ const QUESTIONS = {
           "answer": "גמילות חסד", "hint": "" },
 
         { "id": "values-2", "points": 5, "type": "regular",
+          "image": "design/money_ job.jpg,
           "question": "איזו צדקה גדולה יותר: לסייע לאדם במציאת עבודה או לתת לו צדקה?",
           "options": [], "answer": "לסייע במציאת עבודה (לעזור לו לעמוד על רגליו).", "hint": "" },
 
@@ -183,8 +186,8 @@ const QUESTIONS = {
       "label": "סמלים",
       "questions": [
         { "id": "symbols-1", "points": 5, "type": "regular", "autoScore": true,
-          "question": "מאיזה אלמנט יהודי אחר הגיעו שני פסי התכלת בדגל ישראל?",
           "image": "design/flag.jpg",
+          "question": "מאיזה אלמנט יהודי אחר הגיעו שני פסי התכלת בדגל ישראל?",
           "options": ["הטלית", "החנוכייה", "השופר", "המזוזה"],
           "answer": "הטלית", "hint": "" },
 
@@ -1322,6 +1325,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
