@@ -868,5 +868,107 @@ body{
   margin: 0 6px;
 }
 
+/* =========================
+   CLASSROOM MODE (MEDIUM)
+   Paste at END of CSS file
+   ========================= */
+
+/* Hebrew title font (bold + readable) */
+:root{
+  --heTitleFont: "Rubik", "Heebo", "Assistant", system-ui, -apple-system, "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+/* Top bar */
+.brand{
+  font-family: var(--heTitleFont);
+  font-weight: 950;
+  font-size: 18px;
+}
+.btn{
+  font-size: 15px;
+  padding: 10px 12px;
+}
+
+/* Board right side (title/turn/scores) */
+.setTitle{
+  font-family: var(--heTitleFont);
+  font-weight: 950;
+  font-size: 18px;
+  padding: 12px;
+}
+.turnLabel{
+  font-family: var(--heTitleFont);
+  font-weight: 950;
+  font-size: 18px;
+  padding: 12px;
+}
+.score-pill{
+  font-size: 16px;
+  padding: 12px 14px;
+}
+
+/* Board headers + numbers */
+.board-header{
+  font-family: var(--heTitleFont);
+  font-weight: 950;
+  font-size: 18px;
+  min-height: 68px;
+  padding: 9px 11px;
+}
+.board-cell{ min-height: 62px; }
+.board-btn{ font-size: 22px; }
+
+/* Modal */
+.modalCategory{
+  font-family: var(--heTitleFont);
+  font-weight: 950;
+  font-size: 20px;
+}
+.modalMeta{ font-size: 15px; }
+.modalQuestion{
+  font-family: var(--heTitleFont);
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 1.35;
+}
+.option-btn{
+  font-size: 20px;
+  padding: 14px;
+}
+
+/* Duel */
+.duelQuestionText{
+  font-family: var(--heTitleFont);
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.35;
+}
+
+/* Badge */
+.qBadge{
+  font-size: 14px;
+  padding: 6px 12px;
+  font-weight: 950;
+}
+
+/* =========================
+   Reset button: safer + left
+   ========================= */
+#btnReset{
+  margin-right: auto; 
+
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.26);
+  color: rgba(160, 0, 0, 0.85);
+  font-weight: 950;
+  font-family: inherit;
+}
+
+#btnReset:hover{
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.36);
+  box-shadow: 0 16px 24px rgba(239, 68, 68, 0.10);
+}
+
 
 
