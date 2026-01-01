@@ -104,7 +104,7 @@ const QUESTIONS = {
       "label": "דמויות",
       "questions": [
         { "id": "figures-1", "points": 15, "type": "personal", "autoScore": true,
-          "image": "design/Tehillim.jpg,
+          "image": "design/Tehillim.jpg",
           "question": "מי כתב את ספר תהילים?",
           "options": ["דוד המלך", "שלמה המלך", "משה רבנו", "שמואל הנביא"],
           "answer": "דוד המלך", "hint": "" },
@@ -1325,6 +1325,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
