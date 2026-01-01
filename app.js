@@ -825,17 +825,20 @@ function renderDuelFromState() {
 
   setText(
     "duelIntro",
-    d.revealed ? "בחרו מנצח:" : "דו־קרב! קודם כל כולם מוכנים. רק אחרי זה לוחצים 'הצג שאלה'."
+    d.revealed
+      ? "בחרו מנצח:"
+      : "דו־קרב! קודם כל כולם מוכנים. רק אחרי זה לוחצים 'הצג שאלה'."
   );
 
   const area = $("duelQuestionArea");
   const qText = $("duelQuestionText");
   const showBtn = $("btnDuelShowQuestion");
 
+  // לפני reveal: מסתירים את אזור השאלה (אבל לא את התמונה)
   if (area) area.classList.toggle("hidden", !d.revealed);
   if (showBtn) showBtn.disabled = !!d.revealed;
 
-  // ✅ media (image) — show even BEFORE reveal
+  // ✅ תמונה תמיד (גם לפני reveal)
   const media = $("duelMedia");
   const img = $("duelImage");
   const src = String(q.image || "").trim();
@@ -855,6 +858,7 @@ function renderDuelFromState() {
     }
   }
 
+  // תוכן שמופיע רק אחרי reveal
   if (d.revealed) {
     if (qText) qText.textContent = q.question || "";
 
@@ -878,9 +882,20 @@ function renderDuelFromState() {
         b2.classList.add("hidden");
       }
     }
+  } else {
+    // אם חוזרים אחורה/נכנסים לדו־קרב מחדש בלי reveal:
+    // ננקה טקסט שאלה ונחביא כפתורי מנצח (כדי שלא "יישארו" ממקודם)
+    if (qText) qText.textContent = "";
+
+    const b0 = $("btnDuelWinnerTeam0");
+    const b1 = $("btnDuelWinnerTeam1");
+    const b2 = $("btnDuelWinnerTeam2");
+
+    if (b0) b0.classList.add("hidden");
+    if (b1) b1.classList.add("hidden");
+    if (b2) b2.classList.add("hidden");
   }
 }
-
 
 function awardDuelWinner(teamIndex) {
   const d = state.duel;
@@ -1304,6 +1319,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
