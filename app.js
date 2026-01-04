@@ -276,7 +276,7 @@ const DEFAULT_STATE = {
   currentTeamIndex: 0,
   used: {},
   duel: null,              // {catKey, qIndex, revealed}
-  undoStack: []            // stack of snapshots
+  undoStack: [],            // stack of snapshots
   partialHits: {} // { [qid]: { [teamIndex]: hitsCount } }
 };
 
@@ -1437,5 +1437,6 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
