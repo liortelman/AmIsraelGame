@@ -750,15 +750,15 @@ function renderTeamAwardButtons(points) {
   wrap.innerHTML = "";
 
   const q = getQuestionBy(activeCatKey, activeQIndex);
-  const isPerHit = isPerHitScoring(q);
+  const perHit = isPerHitScoring(q);
 
-  // כפתורי ניקוד לקבוצות
-  state.teams.forEach((t, idx) => {
-    const b = document.createElement("button");
-    b.className = "team-award-btn";
-    b.type = "button";
+  if (perHit) {
+    // --- PER HIT: כמו שעשית, כפתור לכל קבוצה ---
+    state.teams.forEach((t, idx) => {
+      const b = document.createElement("button");
+      b.className = "team-award-btn";
+      b.type = "button";
 
-    if (isPerHit) {
       const per = Number(q.perCorrect || 0);
       const maxHits = getMaxHits(q);
       const qid = q?.id || "";
@@ -778,27 +778,17 @@ function renderTeamAwardButtons(points) {
         incHits(qid, idx);
         saveState();
 
-        // רענון טקסט הכפתורים (כדי שיראו כמה נשאר)
         renderScoreBar();
         renderTurnLabel();
         renderTeamAwardButtons(points);
       });
-    } else {
-      b.textContent = `לתת נקודות ל־${t.name}`;
-      b.addEventListener("click", () => {
-        pushUndo();
-        awardPoints(idx, points);
-      });
-    }
 
-    wrap.appendChild(b);
-  });
+      wrap.appendChild(b);
+    });
 
-  // כפתור תחתון
-  const none = $("btnNoPoints");
-  if (none) {
-    if (isPerHit) {
-      none.textContent = "סיימנו ✅ (לסגור שאלה)";
+    const none = $("btnNoPoints");
+    if (none) {
+      none.textContent = "לסגור שאלה (סיום מתן ניקוד)";
       none.onclick = () => {
         if (!confirmBurnIfNeeded()) return;
         pushUndo();
@@ -807,7 +797,24 @@ function renderTeamAwardButtons(points) {
         advanceTurn();
         rerenderBoardUI();
       };
-    } else {
+    }
+
+  } else {
+    // --- NORMAL: רק הקבוצה שבתור ---
+    const idx = state.currentTeamIndex;
+    const t = state.teams[idx];
+    const b = document.createElement("button");
+    b.className = "team-award-btn";
+    b.type = "button";
+    b.textContent = `לתת נקודות ל־${t?.name ?? "הקבוצה"}`;
+    b.addEventListener("click", () => {
+      pushUndo();
+      awardPoints(idx, points);
+    });
+    wrap.appendChild(b);
+
+    const none = $("btnNoPoints");
+    if (none) {
       none.textContent = "לא לתת נקודות";
       none.onclick = () => {
         if (!confirmBurnIfNeeded()) return;
@@ -1531,6 +1538,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
