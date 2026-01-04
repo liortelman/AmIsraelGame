@@ -272,6 +272,7 @@ const DEFAULT_STATE = {
   used: {},
   duel: null,              // {catKey, qIndex, revealed}
   undoStack: []            // stack of snapshots
+  partialHits: {} // { [qid]: { [teamIndex]: hitsCount } }
 };
 
 let state = loadState() || clone(DEFAULT_STATE);
@@ -385,6 +386,34 @@ function getQuestionBy(catKey, index0) {
   return cat.questions[index0] || null;
 }
 function getQuestionPoints(q) { return Number(q?.points || 0); }
+
+function isPerHitScoring(q) {
+  return String(q?.scoringMode || "").trim() === "per_hit" && Number(q?.perCorrect || 0) > 0;
+}
+
+function getMaxHits(q) {
+  const per = Number(q?.perCorrect || 0);
+  const pts = Number(q?.points || 0);
+  const byPoints = (per > 0) ? Math.floor(pts / per) : 0;
+  const max = Number(q?.maxHits || 0);
+  return Math.max(1, max || byPoints || 1);
+}
+
+function ensurePartialStore() {
+  if (!state.partialHits) state.partialHits = {};
+}
+
+function getHits(qid, teamIndex) {
+  ensurePartialStore();
+  const m = state.partialHits[qid] || {};
+  return Number(m[teamIndex] || 0);
+}
+
+function incHits(qid, teamIndex) {
+  ensurePartialStore();
+  if (!state.partialHits[qid]) state.partialHits[qid] = {};
+  state.partialHits[qid][teamIndex] = getHits(qid, teamIndex) + 1;
+}
 
 function typeLabel(q){
   const base =
@@ -1327,5 +1356,6 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
