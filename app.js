@@ -654,6 +654,22 @@ function openQuestionModal(catKey, qIndex) {
     }
   }
 
+  // audio
+const aWrap = $("modalAudioWrap");
+const audioEl = $("modalAudio");
+const aSrc = String(q.audio || "").trim();
+
+if (aWrap && audioEl) {
+  if (aSrc) {
+    audioEl.src = aSrc;
+    aWrap.classList.remove("hidden");
+  } else {
+    audioEl.pause();
+    audioEl.removeAttribute("src");
+    aWrap.classList.add("hidden");
+  }
+}
+
   // options
   const optWrap = $("modalOptions");
   if (optWrap) {
@@ -1553,6 +1569,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
