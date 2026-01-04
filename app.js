@@ -761,6 +761,14 @@ function closeQuestionModal() {
   const img = $("modalImage");
   if (media) media.classList.add("hidden");
   if (img) img.removeAttribute("src");
+  const aWrap = $("modalAudioWrap");
+  const audioEl = $("modalAudio");
+  if (audioEl) {
+    audioEl.pause();
+    audioEl.removeAttribute("src");
+  }
+  if (aWrap) aWrap.classList.add("hidden");
+
 }
 
 function renderTeamAwardButtons(points) {
@@ -1569,6 +1577,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
