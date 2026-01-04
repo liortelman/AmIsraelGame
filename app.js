@@ -4,8 +4,7 @@
 const CONFIRM_BURN_QUESTION = false; // if true -> confirm before burning a question (no points / duel back after reveal / wrong auto)
 /* === Intro screen config === */
 
-/* === Questions === */
-/* === (rules: only 10 and Duel 20) === */
+/* === Questions (rules: only 10 and Duel 20) === */
 const QUESTIONS = {
   "meta": {
     "title": "אני והסיפור שלנו",
@@ -27,17 +26,19 @@ const QUESTIONS = {
           "options": ["שבועות וספירת העומר", "פורים וקריאת מגילה", "פסח ואכילת מצה", "סוכות וישיבה בסוכה"],
           "answer": "פסח ואכילת מצה", "hint": "" },
 
+        // ✅ על זמן + ניקוד ידני (מקסימום 20 נק׳ לכל קבוצה = 5 לחיצות של 4)
         { "id": "history-3", "points": 20, "type": "duel",
           "timerSeconds": 60,
           "manualScoring": true, "manualMaxAwards": 5, "manualPerAward": 4,
-          "question": "דו־קרב על זמן: לכל קבוצה דקה לכתוב כמה שיותר מעשרת הדיברות. בסוף המנחה נותן ניקוד ידני (עד 5 לחיצות לכל קבוצה).",
-          "options": [], "answer": "", "hint": "ניקוד ידני • אין גלגל הצלה" },
+          "question": "דו־קרב על זמן: לכל קבוצה דקה לכתוב כמה שיותר מעשרת הדיברות. בסוף המנחה נותן ניקוד ידני.",
+          "options": [], "answer": "", "hint": "אין גלגל הצלה" },
 
+        // ✅ מפה פיזית: ניקוד ידני (מקסימום 20 נק׳ לכל קבוצה = 5 לחיצות של 4)
         { "id": "history-4", "points": 20, "type": "duel",
           "timerSeconds": 60,
           "manualScoring": true, "manualMaxAwards": 5, "manualPerAward": 4,
           "image": "design/mapa.jpg",
-          "question": "דו־קרב (דקה למשימה): הכניסה לארץ — לכל קבוצה מפה פיזית ורשימת מקומות. המנחה נותן ניקוד ידני (עד 5 לחיצות לכל קבוצה = עד 20 נק׳).",
+          "question": "דו־קרב (דקה למשימה): הכניסה לארץ — לכל קבוצה מפה פיזית. המנחה מסדר ניקוד ידנית.",
           "options": [],
           "answer": "ירושלים, צפת, שדה בוקר, טכניון, זכרון יעקב, אילת, המושבה כנרת, קבר הרמב\"ם, קבר רחל, מטולה",
           "hint": "ניקוד ידני • אין גלגל הצלה" },
@@ -84,10 +85,11 @@ const QUESTIONS = {
           "options": ["ניצולי שואה שקיבלו אזרחות ישראלית", "יהודים שעלו לארץ לפני קום המדינה", "לוחמי מחתרות בתקופת המנדט", "לא־יהודים שהצילו יהודים בשואה"],
           "answer": "לא־יהודים שהצילו יהודים בשואה", "hint": "" },
 
+        // ✅ על זמן + ניקוד ידני (מקסימום 20 נק׳ לכל קבוצה = 5 לחיצות של 4)
         { "id": "places-5", "points": 20, "type": "duel",
           "timerSeconds": 60,
           "manualScoring": true, "manualMaxAwards": 5, "manualPerAward": 4,
-          "question": "דו־קרב על זמן: כל קבוצה אומרת/כותבת מקומות/אזורים בארץ שקרויים על שם שבטים. המנחה נותן ניקוד ידני (עד 5 לחיצות לכל קבוצה).",
+          "question": "דו־קרב על זמן: כל קבוצה אומרת/כותבת 3 מקומות/אזורים בארץ שקרויים על שם שבטים שהתיישבו שם. ניקוד ידני.",
           "options": [],
           "answer": "דוגמאות: גוש דן–דן, מטה יהודה–יהודה, מדבר יהודה–יהודה, רמת מנשה–מנשה, מעלה אפרים–אפרים, מטה זבולון–זבולון, רמות נפתלי–נפתלי, בני שמעון–שמעון, מטה אשר–אשר.",
           "hint": "ניקוד ידני • אין גלגל הצלה" },
@@ -98,6 +100,7 @@ const QUESTIONS = {
           "options": ["חיפה", "ירושלים", "אילת", "באר שבע"],
           "answer": "אילת", "hint": "דגל הדיו / אום אל רשרש" },
 
+        // ✅ Duel per-hit: 5 פגיעות * 4 נק׳ = 20 נק׳
         { "id": "places-7", "points": 20, "type": "duel",
           "scoringMode": "per_hit", "perCorrect": 4, "maxHits": 5,
           "image": "design/five.jpg",
@@ -138,14 +141,14 @@ const QUESTIONS = {
 
         { "id": "figures-5", "points": 10, "type": "for_everyone",
           "image": "design/einstein.jpg",
-          "question": "זהו את הדמות ופועלה",
+          "question": "זהו את הדמות ומה פועלה.",
           "options": [],
           "answer": "אלברט איינשטיין — פיזיקאי; תורת היחסות ועוד.",
           "hint": "" },
 
         { "id": "figures-6", "points": 10, "type": "for_everyone",
           "image": "design/shai.jpg",
-          "question": "מי היה ש\"י עגנון? ומה הם ראשי התיבות ש\"י?",
+          "question": "א'. מי היה ש\"י עגנון?  ב'. מה הם ראשי התיבות ש\"י?",
           "options": [],
           "answer": "א'. סופר עברי, חתן פרס נובל לספרות. ב'. שמואל יוסף.",
           "hint": "" },
@@ -167,6 +170,7 @@ const QUESTIONS = {
           "answer": "גמילות חסד", "hint": "" },
 
         { "id": "values-2", "points": 10, "type": "for_everyone",
+          "image": "design/money_job.jpg",
           "question": "איזו צדקה גדולה יותר: לסייע לאדם במציאת עבודה או לתת לו צדקה?",
           "options": [],
           "answer": "לסייע במציאת עבודה (לעזור לו לעמוד על רגליו).",
@@ -180,7 +184,7 @@ const QUESTIONS = {
 
         { "id": "values-4", "points": 10, "type": "for_everyone",
           "audio": "design/audio/eliezer.m4a",
-          "question": "משמיעים קטע מהשיר \"אליעזר בן יהודה\" (בית ראשון ללא פזמון). על מי נכתב השיר ומהו הנושא שהוא ניסה לקדם?",
+          "question": "על מי נכתב השיר ומה הוא ניסה לקדם?",
           "options": [],
           "answer": "אליעזר בן־יהודה — החייאת השפה העברית.",
           "hint": "" },
@@ -294,7 +298,6 @@ const QUESTIONS = {
     }
   }
 };
-
 
 /* === State === */
 const DEFAULT_STATE = {
@@ -1700,6 +1703,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
