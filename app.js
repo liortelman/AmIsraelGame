@@ -1004,15 +1004,27 @@ function renderDuelFromState() {
   if (area) area.classList.toggle("hidden", !d.revealed);
   if (showBtn) showBtn.disabled = !!d.revealed;
 
-  // Image ALWAYS (even before reveal)
+   // ✅ Duel image rules:
+  // Before reveal -> ALWAYS show duel.jpg
+  // After reveal  -> show q.image only if exists, else hide
   const media = $("duelMedia");
   const img = $("duelImage");
-  const src = String(q.image || "").trim();
+
+  const duelIntroSrc = "design/duel.jpg";
+  const qSrc = String(q.image || "").trim();
 
   if (media && img) {
-    if (src) {
-      img.src = src;
-      img.alt = q.question ? q.question : "תמונה לשאלה";
+    let srcToShow = "";
+
+    if (!d.revealed) {
+      srcToShow = duelIntroSrc;
+    } else {
+      srcToShow = qSrc; // show only if exists
+    }
+
+    if (srcToShow) {
+      img.src = srcToShow;
+      img.alt = "תמונה לדו־קרב";
       img.onerror = () => {
         media.classList.add("hidden");
         img.removeAttribute("src");
@@ -1673,6 +1685,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
