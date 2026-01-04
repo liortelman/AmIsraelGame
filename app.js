@@ -997,6 +997,11 @@ function renderDuelFromState() {
       : "דו־קרב! קודם כולם מוכנים, ואז לוחצים 'הצג שאלה'."
   );
 
+    const backBtn = $("btnDuelBack");
+  if (backBtn) {
+    backBtn.textContent = d.revealed ? "סיום מתן ניקוד" : "חזרה ללוח";
+  }
+
   // Show/hide question area
   const area = $("duelQuestionArea");
   const qText = $("duelQuestionText");
@@ -1695,5 +1700,6 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
