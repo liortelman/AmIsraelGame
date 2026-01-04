@@ -719,28 +719,75 @@ function renderTeamAwardButtons(points) {
   if (!wrap) return;
   wrap.innerHTML = "";
 
+  const q = getQuestionBy(activeCatKey, activeQIndex);
+  const isPerHit = isPerHitScoring(q);
+
+  // כפתורי ניקוד לקבוצות
   state.teams.forEach((t, idx) => {
     const b = document.createElement("button");
     b.className = "team-award-btn";
     b.type = "button";
-    b.textContent = `לתת נקודות ל־${t.name}`;
-    b.addEventListener("click", () => {
-      pushUndo();
-      awardPoints(idx, points);
-    });
+
+    if (isPerHit) {
+      const per = Number(q.perCorrect || 0);
+      const maxHits = getMaxHits(q);
+      const qid = q?.id || "";
+
+      const hits = qid ? getHits(qid, idx) : 0;
+      const left = Math.max(0, maxHits - hits);
+
+      b.textContent = `+${per} נק׳ ל־${t.name} (${left} נשארו)`;
+      b.disabled = !qid || left <= 0;
+
+      b.addEventListener("click", () => {
+        if (!qid) return;
+        if (getHits(qid, idx) >= maxHits) return;
+
+        pushUndo();
+        state.teams[idx].score += per;
+        incHits(qid, idx);
+        saveState();
+
+        // רענון טקסט הכפתורים (כדי שיראו כמה נשאר)
+        renderScoreBar();
+        renderTurnLabel();
+        renderTeamAwardButtons(points);
+      });
+    } else {
+      b.textContent = `לתת נקודות ל־${t.name}`;
+      b.addEventListener("click", () => {
+        pushUndo();
+        awardPoints(idx, points);
+      });
+    }
+
     wrap.appendChild(b);
   });
 
+  // כפתור תחתון
   const none = $("btnNoPoints");
   if (none) {
-    none.onclick = () => {
-      if (!confirmBurnIfNeeded()) return;
-      pushUndo();
-      markUsed(activeCatKey, activeQIndex);
-      closeQuestionModal();
-      advanceTurn();
-      rerenderBoardUI();
-    };
+    if (isPerHit) {
+      none.textContent = "סיימנו ✅ (לסגור שאלה)";
+      none.onclick = () => {
+        if (!confirmBurnIfNeeded()) return;
+        pushUndo();
+        markUsed(activeCatKey, activeQIndex);
+        closeQuestionModal();
+        advanceTurn();
+        rerenderBoardUI();
+      };
+    } else {
+      none.textContent = "לא לתת נקודות";
+      none.onclick = () => {
+        if (!confirmBurnIfNeeded()) return;
+        pushUndo();
+        markUsed(activeCatKey, activeQIndex);
+        closeQuestionModal();
+        advanceTurn();
+        rerenderBoardUI();
+      };
+    }
   }
 }
 
@@ -1356,6 +1403,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
