@@ -1426,13 +1426,10 @@ function boot() {
 
   const loaded = loadState();
   if (loaded) state = loaded;
+  if (!state.partialHits) state.partialHits = {};
 
   applyStateToUI();
 }
 
 document.addEventListener("DOMContentLoaded", boot);
-
-
-
-
 
