@@ -1490,11 +1490,20 @@ function wireModalButtons() {
 }
 
 function wireDuelButtons() {
+  
   $("btnDuelShowQuestion")?.addEventListener("click", () => {
     if (!state.duel) return;
+
+    const q = getQuestionBy(state.duel.catKey, state.duel.qIndex);
+    if (!q) return;
+
     pushUndo();
     state.duel.revealed = true;
     saveState();
+
+    // ✅ start duel timer if configured
+    startTimer(Number(q.timerSeconds || 0));
+
     renderDuelFromState();
   });
 
@@ -1685,21 +1694,4 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
