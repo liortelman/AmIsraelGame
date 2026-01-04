@@ -1298,9 +1298,37 @@ function wireDuelButtons() {
     closeDuel(revealed);
   });
 
-  $("btnDuelWinnerTeam0")?.addEventListener("click", () => awardDuelWinner(0));
-  $("btnDuelWinnerTeam1")?.addEventListener("click", () => awardDuelWinner(1));
-  $("btnDuelWinnerTeam2")?.addEventListener("click", () => awardDuelWinner(2));
+  function duelClick(teamIndex) {
+  const d = state.duel;
+  if (!d) return;
+  const q = getQuestionBy(d.catKey, d.qIndex);
+  if (!q) return;
+
+  if (isPerHitScoring(q)) {
+    const per = Number(q.perCorrect || 0);
+    const maxHits = getMaxHits(q);
+    const qid = q?.id || "";
+    if (!qid) return;
+
+    if (getHits(qid, teamIndex) >= maxHits) return;
+
+    pushUndo();
+    state.teams[teamIndex].score += per;
+    incHits(qid, teamIndex);
+    saveState();
+
+    // עדכון UI
+    renderScoreBar();
+    renderDuelFromState();
+  } else {
+    awardDuelWinner(teamIndex);
+  }
+}
+
+$("btnDuelWinnerTeam0")?.addEventListener("click", () => duelClick(0));
+$("btnDuelWinnerTeam1")?.addEventListener("click", () => duelClick(1));
+$("btnDuelWinnerTeam2")?.addEventListener("click", () => duelClick(2));
+
 }
 
 function wireEndButtons() {
@@ -1403,6 +1431,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
