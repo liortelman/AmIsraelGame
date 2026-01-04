@@ -171,8 +171,9 @@ const QUESTIONS = {
           "answer": "אברהם אבינו — הכנסת האורחים לשלושת המלאכים", "hint": "" },
 
         { "id": "values-4", "points": 15, "type": "personal",
-          "question": "משמיעים את השיר \"אליעזר בן יהודה\" (בית ראשון בלי פזמון). על מי נכתב השיר ומה הוא ניסה לקדם?",
-          "options": [], "answer": "אליעזר בן־יהודה — החייה את השפה העברית.", "hint": "" },
+          "audio": "design/audio/eliezer.m4a",
+          "question": "על מי נכתב השיר ומה הוא ניסה לקדם?",
+          "options": [], "answer": "אליעזר בן־יהודה — מחייה את השפה העברית.", "hint": "" },
 
         { "id": "values-5", "points": 10, "type": "for_everyone",
           "question": "אני מתנה שעם ישראל קיבל במיוחד. מאז ועד היום תרבויות רבות למדו מעם ישראל. אולי ראשון, אולי שישי — אבל המקור זה אני… מי אני?",
@@ -1552,6 +1553,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
