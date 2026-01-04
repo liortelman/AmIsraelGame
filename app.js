@@ -406,13 +406,8 @@ function perHitConfig(q) {
   return { perCorrect: per, maxHits };
 }
 
-function getHits(qid, teamIndex) {
-  const byQ = state.partialHits?.[qid] || {};
-  return Number(byQ?.[teamIndex] || 0);
-}
-
 function setHits(qid, teamIndex, hits) {
-  if (!state.partialHits) state.partialHits = {};
+  ensurePartialStore();
   if (!state.partialHits[qid]) state.partialHits[qid] = {};
   state.partialHits[qid][teamIndex] = Number(hits || 0);
   saveState();
@@ -1557,6 +1552,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
