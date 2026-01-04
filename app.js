@@ -446,6 +446,12 @@ function incHits(qid, teamIndex) {
   state.partialHits[qid][teamIndex] = getHits(qid, teamIndex) + 1;
 }
 
+function getTotalHits(qid) {
+  ensurePartialStore();
+  const byQ = state.partialHits?.[qid] || {};
+  return Object.values(byQ).reduce((sum, v) => sum + Number(v || 0), 0);
+}
+
 function typeLabel(q){
   const base =
     q.type === "personal" ? "אישית" :
@@ -976,16 +982,21 @@ if (d.revealed) {
 
     setText("duelIntro", "תנו נקודות לפי כל תשובה נכונה:");
 
-    const updateBtn = (btn, teamIndex) => {
-      if (!btn) return;
-      const teamName = state.teams[teamIndex]?.name ?? `קבוצה ${teamIndex + 1}`;
-      const hits = getHits(qid, teamIndex);
-      const canAdd = hits < maxHits;
+   const updateBtn = (btn, teamIndex) => {
+    if (!btn) return;
+    const teamName = state.teams[teamIndex]?.name ?? `קבוצה ${teamIndex + 1}`;
+    const hits = getHits(qid, teamIndex);
 
-      btn.textContent = `+${perCorrect} נק׳ ל־${teamName} (${hits}/${maxHits})`;
-      btn.classList.remove("hidden");
-      btn.disabled = !canAdd;
-    };
+    const total = getTotalHits(qid);
+    const remaining = Math.max(0, maxHits - total);
+
+    // ✅ אפשר להוסיף רק אם נשארו "פגיעות" לשאלה וגם לקבוצה (הקבוצה לא תעבור את maxHits)
+    const canAdd = remaining > 0 && hits < maxHits;
+
+    btn.textContent = `+${perCorrect} נק׳ ל־${teamName} (${hits}/${maxHits}) • נשארו ${remaining}`;
+    btn.classList.remove("hidden");
+    btn.disabled = !canAdd;
+  };
 
     updateBtn(b0, 0);
     updateBtn(b1, 1);
@@ -1065,20 +1076,45 @@ function awardDuelHit(teamIndex) {
   if (!q?.id) return;
 
   const { perCorrect, maxHits } = perHitConfig(q);
-  const hits = getHits(q.id, teamIndex);
+  const qid = q.id;
 
-  if (hits >= maxHits) return;
+  // ✅ בדיקה לפי סה״כ פגיעות (ולא לכל קבוצה)
+  const totalBefore = getTotalHits(qid);
+  if (totalBefore >= maxHits) return;
+
+  const hitsTeam = getHits(qid, teamIndex);
+  if (hitsTeam >= maxHits) return; // להשאיר כדי שלא תעלה “מעבר למותר” לקבוצה
 
   pushUndo();
+
   // מוסיפים נקודות
   state.teams[teamIndex].score += perCorrect;
 
-  // מעדכנים מספר פגיעות
-  setHits(q.id, teamIndex, hits + 1);
+  // מעדכנים מספר פגיעות לקבוצה
+  setHits(qid, teamIndex, hitsTeam + 1);
 
-  // לא מסיימים את הדו-קרב – רק מרעננים
   saveState();
   renderScoreBar();
+
+  // ✅ אם הגענו למקסימום הכולל – סוגרים דו־קרב וממשיכים תור
+  const totalAfter = getTotalHits(qid);
+  if (totalAfter >= maxHits) {
+    // מסיימים דו-קרב כמו ניצחון: מסמנים שאלה כשומשה וממשיכים תור
+    if (!confirmBurnIfNeeded()) return;
+
+    pushUndo();
+    markUsed(d.catKey, d.qIndex);
+    state.phase = "board";
+    state.duel = null;
+    saveState();
+
+    advanceTurn();
+    rerenderBoardUI();
+    showOnlyScreen("screenBoard");
+    return;
+  }
+
+  // אחרת רק מרעננים
   renderDuelFromState();
 }
 
@@ -1521,6 +1557,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
