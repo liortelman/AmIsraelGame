@@ -559,14 +559,15 @@ function openQuestionModal(catKey, qIndex) {
   setText("modalCategory", QUESTIONS.categories[catKey]?.label || catKey);
   const mm = $("modalMeta");
   if (mm) {
+    const pts = Number(points || 0);
+    const ptsClass = `pts-${pts}`;
     mm.innerHTML = `
     <span>שאלה ${displayNumber}</span>
     <span class="metaDot">•</span>
-    <span>${points} נקודות</span>
-    <span class="metaDot">•</span>
     <span class="qBadge">${escapeHtml(typeLabel(q))}</span>
-  `;
-}
+    <span class="ptsBadge ${ptsClass}">${pts} נק׳</span>
+    `;
+  }
 
   setText("modalQuestion", q.question || "");
 
@@ -818,14 +819,15 @@ function renderDuelFromState() {
   const dm = $("duelMeta");
 
   if (dm) {
+    const pts = Number(points || 0);
+    const ptsClass = `pts-${pts}`;
     dm.innerHTML = `
-      <span>${escapeHtml(catLabel)}</span>
-      <span class="metaDot">•</span>
-      <span>שאלה ${displayNumber}</span>
-      <span class="metaDot">•</span>
-      <span>${points} נקודות</span>
-      <span class="metaDot">•</span>
-      <span class="qBadge">${escapeHtml(typeLabel(q))}</span>
+    <span>${escapeHtml(catLabel)}</span>
+    <span class="metaDot">•</span>
+    <span>שאלה ${displayNumber}</span>
+    <span class="metaDot">•</span>
+    <span class="qBadge">${escapeHtml(typeLabel(q))}</span>
+    <span class="ptsBadge ${ptsClass}">${pts} נק׳</span>
     `;
   }
 
@@ -1325,4 +1327,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
