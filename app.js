@@ -138,14 +138,14 @@ const QUESTIONS = {
 
         { "id": "figures-5", "points": 10, "type": "for_everyone",
           "image": "design/einstein.jpg",
-          "question": "תמונה של פרופ' אלברט איינשטיין — זהו את הדמות ופועלה.",
+          "question": "זהו את הדמות ופועלה",
           "options": [],
           "answer": "אלברט איינשטיין — פיזיקאי; תורת היחסות ועוד.",
           "hint": "" },
 
         { "id": "figures-6", "points": 10, "type": "for_everyone",
           "image": "design/shai.jpg",
-          "question": "א'. מי היה ש\"י עגנון?  ב'. מה הם ראשי התיבות ש\"י?",
+          "question": "מי היה ש\"י עגנון? ומה הם ראשי התיבות ש\"י?",
           "options": [],
           "answer": "א'. סופר עברי, חתן פרס נובל לספרות. ב'. שמואל יוסף.",
           "hint": "" },
@@ -1673,6 +1673,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
