@@ -393,6 +393,30 @@ function getQuestionBy(catKey, index0) {
 }
 function getQuestionPoints(q) { return Number(q?.points || 0); }
 
+function isPerHit(q) {
+  return q?.scoringMode === "per_hit" && Number(q?.perCorrect || 0) > 0;
+}
+
+function perHitConfig(q) {
+  const per = Number(q?.perCorrect || 0);
+  const total = Number(q?.points || 0);
+  const maxByPoints = per > 0 ? Math.floor(total / per) : 0;
+  const maxHits = Number(q?.maxHits || maxByPoints || 0);
+  return { perCorrect: per, maxHits };
+}
+
+function getHits(qid, teamIndex) {
+  const byQ = state.partialHits?.[qid] || {};
+  return Number(byQ?.[teamIndex] || 0);
+}
+
+function setHits(qid, teamIndex, hits) {
+  if (!state.partialHits) state.partialHits = {};
+  if (!state.partialHits[qid]) state.partialHits[qid] = {};
+  state.partialHits[qid][teamIndex] = Number(hits || 0);
+  saveState();
+}
+
 function isPerHitScoring(q) {
   return String(q?.scoringMode || "").trim() === "per_hit" && Number(q?.perCorrect || 0) > 0;
 }
@@ -948,43 +972,75 @@ function renderDuelFromState() {
     }
   }
 
-  // תוכן שמופיע רק אחרי reveal
-  if (d.revealed) {
-    if (qText) qText.textContent = q.question || "";
+if (d.revealed) {
+  if (qText) qText.textContent = q.question || "";
 
-    const b0 = $("btnDuelWinnerTeam0");
-    const b1 = $("btnDuelWinnerTeam1");
-    const b2 = $("btnDuelWinnerTeam2");
+  const b0 = $("btnDuelWinnerTeam0");
+  const b1 = $("btnDuelWinnerTeam1");
+  const b2 = $("btnDuelWinnerTeam2");
+
+  // אם זה per_hit (כמו אסתר) – מציגים כפתורי "+נקודות" ולא "מנצח"
+  if (isPerHit(q)) {
+    const { perCorrect, maxHits } = perHitConfig(q);
+    const qid = q.id;
+
+    setText("duelIntro", "תנו נקודות לפי כל תשובה נכונה:");
+
+    const updateBtn = (btn, teamIndex) => {
+      if (!btn) return;
+      const teamName = state.teams[teamIndex]?.name ?? `קבוצה ${teamIndex + 1}`;
+      const hits = getHits(qid, teamIndex);
+      const canAdd = hits < maxHits;
+
+      btn.textContent = `+${perCorrect} נק׳ ל־${teamName} (${hits}/${maxHits})`;
+      btn.classList.remove("hidden");
+      btn.disabled = !canAdd;
+    };
+
+    updateBtn(b0, 0);
+    updateBtn(b1, 1);
+
+    if (b2) {
+      if (state.teams.length >= 3) updateBtn(b2, 2);
+      else b2.classList.add("hidden");
+    }
+
+  } else {
+    // מצב רגיל של דו-קרב: מנצח לוקח הכל
+    setText("duelIntro", "בחרו מנצח:");
 
     if (b0) {
       b0.textContent = `ניצחון: ${state.teams[0]?.name ?? "קבוצה 1"}`;
       b0.classList.remove("hidden");
+      b0.disabled = false;
     }
     if (b1) {
       b1.textContent = `ניצחון: ${state.teams[1]?.name ?? "קבוצה 2"}`;
       b1.classList.remove("hidden");
+      b1.disabled = false;
     }
     if (b2) {
       if (state.teams.length >= 3) {
         b2.textContent = `ניצחון: ${state.teams[2]?.name ?? "קבוצה 3"}`;
         b2.classList.remove("hidden");
+        b2.disabled = false;
       } else {
         b2.classList.add("hidden");
       }
     }
-  } else {
-    // אם חוזרים אחורה/נכנסים לדו־קרב מחדש בלי reveal:
-    // ננקה טקסט שאלה ונחביא כפתורי מנצח (כדי שלא "יישארו" ממקודם)
-    if (qText) qText.textContent = "";
-
-    const b0 = $("btnDuelWinnerTeam0");
-    const b1 = $("btnDuelWinnerTeam1");
-    const b2 = $("btnDuelWinnerTeam2");
-
-    if (b0) b0.classList.add("hidden");
-    if (b1) b1.classList.add("hidden");
-    if (b2) b2.classList.add("hidden");
   }
+} else {
+  // לא שינית כאן כלום – נשאר כמו אצלך
+  if (qText) qText.textContent = "";
+
+  const b0 = $("btnDuelWinnerTeam0");
+  const b1 = $("btnDuelWinnerTeam1");
+  const b2 = $("btnDuelWinnerTeam2");
+
+  if (b0) b0.classList.add("hidden");
+  if (b1) b1.classList.add("hidden");
+  if (b2) b2.classList.add("hidden");
+}
 }
 
 function awardDuelWinner(teamIndex) {
@@ -1009,6 +1065,31 @@ function awardDuelWinner(teamIndex) {
   advanceTurn();
   rerenderBoardUI();
   showOnlyScreen("screenBoard");
+}
+
+function awardDuelHit(teamIndex) {
+  const d = state.duel;
+  if (!d) return;
+
+  const q = getQuestionBy(d.catKey, d.qIndex);
+  if (!q?.id) return;
+
+  const { perCorrect, maxHits } = perHitConfig(q);
+  const hits = getHits(q.id, teamIndex);
+
+  if (hits >= maxHits) return;
+
+  pushUndo();
+  // מוסיפים נקודות
+  state.teams[teamIndex].score += perCorrect;
+
+  // מעדכנים מספר פגיעות
+  setHits(q.id, teamIndex, hits + 1);
+
+  // לא מסיימים את הדו-קרב – רק מרעננים
+  saveState();
+  renderScoreBar();
+  renderDuelFromState();
 }
 
 /* === End game (UPDATED: podium + ties) === */
@@ -1331,9 +1412,21 @@ function wireDuelButtons() {
   }
 }
 
-$("btnDuelWinnerTeam0")?.addEventListener("click", () => duelClick(0));
-$("btnDuelWinnerTeam1")?.addEventListener("click", () => duelClick(1));
-$("btnDuelWinnerTeam2")?.addEventListener("click", () => duelClick(2));
+$("btnDuelWinnerTeam0")?.addEventListener("click", () => {
+  const q = getQuestionBy(state.duel?.catKey, state.duel?.qIndex);
+  if (isPerHit(q)) awardDuelHit(0);
+  else awardDuelWinner(0);
+});
+$("btnDuelWinnerTeam1")?.addEventListener("click", () => {
+  const q = getQuestionBy(state.duel?.catKey, state.duel?.qIndex);
+  if (isPerHit(q)) awardDuelHit(1);
+  else awardDuelWinner(1);
+});
+$("btnDuelWinnerTeam2")?.addEventListener("click", () => {
+  const q = getQuestionBy(state.duel?.catKey, state.duel?.qIndex);
+  if (isPerHit(q)) awardDuelHit(2);
+  else awardDuelWinner(2);
+});
 
 }
 
@@ -1438,6 +1531,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
