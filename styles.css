@@ -1007,3 +1007,12 @@ body{
   font-size: 13px;
   padding: 5px 12px;
 }
+
+.modalAudioWrap {
+  margin: 10px 0 12px;
+}
+.modalAudioWrap audio {
+  width: 100%;
+}
+
+
