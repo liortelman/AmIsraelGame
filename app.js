@@ -96,7 +96,8 @@ const QUESTIONS = {
 
         { "id": "places-7", "points": 10, "type": "for_everyone",
           "scoringMode": "per_hit", "perCorrect": 2, "maxHits": 5,
-          "question": "זהו את התמונות הבאות (כל תמונה = 2 נק׳):\n1) כותל\n2) מערת המכפילה\n3) מצדה\n4) ים המלח\n5) בנייני עזריאלי",
+          "image": "design/five.jpg",
+          "question": "זהו את התמונות הבאות (כל תמונה = 2 נק׳)",
           "options": [],
           "answer": "1) כותל 2) מערת המכפילה 3) מצדה 4) ים המלח 5) בנייני עזריאלי",
           "hint": "סה\"כ 10 נק׳" }
@@ -1520,6 +1521,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
