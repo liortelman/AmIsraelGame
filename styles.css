@@ -969,4 +969,41 @@ body{
   background: rgba(239, 68, 68, 0.18);
   border-color: rgba(239, 68, 68, 0.36);
   box-shadow: 0 16px 24px rgba(239, 68, 68, 0.10);
+
+}
+
+/* ===== Points badge (colored by points) ===== */
+.ptsBadge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 950;
+  font-size: 12px;
+  letter-spacing: .1px;
+  border: 1px solid rgba(11,18,32,.12);
+  background: rgba(255,255,255,.70);
+  color: rgba(11,18,32,.85);
+  box-shadow: 0 10px 18px rgba(11,18,32,.08);
+}
+
+/* צבעים לפי ניקוד */
+.pts-5  { background: rgba(16,185,129,.16); border-color: rgba(16,185,129,.35); color: rgba(5,150,105,.95); }  /* ירקרק */
+.pts-10 { background: rgba(14,165,233,.16); border-color: rgba(14,165,233,.35); color: rgba(2,132,199,.98); }  /* תכלת */
+.pts-15 { background: rgba(245,158,11,.18); border-color: rgba(245,158,11,.38); color: rgba(180,83,9,.98); }   /* כתמתם */
+.pts-20 { background: rgba(239,68,68,.16); border-color: rgba(239,68,68,.40); color: rgba(220,38,38,.98); }     /* אדום */
+
+.modalMeta, #duelMeta{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* ב-RTL: כדי שהתג של הנקודות יהיה בצד שמאל (בסוף השורה) */
+.modalMeta .ptsBadge,
+#duelMeta .ptsBadge{
+  margin-right: auto; /* דוחף שמאלה */
+  font-size: 13px;
+  padding: 5px 12px;
 }
