@@ -944,6 +944,7 @@ function openDuel(catKey, qIndex) {
 }
 
 function closeDuel(goNextTurnIfRevealed) {
+    stopTimer();
   if (goNextTurnIfRevealed) {
     if (!confirmBurnIfNeeded()) return;
     pushUndo();
@@ -1694,4 +1695,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
