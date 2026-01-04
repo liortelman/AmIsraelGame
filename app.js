@@ -32,7 +32,8 @@ const QUESTIONS = {
           "options": [], "answer": "", "hint": "" },
 
         { "id": "history-4", "points": 5, "type": "regular",
-          "scoringMode": "per_hit", "perCorrect": 1, "maxHits": 5,
+         "scoringMode": "per_hit", "perCorrect": 1, "maxHits": 5,
+         "image": "design/mapa.jpg",
          "question": "כשעם ישראל נכנס לארץ – כל שבט מקבל נחלה ייחודית.\nעליכם למקם את המקומות ליד המספרים המתאימים להם במפה.\nיש לכם דקה למשימה.\nעל כל מיקום נכון תקבלו נקודה.",
          "options": [],
          "answer": "ירושלים, צפת, שדה בוקר, טכניון, זכרון יעקב, אילת, מושבה כנרת, קבר הרמב\"ם, קבר רחל, מטולה",
@@ -1437,6 +1438,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
