@@ -973,37 +973,38 @@ function renderDuelFromState() {
   const points = getQuestionPoints(q);
   const displayNumber = d.qIndex + 1;
   const catLabel = QUESTIONS.categories[d.catKey]?.label || d.catKey;
-  const dm = $("duelMeta");
 
+  const dm = $("duelMeta");
   if (dm) {
     const pts = Number(points || 0);
     const ptsClass = `pts-${pts}`;
     dm.innerHTML = `
-    <span>${escapeHtml(catLabel)}</span>
-    <span class="metaDot">•</span>
-    <span>שאלה ${displayNumber}</span>
-    <span class="metaDot">•</span>
-    <span class="qBadge">${escapeHtml(typeLabel(q))}</span>
-    <span class="ptsBadge ${ptsClass}">${pts} נק׳</span>
+      <span>${escapeHtml(catLabel)}</span>
+      <span class="metaDot">•</span>
+      <span>שאלה ${displayNumber}</span>
+      <span class="metaDot">•</span>
+      <span class="qBadge">${escapeHtml(typeLabel(q))}</span>
+      <span class="ptsBadge ${ptsClass}">${pts} נק׳</span>
     `;
   }
 
+  // Intro text
   setText(
     "duelIntro",
     d.revealed
-      ? "בחרו מנצח:"
-      : "דו־קרב! קודם כל כולם מוכנים. רק אחרי זה לוחצים 'הצג שאלה'."
+      ? "בחרו מנצח / תנו נקודות:"
+      : "דו־קרב! קודם כולם מוכנים, ואז לוחצים 'הצג שאלה'."
   );
 
+  // Show/hide question area
   const area = $("duelQuestionArea");
   const qText = $("duelQuestionText");
   const showBtn = $("btnDuelShowQuestion");
 
-  // לפני reveal: מסתירים את אזור השאלה (אבל לא את התמונה)
   if (area) area.classList.toggle("hidden", !d.revealed);
   if (showBtn) showBtn.disabled = !!d.revealed;
 
-  // ✅ תמונה תמיד (גם לפני reveal)
+  // Image ALWAYS (even before reveal)
   const media = $("duelMedia");
   const img = $("duelImage");
   const src = String(q.image || "").trim();
@@ -1023,113 +1024,104 @@ function renderDuelFromState() {
     }
   }
 
-if (d.revealed) {
-  if (qText) qText.textContent = q.question || "";
-
+  // Buttons refs
   const b0 = $("btnDuelWinnerTeam0");
   const b1 = $("btnDuelWinnerTeam1");
   const b2 = $("btnDuelWinnerTeam2");
 
-    // אם זה manualScoring – כפתורי "+נקודות" מוגבלים ל-3 לכל קבוצה
-  if (isManualDuel(q)) {
-    const { maxAwards, perAward } = manualConfig(q);
-    const qid = q.id;
+  // Before reveal: hide everything
+  if (!d.revealed) {
+    if (qText) qText.textContent = "";
+    if (b0) b0.classList.add("hidden");
+    if (b1) b1.classList.add("hidden");
+    if (b2) b2.classList.add("hidden");
+    return;
+  }
 
-    setText("duelIntro", "המנחה: תנו נקודות ידנית (עד 3 פעמים לכל קבוצה):");
+  // After reveal: show question text
+  if (qText) qText.textContent = q.question || "";
 
-    const updateBtn = (btn, teamIndex) => {
+  // Helper: show/hide team2 button
+  const hasTeam3 = (state.teams?.length || 0) >= 3;
+  if (b2) {
+    if (hasTeam3) b2.classList.remove("hidden");
+    else b2.classList.add("hidden");
+  }
+
+  // --- MODE 1: Manual scoring duel (5 clicks x 4 = 20 max per team) ---
+  if (q.type === "duel" && q.manualScoring === true) {
+    const maxAwards = Number(q.manualMaxAwards ?? 5);
+    const perAward = Number(q.manualPerAward ?? 4);
+
+    // IMPORTANT: manual uses a separate hits-key so it doesn't collide with per_hit counters
+    const manualKey = q.id ? `manual_awards__${q.id}` : "";
+
+    setText("duelIntro", "המנחה: תנו נקודות ידנית (עד 5 לחיצות לכל קבוצה):");
+
+    const updateManualBtn = (btn, teamIndex) => {
       if (!btn) return;
-      const teamName = state.teams[teamIndex]?.name ?? `קבוצה ${teamIndex + 1}`;
-      const hits = getHits(qid, teamIndex);
-      const left = Math.max(0, maxAwards - hits);
 
-      btn.textContent = `+${perAward} נק׳ ל־${teamName} (${left} נשארו)`;
+      const teamName = state.teams[teamIndex]?.name ?? `קבוצה ${teamIndex + 1}`;
+      const given = manualKey ? getHits(manualKey, teamIndex) : 0;
+      const left = Math.max(0, maxAwards - given);
+
+      btn.textContent = `+${perAward} נק׳ ל־${teamName} (${given}/${maxAwards})`;
       btn.classList.remove("hidden");
       btn.disabled = left <= 0;
     };
 
-    updateBtn($("btnDuelWinnerTeam0"), 0);
-    updateBtn($("btnDuelWinnerTeam1"), 1);
+    updateManualBtn(b0, 0);
+    updateManualBtn(b1, 1);
+    if (hasTeam3) updateManualBtn(b2, 2);
 
-    const b2 = $("btnDuelWinnerTeam2");
-    if (b2) {
-      if (state.teams.length >= 3) updateBtn(b2, 2);
-      else b2.classList.add("hidden");
-    }
-
-  } else if (isPerHit(q)) {
-    // ... הקוד שלך של per_hit (אסתר/תמונות) נשאר
-  } else {
-    // ... הקוד שלך של "ניצחון: קבוצה X" נשאר
+    return;
   }
 
-  // אם זה per_hit (כמו אסתר) – מציגים כפתורי "+נקודות" ולא "מנצח"
-  if (isPerHit(q)) {
-    const { perCorrect, maxHits } = perHitConfig(q);
+  // --- MODE 2: per_hit duel (each click adds perCorrect, up to maxHits per team) ---
+  if (isPerHitScoring(q)) {
+    const per = Number(q.perCorrect || 0);
+    const maxHits = getMaxHits(q);
     const qid = q.id;
 
     setText("duelIntro", "תנו נקודות לפי כל תשובה נכונה:");
 
-   const updateBtn = (btn, teamIndex) => {
-    if (!btn) return;
-    const teamName = state.teams[teamIndex]?.name ?? `קבוצה ${teamIndex + 1}`;
-    const hits = getHits(qid, teamIndex);
+    const updatePerHitBtn = (btn, teamIndex) => {
+      if (!btn) return;
 
-    const total = getTotalHits(qid);
-    const remaining = Math.max(0, maxHits - total);
+      const teamName = state.teams[teamIndex]?.name ?? `קבוצה ${teamIndex + 1}`;
+      const hits = qid ? getHits(qid, teamIndex) : 0;
+      const left = Math.max(0, maxHits - hits);
 
-    // ✅ אפשר להוסיף רק אם נשארו "פגיעות" לשאלה וגם לקבוצה (הקבוצה לא תעבור את maxHits)
-    const canAdd = remaining > 0 && hits < maxHits;
+      btn.textContent = `+${per} נק׳ ל־${teamName} (${hits}/${maxHits})`;
+      btn.classList.remove("hidden");
+      btn.disabled = left <= 0;
+    };
 
-    btn.textContent = `+${perCorrect} נק׳ ל־${teamName} (${hits}/${maxHits}) • נשארו ${remaining}`;
-    btn.classList.remove("hidden");
-    btn.disabled = !canAdd;
-  };
+    updatePerHitBtn(b0, 0);
+    updatePerHitBtn(b1, 1);
+    if (hasTeam3) updatePerHitBtn(b2, 2);
 
-    updateBtn(b0, 0);
-    updateBtn(b1, 1);
-
-    if (b2) {
-      if (state.teams.length >= 3) updateBtn(b2, 2);
-      else b2.classList.add("hidden");
-    }
-
-  } else {
-    // מצב רגיל של דו-קרב: מנצח לוקח הכל
-    setText("duelIntro", "בחרו מנצח:");
-
-    if (b0) {
-      b0.textContent = `ניצחון: ${state.teams[0]?.name ?? "קבוצה 1"}`;
-      b0.classList.remove("hidden");
-      b0.disabled = false;
-    }
-    if (b1) {
-      b1.textContent = `ניצחון: ${state.teams[1]?.name ?? "קבוצה 2"}`;
-      b1.classList.remove("hidden");
-      b1.disabled = false;
-    }
-    if (b2) {
-      if (state.teams.length >= 3) {
-        b2.textContent = `ניצחון: ${state.teams[2]?.name ?? "קבוצה 3"}`;
-        b2.classList.remove("hidden");
-        b2.disabled = false;
-      } else {
-        b2.classList.add("hidden");
-      }
-    }
+    return;
   }
-} else {
-  // לא שינית כאן כלום – נשאר כמו אצלך
-  if (qText) qText.textContent = "";
 
-  const b0 = $("btnDuelWinnerTeam0");
-  const b1 = $("btnDuelWinnerTeam1");
-  const b2 = $("btnDuelWinnerTeam2");
+  // --- MODE 3: Normal duel winner takes all ---
+  setText("duelIntro", "בחרו מנצח:");
 
-  if (b0) b0.classList.add("hidden");
-  if (b1) b1.classList.add("hidden");
-  if (b2) b2.classList.add("hidden");
-}
+  if (b0) {
+    b0.textContent = `ניצחון: ${state.teams[0]?.name ?? "קבוצה 1"}`;
+    b0.classList.remove("hidden");
+    b0.disabled = false;
+  }
+  if (b1) {
+    b1.textContent = `ניצחון: ${state.teams[1]?.name ?? "קבוצה 2"}`;
+    b1.classList.remove("hidden");
+    b1.disabled = false;
+  }
+  if (hasTeam3 && b2) {
+    b2.textContent = `ניצחון: ${state.teams[2]?.name ?? "קבוצה 3"}`;
+    b2.classList.remove("hidden");
+    b2.disabled = false;
+  }
 }
 
 function awardDuelWinner(teamIndex) {
@@ -1681,6 +1673,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
