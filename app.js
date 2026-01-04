@@ -750,81 +750,63 @@ function renderTeamAwardButtons(points) {
   wrap.innerHTML = "";
 
   const q = getQuestionBy(activeCatKey, activeQIndex);
-  const perHit = isPerHitScoring(q);
+  const isPerHit = isPerHitScoring(q);
 
-  if (perHit) {
-    // --- PER HIT: כמו שעשית, כפתור לכל קבוצה ---
-    state.teams.forEach((t, idx) => {
-      const b = document.createElement("button");
-      b.className = "team-award-btn";
-      b.type = "button";
+  // ✅ בשאלות לא-דו־קרב: רק לקבוצה שבתור
+  const onlyIdx = state.currentTeamIndex;
+  const onlyTeam = state.teams[onlyIdx];
 
-      const per = Number(q.perCorrect || 0);
-      const maxHits = getMaxHits(q);
-      const qid = q?.id || "";
+  if (!onlyTeam) return;
 
-      const hits = qid ? getHits(qid, idx) : 0;
-      const left = Math.max(0, maxHits - hits);
+  const b = document.createElement("button");
+  b.className = "team-award-btn";
+  b.type = "button";
 
-      b.textContent = `+${per} נק׳ ל־${t.name} (${left} נשארו)`;
-      b.disabled = !qid || left <= 0;
+  if (isPerHit) {
+    const per = Number(q.perCorrect || 0);
+    const maxHits = getMaxHits(q);
+    const qid = q?.id || "";
 
-      b.addEventListener("click", () => {
-        if (!qid) return;
-        if (getHits(qid, idx) >= maxHits) return;
+    const hits = qid ? getHits(qid, onlyIdx) : 0;
+    const left = Math.max(0, maxHits - hits);
 
-        pushUndo();
-        state.teams[idx].score += per;
-        incHits(qid, idx);
-        saveState();
+    b.textContent = `+${per} נק׳ ל־${onlyTeam.name} (${left} נשארו)`;
+    b.disabled = !qid || left <= 0;
 
-        renderScoreBar();
-        renderTurnLabel();
-        renderTeamAwardButtons(points);
-      });
+    b.addEventListener("click", () => {
+      if (!qid) return;
+      if (getHits(qid, onlyIdx) >= maxHits) return;
 
-      wrap.appendChild(b);
+      pushUndo();
+      state.teams[onlyIdx].score += per;
+      incHits(qid, onlyIdx);
+      saveState();
+
+      renderScoreBar();
+      renderTurnLabel();
+      renderTeamAwardButtons(points);
     });
-
-    const none = $("btnNoPoints");
-    if (none) {
-      none.textContent = "לסגור שאלה (סיום מתן ניקוד)";
-      none.onclick = () => {
-        if (!confirmBurnIfNeeded()) return;
-        pushUndo();
-        markUsed(activeCatKey, activeQIndex);
-        closeQuestionModal();
-        advanceTurn();
-        rerenderBoardUI();
-      };
-    }
-
   } else {
-    // --- NORMAL: רק הקבוצה שבתור ---
-    const idx = state.currentTeamIndex;
-    const t = state.teams[idx];
-    const b = document.createElement("button");
-    b.className = "team-award-btn";
-    b.type = "button";
-    b.textContent = `לתת נקודות ל־${t?.name ?? "הקבוצה"}`;
+    b.textContent = `לתת נקודות ל־${onlyTeam.name}`;
     b.addEventListener("click", () => {
       pushUndo();
-      awardPoints(idx, points);
+      awardPoints(onlyIdx, points);
     });
-    wrap.appendChild(b);
+  }
 
-    const none = $("btnNoPoints");
-    if (none) {
-      none.textContent = "לא לתת נקודות";
-      none.onclick = () => {
-        if (!confirmBurnIfNeeded()) return;
-        pushUndo();
-        markUsed(activeCatKey, activeQIndex);
-        closeQuestionModal();
-        advanceTurn();
-        rerenderBoardUI();
-      };
-    }
+  wrap.appendChild(b);
+
+  const none = $("btnNoPoints");
+  if (none) {
+    none.textContent = isPerHit ? "לסגור שאלה (סיום מתן ניקוד)" : "לא לתת נקודות";
+    none.onclick = () => {
+      if (!confirmBurnIfNeeded()) return;
+      pushUndo();
+      markUsed(activeCatKey, activeQIndex);
+      closeQuestionModal();
+      advanceTurn();
+      rerenderBoardUI();
+    };
   }
 }
 
@@ -1538,6 +1520,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
