@@ -407,6 +407,16 @@ function perHitConfig(q) {
   return { perCorrect: per, maxHits };
 }
 
+function isManualDuel(q) {
+  return q?.type === "duel" && q?.manualScoring === true;
+}
+
+function manualConfig(q) {
+  const maxAwards = Number(q?.manualMaxAwards || 3);
+  const perAward = Number(q?.manualPerAward || 4); // ברירת מחדל: 4 נק' ללחיצה
+  return { maxAwards, perAward };
+}
+
 function setHits(qid, teamIndex, hits) {
   ensurePartialStore();
   if (!state.partialHits[qid]) state.partialHits[qid] = {};
@@ -995,6 +1005,39 @@ if (d.revealed) {
   const b1 = $("btnDuelWinnerTeam1");
   const b2 = $("btnDuelWinnerTeam2");
 
+    // אם זה manualScoring – כפתורי "+נקודות" מוגבלים ל-3 לכל קבוצה
+  if (isManualDuel(q)) {
+    const { maxAwards, perAward } = manualConfig(q);
+    const qid = q.id;
+
+    setText("duelIntro", "המנחה: תנו נקודות ידנית (עד 3 פעמים לכל קבוצה):");
+
+    const updateBtn = (btn, teamIndex) => {
+      if (!btn) return;
+      const teamName = state.teams[teamIndex]?.name ?? `קבוצה ${teamIndex + 1}`;
+      const hits = getHits(qid, teamIndex);
+      const left = Math.max(0, maxAwards - hits);
+
+      btn.textContent = `+${perAward} נק׳ ל־${teamName} (${left} נשארו)`;
+      btn.classList.remove("hidden");
+      btn.disabled = left <= 0;
+    };
+
+    updateBtn($("btnDuelWinnerTeam0"), 0);
+    updateBtn($("btnDuelWinnerTeam1"), 1);
+
+    const b2 = $("btnDuelWinnerTeam2");
+    if (b2) {
+      if (state.teams.length >= 3) updateBtn(b2, 2);
+      else b2.classList.add("hidden");
+    }
+
+  } else if (isPerHit(q)) {
+    // ... הקוד שלך של per_hit (אסתר/תמונות) נשאר
+  } else {
+    // ... הקוד שלך של "ניצחון: קבוצה X" נשאר
+  }
+
   // אם זה per_hit (כמו אסתר) – מציגים כפתורי "+נקודות" ולא "מנצח"
   if (isPerHit(q)) {
     const { perCorrect, maxHits } = perHitConfig(q);
@@ -1577,6 +1620,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
