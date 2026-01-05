@@ -170,7 +170,7 @@ const QUESTIONS = {
           "answer": "גמילות חסד", "hint": "" },
 
         { "id": "values-2", "points": 10, "type": "for_everyone",
-          "image": "design/money_job.jpg",
+          "image": "design/money_ job.jpg",
           "question": "איזו צדקה גדולה יותר: לסייע לאדם במציאת עבודה או לתת לו צדקה?",
           "options": [],
           "answer": "לסייע במציאת עבודה (לעזור לו לעמוד על רגליו).",
@@ -1702,6 +1702,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
