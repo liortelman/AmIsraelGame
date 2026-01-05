@@ -1144,6 +1144,7 @@ function renderDuelFromState() {
 }
 
 function awardDuelWinner(teamIndex) {
+  stopTimer()
   const d = state.duel;
   if (!d) return;
 
@@ -1168,6 +1169,7 @@ function awardDuelWinner(teamIndex) {
 }
 
 function awardDuelHit(teamIndex) {
+  stopTimer()
   const d = state.duel;
   if (!d) return;
 
@@ -1701,4 +1703,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
