@@ -26,11 +26,11 @@ const QUESTIONS = {
           "options": ["שבועות וספירת העומר", "כריסמס ועץ אשוח", "פסח ואכילת מצה", "שבת וקידוש"],
           "answer": "פסח ואכילת מצה", "hint": "" },
 
-        // ✅ על זמן + ניקוד ידני (מקסימום 20 נק׳ לכל קבוצה = 5 לחיצות של 4)
+        // ✅ על זמן + ניקוד ידני (מקסימום 20 נק׳ לכל קבוצה = 10 לחיצות של 2)
         { "id": "history-3", "points": 20, "type": "duel",
           "timerSeconds": 60,
-          "manualScoring": true, "manualMaxAwards": 5, "manualPerAward": 4,
-          "question": "דו־קרב על זמן: לכל קבוצה דקה לכתוב כמה שיותר מעשרת הדיברות. בסוף המנחה נותן ניקוד ידני.",
+          "manualScoring": true, "manualMaxAwards": 10, "manualPerAward": 2,
+          "question": "לכל קבוצה יש דקה לכתוב כמה שיותר מעשרת הדיברות, על כל אחד נכון תקבלו 2 נק'",
           "options": [], "answer": "", "hint": "אין גלגל הצלה" },
 
         // ✅ מפה פיזית: ניקוד ידני (מקסימום 20 נק׳ לכל קבוצה = 10 לחיצות של 2)
@@ -1703,6 +1703,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
