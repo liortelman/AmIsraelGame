@@ -1020,9 +1020,43 @@ body{
   white-space: pre-wrap;
 }
 
-/* Used board cells by winner team */
-.board-btn.used.won-by-0 { background: #2d6cdf; color: white; }
-.board-btn.used.won-by-1 { background: #16a34a; color: white; }
-.board-btn.used.won-by-2 { background: #f59e0b; color: #111827; }
+/* =========================
+   Board tiles – used states
+   (match ScoreBar team colors)
+   ========================= */
 
-.board-btn.used.burned { background: #e5e7eb; color: #6b7280; }
+/* Winner team colors (same as score pills accents) */
+.board-btn.used.won-by-0{
+  background:
+    radial-gradient(120% 120% at 20% 10%, rgba(255,255,255,.22), transparent 55%),
+    linear-gradient(180deg, color-mix(in srgb, var(--team1) 65%, #ffffff 35%), var(--team1));
+  border-color: color-mix(in srgb, var(--team1) 70%, #000 30%);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.18);
+}
+
+.board-btn.used.won-by-1{
+  background:
+    radial-gradient(120% 120% at 20% 10%, rgba(255,255,255,.22), transparent 55%),
+    linear-gradient(180deg, color-mix(in srgb, var(--team2) 65%, #ffffff 35%), var(--team2));
+  border-color: color-mix(in srgb, var(--team2) 70%, #000 30%);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.18);
+}
+
+.board-btn.used.won-by-2{
+  background:
+    radial-gradient(120% 120% at 20% 10%, rgba(255,255,255,.22), transparent 55%),
+    linear-gradient(180deg, color-mix(in srgb, var(--team3) 65%, #ffffff 35%), var(--team3));
+  border-color: color-mix(in srgb, var(--team3) 70%, #000 30%);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.18);
+}
+
+/* Burned / no points */
+.board-btn.used.burned{
+  background: rgba(11,18,32,.06);
+  border-color: rgba(11,18,32,.10);
+  color: rgba(11,18,32,.55);
+  text-shadow: none;
+}
