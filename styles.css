@@ -1060,3 +1060,12 @@ body{
   color: rgba(11,18,32,.55);
   text-shadow: none;
 }
+
+.board-btn.used{
+  padding: 8px;
+  font-size: 14px;
+  line-height: 1.1;
+  text-align: center;
+  white-space: normal;
+}
+
