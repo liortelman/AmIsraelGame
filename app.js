@@ -1499,21 +1499,21 @@ function wireModalButtons() {
 function wireDuelButtons() {
   
   $("btnDuelShowQuestion")?.addEventListener("click", () => {
-    if (!state.duel) return;
+  if (!state.duel) return;
 
-    const q = getQuestionBy(state.duel.catKey, state.duel.qIndex);
-    if (!q) return;
+  const q = getQuestionBy(state.duel.catKey, state.duel.qIndex);
+  if (!q) return;
 
-    pushUndo();
-    state.duel.revealed = true;
-    saveState();
+  pushUndo();
+  state.duel.revealed = true;
+  saveState();
 
-    // ✅ start duel timer if configured
-    startTimer(Number(q.timerSeconds || 0));
+  // ✅ start duel timer if configured
+  startTimer(Number(q.timerSeconds || 0));
 
-    renderDuelFromState();
-  });
-
+  renderDuelFromState();
+});
+  
   $("btnDuelBack")?.addEventListener("click", () => {
     const revealed = !!state.duel?.revealed;
     closeDuel(revealed);
@@ -1701,21 +1701,4 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
