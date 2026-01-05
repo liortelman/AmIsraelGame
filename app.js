@@ -196,7 +196,6 @@ const QUESTIONS = {
           "hint": "" },
 
         { "id": "values-6", "points": 20, "type": "duel",
-          "image": "design/duel.jpg",
           "question": "עליכם לחשב את הגימטריה של הפסוק \"וַאֲהַבְתֶּם אֶת-הַגֵּר כִּי-גֵרִים הֱיִיתֶם בְּאֶרֶץ מִצְרָיִם\". מי שמגיע ראשון לתשובה הנכונה מנצח!",
           "options": [],
           "answer": "2480",
@@ -1702,6 +1701,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
