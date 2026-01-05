@@ -220,7 +220,7 @@ const QUESTIONS = {
 
         { "id": "symbols-2", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "מי כתב את מילות השיר \"התקווה\" (ההמנון)?",
-          "options": ["אהוד מנור", "אנה זאק", "דוד בן גוריון", "נפתלי הרץ אימבר"],
+          "options": ["אהוד מנור", "אנה זק", "דוד בן גוריון", "נפתלי הרץ אימבר"],
           "answer": "נפתלי הרץ אימבר", "hint": "" },
 
         { "id": "symbols-3", "points": 10, "type": "for_everyone",
@@ -1701,6 +1701,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
