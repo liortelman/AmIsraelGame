@@ -1528,6 +1528,23 @@ function wireDuelButtons() {
     closeDuel(revealed);
   });
 
+  $("btnDuelStartTimer")?.addEventListener("click", () => {
+  const d = state.duel;
+  if (!d) return;
+
+  const q = getQuestionBy(d.catKey, d.qIndex);
+  if (!q) return;
+
+  const seconds = Number(q.timerSeconds || 0);
+  if (seconds <= 0) {
+    alert("לשאלה הזו אין timerSeconds");
+    return;
+  }
+
+  // ✅ כל לחיצה מתחילה מחדש (אפשר גם כמה פעמים)
+  startTimer(seconds);
+});
+
   // ---- helpers ----
   function isManualDuelQ(q) {
     return q?.type === "duel" && q?.manualScoring === true;
@@ -1710,6 +1727,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
