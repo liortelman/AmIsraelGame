@@ -45,7 +45,7 @@ const QUESTIONS = {
           "options": [],
           "answer": "ירושלים, צפת, שדה בוקר, טכניון, זכרון יעקב, אילת, המושבה כנרת, קבר הרמב\"ם, קבר רחל, מטולה",
           "boardLabel": "ארץ ישראל",
-          "hint": "ניקוד ידני • אין גלגל הצלה" },
+          "hint": "אין גלגל הצלה" },
 
         { "id": "history-5", "points": 10, "type": "for_everyone", "autoScore": true,
           "image": "design/hamikdash.jpg",
@@ -111,10 +111,11 @@ const QUESTIONS = {
           "question": "באיזו עיר בארץ צולמה התמונה הבאה?",
           "options": ["חיפה", "ירושלים", "אילת", "באר שבע"],
           "boardLabel": "אילת",
-          "answer": "אילת", "hint": "דגל הדיו / אום אל רשרש" },
+          "answer": "אילת", "hint": "" },
 
         // ✅ Duel per-hit: 5 פגיעות * 4 נק׳ = 20 נק׳
         { "id": "places-7", "points": 20, "type": "duel",
+          "timerSeconds": 60,
           "scoringMode": "per_hit", "perCorrect": 4, "maxHits": 5,
           "image": "design/five.jpg",
           "question": "כתבו על דף כמה שיותר מקומות שאתם מזהים מהתמונות בדקה",
@@ -1877,4 +1878,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
