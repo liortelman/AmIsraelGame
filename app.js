@@ -271,7 +271,7 @@ const QUESTIONS = {
           "question": "מה יש בתוך המזוזה?",
           "options": ["קלף עם פרשיות \"שמע\" ו\"והיה אם שמוע\"", "מטבע כסף קטן", "דף עם \"התקווה\"", "אבקה מיוחדת לברכה"],
           "answer": "קלף עם פרשיות \"שמע\" ו\"והיה אם שמוע\"",
-          "boardLabel": "המזוזה",
+          "boardLabel": "קלף עם פרשיות",
           "hint": "" },
 
         { "id": "symbols-6", "points": 20, "type": "duel",
@@ -1827,5 +1827,6 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
