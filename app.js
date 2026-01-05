@@ -122,7 +122,6 @@ const QUESTIONS = {
 
         { "id": "figures-2", "points": 20, "type": "duel",
           "scoringMode": "per_hit", "perCorrect": 4, "maxHits": 5,
-          "image": "design/duel.jpg",
           "question": "דו־קרב: נכון/לא נכון – אסתר המלכה (כל תשובה נכונה = 4 נק׳)\n\n1) אסתר המלכה הייתה אשתו של המן בן אמדתא\n2) אסתר המלכה הלכה לארמון מרצון שיבחרו בה למלכה\n3) אסתר המלכה צמה שלושה ימים ושלושה לילות\n4) אסתר המלכה נתלתה על העץ כי מרדה במלך\n5) אסתר המלכה עשתה שתי משתאות לאחשוורוש והמן יום אחרי יום",
           "options": [],
           "answer": "1) לא נכון\n2) לא נכון\n3) נכון\n4) לא נכון\n5) נכון",
@@ -1703,6 +1702,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
