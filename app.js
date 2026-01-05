@@ -57,14 +57,14 @@ const QUESTIONS = {
         { "id": "history-6", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "בין אילו שנים הייתה מלחמת העולם השניה?",
           "options": ["1939–1945", "1956–1958", "1947–1949", "1994–1998"],
-          "boardLabel": "מלחמת העולם השנייה",
+          "boardLabel": "1939–1945",
           "answer": "1939–1945", "hint": "" },
 
         { "id": "history-7", "points": 10, "type": "for_everyone", "autoScore": true,
           "image": "design/atzmaut.jpg",
           "question": "כמה אנשים חתומים על מגילת העצמאות?",
           "options": ["1", "84", "37", "120"],
-          "boardLabel": "מגילת העצמאות",
+          "boardLabel": "37",
           "answer": "37", "hint": "" }
       ]
     },
@@ -1827,4 +1827,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
