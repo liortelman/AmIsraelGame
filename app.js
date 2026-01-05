@@ -143,7 +143,7 @@ const QUESTIONS = {
           "image": "design/einstein.jpg",
           "question": "זהו את הדמות ומה פועלה.",
           "options": ["אלברט איינשטיין - פיזיקאי", "יחזקאל - נביא", "אריק איינשטיין - זמר", "שמעון פרס - נשיא"],
-          "answer": "אלברט איינשטיין — פיזיקאי; תורת היחסות ועוד.",
+          "answer": "אלברט איינשטיין - פיזיקאי",
           "hint": "" },
 
         { "id": "figures-6", "points": 10, "type": "for_everyone",
@@ -1703,6 +1703,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
