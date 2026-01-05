@@ -44,7 +44,7 @@ const QUESTIONS = {
           "hint": "ניקוד ידני • אין גלגל הצלה" },
 
         { "id": "history-5", "points": 10, "type": "for_everyone", "autoScore": true,
-          "image": "design/beytHamikdash.jpg",
+          "image": "design/hamikdash.jpg",
           "question": "מי בנה את בית המקדש הראשון?",
           "options": ["שמעון פרס", "דוד המלך", "שלמה המלך", "רחבעם"],
           "answer": "שלמה המלך", "hint": "" },
@@ -1724,6 +1724,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
