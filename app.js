@@ -38,7 +38,7 @@ const QUESTIONS = {
           "timerSeconds": 60,
           "manualScoring": true, "manualMaxAwards": 10, "manualPerAward": 2,
           "image": "design/mapa.jpg",
-          "question": "דו־קרב (דקה למשימה): הכניסה לארץ — לכל קבוצה מפה פיזית. המנחה מסדר ניקוד ידנית.",
+          "question": "לכל קבוצה מפה, עליכם לסדר כמה שיותר מקומות נכונים על המפה תוך דקה",
           "options": [],
           "answer": "ירושלים, צפת, שדה בוקר, טכניון, זכרון יעקב, אילת, המושבה כנרת, קבר הרמב\"ם, קבר רחל, מטולה",
           "hint": "ניקוד ידני • אין גלגל הצלה" },
@@ -1703,6 +1703,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
