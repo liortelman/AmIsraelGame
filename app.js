@@ -19,11 +19,13 @@ const QUESTIONS = {
         { "id": "history-1", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "למי נאמר: \"לך לך מארצך, ממולדתך ומבית אביך אל הארץ אשר אראך\"?",
           "options": ["אברהם אבינו", "יצחק אבינו", "יהושוע בן נון", "יצחק רבין"],
+          "boardLabel": "אברהם אבינו",
           "answer": "אברהם אבינו", "hint": "" },
 
         { "id": "history-2", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "איזה חג חוגגים כזכרון ליציאת מצרים? ואיזו מצווה בחג היא זכרון לתקופה?",
           "options": ["שבועות וספירת העומר", "כריסמס ועץ אשוח", "פסח ואכילת מצה", "שבת וקידוש"],
+          "boardLabel": "פסח ומצה",
           "answer": "פסח ואכילת מצה", "hint": "" },
 
         // ✅ על זמן + ניקוד ידני (מקסימום 20 נק׳ לכל קבוצה = 10 לחיצות של 2)
@@ -31,6 +33,7 @@ const QUESTIONS = {
           "timerSeconds": 60,
           "manualScoring": true, "manualMaxAwards": 10, "manualPerAward": 2,
           "question": "לכל קבוצה יש דקה לכתוב כמה שיותר מעשרת הדיברות, על כל אחד נכון תקבלו 2 נק'",
+          "boardLabel": "עשרת הדיברות",
           "options": [], "answer": "", "hint": "אין גלגל הצלה" },
 
         // ✅ מפה פיזית: ניקוד ידני (מקסימום 20 נק׳ לכל קבוצה = 10 לחיצות של 2)
@@ -41,23 +44,27 @@ const QUESTIONS = {
           "question": "לכל קבוצה מפה, עליכם לסדר כמה שיותר מקומות נכונים על המפה תוך דקה",
           "options": [],
           "answer": "ירושלים, צפת, שדה בוקר, טכניון, זכרון יעקב, אילת, המושבה כנרת, קבר הרמב\"ם, קבר רחל, מטולה",
+          "boardLabel": "ארץ ישראל",
           "hint": "ניקוד ידני • אין גלגל הצלה" },
 
         { "id": "history-5", "points": 10, "type": "for_everyone", "autoScore": true,
           "image": "design/hamikdash.jpg",
           "question": "מי בנה את בית המקדש הראשון?",
           "options": ["שמעון פרס", "דוד המלך", "שלמה המלך", "רחבעם"],
+          "boardLabel": "שלמה המלך",
           "answer": "שלמה המלך", "hint": "" },
 
         { "id": "history-6", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "בין אילו שנים הייתה מלחמת העולם השניה?",
           "options": ["1939–1945", "1956–1958", "1947–1949", "1994–1998"],
+          "boardLabel": "מלחמת העולם השנייה",
           "answer": "1939–1945", "hint": "" },
 
         { "id": "history-7", "points": 10, "type": "for_everyone", "autoScore": true,
           "image": "design/atzmaut.jpg",
           "question": "כמה אנשים חתומים על מגילת העצמאות?",
           "options": ["1", "84", "37", "120"],
+          "boardLabel": "מגילת העצמאות",
           "answer": "37", "hint": "" }
       ]
     },
@@ -68,21 +75,25 @@ const QUESTIONS = {
         { "id": "places-1", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "הר הבית — ע\"פ המסורת היהודית, מה מיוחד במקום הזה?",
           "options": ["עליו נבנה בית המקדש הראשון והשני", "שם נקרע ים סוף", "שם ניתנה התורה", "שם נבנתה חומת העיר הראשונה בימי יהושע"],
+          "boardLabel": "בית המקדש",
           "answer": "עליו נבנה בית המקדש הראשון והשני", "hint": "" },
 
         { "id": "places-2", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "הכנסת — מהו שם נרדף לכנסת?",
           "options": ["הרשות המבצעת", "בית המשפט העליון", "בית המחוקקים", "משרד ראש הממשלה"],
+          "boardLabel": "בית המחוקקים",
           "answer": "בית המחוקקים", "hint": "" },
 
         { "id": "places-3", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "שער האריות — איזה אירוע מכונן ארע במקום הזה?",
           "options": ["פריצת הצנחנים לעיר העתיקה במלחמת ששת הימים (1967)", "חתימת מגילת העצמאות", "הקמת הכנסת הראשונה", "קרב תל חי"],
+          "boardLabel": "פריצת הצנחנים",
           "answer": "פריצת הצנחנים לעיר העתיקה במלחמת ששת הימים (1967)", "hint": "" },
 
         { "id": "places-4", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "יד ושם — מה פירוש הביטוי \"חסידי אומות העולם\"?",
           "options": ["ניצולי שואה שקיבלו אזרחות ישראלית", "יהודים שעלו לארץ לפני קום המדינה", "לוחמי מחתרות בתקופת המנדט", "לא־יהודים שהצילו יהודים בשואה"],
+          "boardLabel": "חסידי אומות העולם",
           "answer": "לא־יהודים שהצילו יהודים בשואה", "hint": "" },
 
         // ✅ על זמן + ניקוד ידני (מקסימום 20 נק׳ לכל קבוצה = 5 לחיצות של 4)
@@ -92,12 +103,14 @@ const QUESTIONS = {
           "question": "על כל קבוצה לכתוב כמה שיותר מקומות/אזורים בארץ שקרויים על שם שבטים שהתיישבו שם",
           "options": [],
           "answer": "דוגמאות: גוש דן–דן, מטה יהודה–יהודה, מדבר יהודה–יהודה, רמת מנשה–מנשה, מעלה אפרים–אפרים, מטה זבולון–זבולון, רמות נפתלי–נפתלי, בני שמעון–שמעון, מטה אשר–אשר.",
+          "boardLabel": "התיישבות השבטים",
           "hint": "ניקוד ידני • אין גלגל הצלה" },
 
         { "id": "places-6", "points": 10, "type": "for_everyone", "autoScore": true,
           "image": "design/Degel_HaDyo.jpg",
           "question": "באיזו עיר בארץ צולמה התמונה הבאה?",
           "options": ["חיפה", "ירושלים", "אילת", "באר שבע"],
+          "boardLabel": "אילת",
           "answer": "אילת", "hint": "דגל הדיו / אום אל רשרש" },
 
         // ✅ Duel per-hit: 5 פגיעות * 4 נק׳ = 20 נק׳
@@ -107,6 +120,7 @@ const QUESTIONS = {
           "question": "כתבו על דף כמה שיותר מקומות שאתם מזהים מהתמונות בדקה",
           "options": [],
           "answer": "כותל, מערת המכפלה, מצדה, ים המלח, בנייני עזריאלי",
+          "boardLabel": "מקומות בארץ",
           "hint": "אין גלגל הצלה" }
       ]
     },
@@ -118,6 +132,7 @@ const QUESTIONS = {
           "image": "design/Tehillim.jpg",
           "question": "מי כתב את ספר תהילים?",
           "options": ["דוד המלך", "שלמה הקדוש", "אביב גפן", "דבורה הנביאה"],
+          "boardLabel": "דוד המלך",
           "answer": "דוד המלך", "hint": "" },
 
         { "id": "figures-2", "points": 20, "type": "duel",
@@ -125,16 +140,19 @@ const QUESTIONS = {
           "question": "דו־קרב: נכון/לא נכון – אסתר המלכה (כל תשובה נכונה = 4 נק׳)\n\n1) אסתר המלכה הייתה אשתו של המן בן אמדתא\n2) אסתר המלכה הלכה לארמון מרצון שיבחרו בה למלכה\n3) אסתר המלכה צמה שלושה ימים ושלושה לילות\n4) אסתר המלכה נתלתה על העץ כי מרדה במלך\n5) אסתר המלכה עשתה שתי משתאות לאחשוורוש והמן יום אחרי יום",
           "options": [],
           "answer": "1) לא נכון\n2) לא נכון\n3) נכון\n4) לא נכון\n5) נכון",
+          "boardLabel": "אסתר המלכה",
           "hint": "אין גלגל הצלה" },
 
         { "id": "figures-3", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "מי היה המנהיג הראשון של עם ישראל (מי הוביל את העם ביציאת מצרים)?",
           "options": ["יאנוש קורצ'אק", "יהושע בן נון", "הרבי מלובביץ'", "משה רבנו"],
+          "boardLabel": "משה רבנו",
           "answer": "משה רבנו", "hint": "" },
 
         { "id": "figures-4", "points": 10, "type": "for_everyone",
           "question": "חתמתי על מגילת העצמאות, אני ראש הממשלה ה4 של מדינת ישראל. שם משפחתי הראשון היה מאירסון, הייתי רה\"מ בזמן מלחמת יום הכיפורים… מי אני?",
           "options": [],
+          "boardLabel": "גולדה מאיר",
           "answer": "גולדה מאיר.",
           "hint": "" },
 
@@ -143,6 +161,7 @@ const QUESTIONS = {
           "question": "זהו את הדמות ומה פועלה.",
           "options": ["אלברט איינשטיין - פיזיקאי", "יחזקאל - נביא", "אריק איינשטיין - זמר", "שמעון פרס - נשיא"],
           "answer": "אלברט איינשטיין - פיזיקאי",
+          "boardLabel": "אלברט איינשטיין",
           "hint": "" },
 
         { "id": "figures-6", "points": 10, "type": "for_everyone",
@@ -150,6 +169,7 @@ const QUESTIONS = {
           "question": "מי היה ש\"י עגנון? ומה הם ראשי התיבות ש\"י?",
           "options": ["סופר עברי, חתן פרס נובל לספרות - שמואל יוסף", "זמר ישראלי, מפיק שירים לארוויזיון - שי יגנס", "הרמטכל במלחמת יום כיפור - שאול ישעיהו", "שחקן ילדים מוכר, השתתף בפסטיגל - שילה יגל"],
           "answer": "סופר עברי, חתן פרס נובל לספרות - שמואל יוסף",
+          "boardLabel": "שמואל יוסף",
           "hint": "" },
 
         { "id": "figures-7", "points": 10, "type": "for_everyone",
@@ -157,6 +177,7 @@ const QUESTIONS = {
           "question": "למי שייכים החפצים הבאים?",
           "options": [],
           "answer": "אילן רמון.",
+          "boardLabel": "אילן רמון",
           "hint": "" }
       ]
     },
@@ -167,6 +188,7 @@ const QUESTIONS = {
         { "id": "values-1", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "מה הם ראשי התיבות גמ\"ח?",
           "options": ["גמילות חסד", "גמרא וחסידות", "גמול חודשי", "גוף מנהל חינוך"],
+          "boardLabel": "גמילות חסד",
           "answer": "גמילות חסד", "hint": "" },
 
         { "id": "values-2", "points": 10, "type": "for_everyone",
@@ -174,12 +196,14 @@ const QUESTIONS = {
           "question": "איזו צדקה גדולה יותר: לסייע לאדם במציאת עבודה או לתת לו צדקה?",
           "options": [],
           "answer": "לסייע במציאת עבודה (לעזור לו לעמוד על רגליו).",
+          "boardLabel": "לסייע במציאת עבודה",
           "hint": "" },
 
         { "id": "values-3", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "ממי לומדים את הערך של הכנסת אורחים ומאיזה אירוע?",
           "options": ["אברהם אבינו — הכנסת האורחים לשלושת המלאכים", "משה רבנו — קריעת ים סוף", "יוסף — הכנסת האורחים למשפחתו למצרים", "יהושע בן נון — חציית הירדן"],
           "answer": "אברהם אבינו — הכנסת האורחים לשלושת המלאכים",
+          "boardLabel": "הכנסת אורחים",
           "hint": "" },
 
         { "id": "values-4", "points": 10, "type": "for_everyone",
@@ -187,24 +211,28 @@ const QUESTIONS = {
           "question": "על מי נכתב השיר ומה הוא ניסה לקדם?",
           "options": [],
           "answer": "אליעזר בן־יהודה — החייאת השפה העברית.",
+          "boardLabel": "אליעזר בן יהודה",
           "hint": "" },
 
         { "id": "values-5", "points": 10, "type": "for_everyone",
           "question": "אני מתנה שעם ישראל קיבל במיוחד. מאז ועד היום תרבויות רבות למדו מעם ישראל. אולי ראשון, אולי שישי — אבל בכל מקרה המקור זה אני… מי אני?",
           "options": [],
           "answer": "שבת.",
+          "boardLabel": "שבת",
           "hint": "" },
 
         { "id": "values-6", "points": 20, "type": "duel",
           "question": "עליכם לחשב את הגימטריה של הפסוק \"וַאֲהַבְתֶּם אֶת-הַגֵּר כִּי-גֵרִים הֱיִיתֶם בְּאֶרֶץ מִצְרָיִם\". מי שמגיע ראשון לתשובה הנכונה מנצח!",
           "options": [],
           "answer": "2480",
+          "boardLabel": "2480",
           "hint": "אין גלגל הצלה" },
 
         { "id": "values-7", "points": 10, "type": "for_everyone",
           "question": "אני מופיע בעשרת הדיברות ביחס למשפחה, כבסיס לחברה מתוקנת, כמצווה שצריך לעשות ולא להמנע ממנה. מה אני?",
           "options": [],
           "answer": "כיבוד הורים (כבד את אביך ואת אמך).",
+          "boardLabel": "כיבוד הורים",
           "hint": "" }
       ]
     },
@@ -216,41 +244,48 @@ const QUESTIONS = {
           "image": "design/flag.jpg",
           "question": "מאיזה אלמנט יהודי אחר הגיעו שני פסי התכלת בדגל ישראל?",
           "options": ["הטלית", "החנוכייה", "השופר", "המזוזה"],
+          "boardLabel": "טלית",
           "answer": "הטלית", "hint": "" },
 
         { "id": "symbols-2", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "מי כתב את מילות השיר \"התקווה\" (ההמנון)?",
           "options": ["אהוד מנור", "אנה זק", "דוד בן גוריון", "נפתלי הרץ אימבר"],
+          "boardLabel": "נפתלי הרץ אימבר",
           "answer": "נפתלי הרץ אימבר", "hint": "" },
 
         { "id": "symbols-3", "points": 10, "type": "for_everyone",
           "question": "מה הסמל של המדינה ומאיפה הגיעו הסמלים שבו?",
           "options": [],
           "answer": "מנורה מהמקדש; עלי זית כסמל לשלום..",
+         "boardLabel": "מנורת המקדש",
           "hint": "" },
 
         { "id": "symbols-4", "points": 10, "type": "for_everyone",
           "question": "מה הם ראשי התיבות תנ\"ך?",
           "options": [],
           "answer": "תורה, נביאים, כתובים.",
+          "boardLabel": "תורה, נביאים, כתובים",
           "hint": "" },
 
         { "id": "symbols-5", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "מה יש בתוך המזוזה?",
           "options": ["קלף עם פרשיות \"שמע\" ו\"והיה אם שמוע\"", "מטבע כסף קטן", "דף עם \"התקווה\"", "אבקה מיוחדת לברכה"],
           "answer": "קלף עם פרשיות \"שמע\" ו\"והיה אם שמוע\"",
+          "boardLabel": "המזוזה",
           "hint": "" },
 
         { "id": "symbols-6", "points": 20, "type": "duel",
           "question": "ירושלים תמיד הייתה מושא לתפילות וחלומות. המשימה: לומר כמה שיותר שירי ירושלים תור־תור. מי שאחרי 5 שניות לא מוצא — מפסיד.",
           "options": [],
           "answer": "",
+          "boardLabel": "ירושלים",
           "hint": "אין גלגל הצלה" },
 
         { "id": "symbols-7", "points": 10, "type": "for_everyone",
           "question": "באיזה תאריך עברי ולועזי נכתבה מגילת העצמאות? ואיפה?",
           "options": ["י\"ג באב תשע\"ט, 13.8.2019, במצדה", "ה׳ באייר תש\"ח, 14.5.1948, בבית דיזנגוף", "כ\"ט בתמוז תשס\"א, 20.7.2001, בפתח תקווה", "א׳ בחשוון תרפ\"ט, 7.10.1928, בכותל"],
           "answer": "ה׳ באייר תש\"ח, 14.5.1948, בבית דיזנגוף.",
+          "boardLabel": "ה' באייר תש\"ח",
           "hint": "" }
       ]
     },
@@ -261,36 +296,43 @@ const QUESTIONS = {
         { "id": "achievements-1", "points": 10, "type": "for_everyone",
           "image": "design/problem.jpg",
           "question": "בעיה: חוסר מים בשטח מדברי — מה הפתרון הישראלי?",
+          "boardLabel": "התפלת מים",
           "options": [], "answer": "התפלת מים.", "hint": "" },
 
         { "id": "achievements-2", "points": 10, "type": "for_everyone",
           "image": "design/problem.jpg",
           "question": "בעיה: סגידה לאלילי אבן וחומר — מה הרעיון/הפתרון שהביא עם ישראל?",
+          "boardLabel": "אמונה באל אחד",
           "options": [], "answer": "אמונה בא־ל אחד.", "hint": "" },
 
         { "id": "achievements-3", "points": 10, "type": "for_everyone",
           "image": "design/problem.jpg",
           "question": "בעיה: ניצול אנרגיה זמינה — מה הפתרון הישראלי הנפוץ?",
+          "boardLabel": "דוד שמש",
           "options": [], "answer": "דודי שמש.", "hint": "" },
 
         { "id": "achievements-4", "points": 10, "type": "for_everyone",
           "image": "design/problem.jpg",
           "question": "בעיה: דאגה לעובד — מה העיקרון/הפתרון?",
+           "boardLabel": "יום שבת",
           "options": [], "answer": "השבת.", "hint": "" },
 
         { "id": "achievements-5", "points": 10, "type": "for_everyone",
           "image": "design/problem.jpg",
           "question": "בעיה: שימור מאגרי מידע ותוכנות — מה הפתרון (לפי המשחק)?",
+           "boardLabel": "דיסק און קי",
           "options": [], "answer": "דיסק און קי.", "hint": "" },
 
         { "id": "achievements-6", "points": 10, "type": "for_everyone",
           "image": "design/problem.jpg",
           "question": "בעיה: הגעה ליעד בדרך הקצרה — מה הפתרון הישראלי?",
+          "boardLabel": "Waze",
           "options": [], "answer": "Waze (ווייז).", "hint": "" },
 
         { "id": "achievements-7", "points": 10, "type": "for_everyone",
           "image": "design/problem.jpg",
           "question": "בעיה: ירי טילים — מה הפתרון ההגנתי הישראלי?",
+          "boardLabel": "כיפת ברזל",
           "options": [], "answer": "כיפת ברזל.", "hint": "" }
       ]
     }
@@ -1785,3 +1827,4 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
