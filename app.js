@@ -1188,6 +1188,19 @@ function renderDuelFromState() {
   // After reveal: show question text
   if (qText) qText.textContent = q.question || "";
 
+    // ✅ Answer text area (duel)
+  const da = $("duelAnswerText");
+  if (da) {
+    const hasAnswer = String(q.answer ?? "").trim() !== "";
+    if (d.revealed && hasAnswer) {
+      da.textContent = `תשובה: ${q.answer}`;
+      da.classList.remove("hidden");
+    } else {
+      da.textContent = "";
+      da.classList.add("hidden");
+    }
+  }
+
   // Helper: show/hide team2 button
   const hasTeam3 = (state.teams?.length || 0) >= 3;
   if (b2) {
@@ -1666,6 +1679,21 @@ function wireDuelButtons() {
     startTimer(seconds);
   });
 
+  $("btnDuelShowAnswer")?.addEventListener("click", () => {
+  const d = state.duel;
+  if (!d) return;
+
+  const q = getQuestionBy(d.catKey, d.qIndex);
+  if (!q) return;
+
+  const da = $("duelAnswerText");
+  if (da) {
+    da.textContent = `תשובה: ${q.answer ?? ""}`;
+    da.classList.remove("hidden");
+  }
+});
+
+
   // ---- helpers ----
   function isManualDuelQ(q) {
     return q?.type === "duel" && q?.manualScoring === true;
@@ -1849,7 +1877,4 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
-
-
-
 
