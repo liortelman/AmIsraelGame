@@ -104,7 +104,7 @@ const QUESTIONS = {
         { "id": "places-7", "points": 20, "type": "duel",
           "scoringMode": "per_hit", "perCorrect": 4, "maxHits": 5,
           "image": "design/five.jpg",
-          "question": "זהו את התמונות הבאות (כל תשובה נכונה = 4 נק׳)",
+          "question": "זהו כמה שיותר מהמקומות הבאים בדקה וכתבו על דף (כל תשובה נכונה = 4 נק׳)",
           "options": [],
           "answer": "כותל, מערת המכפלה, מצדה, ים המלח, בנייני עזריאלי",
           "hint": "אין גלגל הצלה" }
@@ -1703,6 +1703,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
