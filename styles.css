@@ -1061,12 +1061,12 @@ body{
   text-shadow: none;
 }
 
-.board-btn.used{
-  padding: 8px;
-  font-size: 14px;
-  line-height: 1.1;
-  text-align: center;
-  white-space: normal;
+.board-btn.used {
+  font-size: clamp(12px, 1.2vw, 16px);
+  line-height: 1.15;
+  white-space: normal;      /* מאפשר ירידת שורה */
+  word-break: break-word;   /* שוברים מילים ארוכות */
+  padding: 10px 8px;
 }
 
 .answer {
@@ -1077,6 +1077,3 @@ body{
   border: 1px solid rgba(11,18,32,0.12);
   font-weight: 800;
 }
-
-
-
