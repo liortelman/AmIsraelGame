@@ -829,17 +829,39 @@ function openQuestionModal(catKey, qIndex) {
               pushUndo();
               awardPoints(state.currentTeamIndex, points);
             } else {
-              if (!confirmBurnIfNeeded()) {
-                optWrap.querySelectorAll(".option-btn").forEach(x => (x.disabled = false));
-                return;
-              }
-              pushUndo();
-              // ✅ burned: בלי צבע קבוצה + טקסט "—"
-              markUsed(activeCatKey, activeQIndex, null, "—", "burned");
-              closeQuestionModal();
-              advanceTurn();
-              rerenderBoardUI();
-            }
+              // ❗ לא שורפים וסוגרים ישר — קודם מציגים תשובה נכונה
+  const ans = $("modalAnswer");
+  if (ans) {
+    ans.textContent = `לא נכון. התשובה הנכונה: ${correct}`;
+    ans.classList.remove("hidden");
+  }
+
+  // מסמנים ויזואלית: בחירה שגויה + תשובה נכונה
+  optWrap.querySelectorAll(".option-btn").forEach(x => {
+    const txt = x.textContent.trim();
+    if (txt === correct) x.classList.add("correct");
+    if (txt === chosen) x.classList.add("wrong");
+  });
+
+  // הופכים את כפתור "לא לתת נקודות" ל-"המשך"
+  const none = $("btnNoPoints");
+  if (none) {
+    none.textContent = "המשך (שריפת שאלה בלי נקודות)";
+    none.onclick = () => {
+      if (!confirmBurnIfNeeded()) return;
+      pushUndo();
+      markUsed(activeCatKey, activeQIndex, null, "—", "burned");
+      closeQuestionModal();
+      advanceTurn();
+      rerenderBoardUI();
+    };
+  }
+
+  // לא סוגרים את המודאל אוטומטית
+  return;
+}
+
+  
           }
         });
 
@@ -1827,6 +1849,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
