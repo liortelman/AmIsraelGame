@@ -911,15 +911,20 @@ function startTimer(seconds) {
     updateTimerUI(timerRemaining, total);
   }, 1000);
 }
+
 function stopTimer() {
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = null;
 }
 
 function updateTimerUI(remaining, total) {
-  const bar = $("timerBar");
-  const fill = $("timerFill");
-  const text = $("timerText");
+  // ✅ choose timer elements by screen
+  const isDuel = state.phase === "duel";
+
+  const bar  = isDuel ? $("duelTimerBar")  : $("timerBar");
+  const fill = isDuel ? $("duelTimerFill") : $("timerFill");
+  const text = isDuel ? $("duelTimerText") : $("timerText");
+
   if (!bar || !fill || !text) return;
 
   if (!total || total <= 0) {
@@ -934,6 +939,7 @@ function updateTimerUI(remaining, total) {
   fill.style.width = `${pct * 100}%`;
   text.textContent = `${remaining}s`;
 }
+
 
 /* === Duel logic (2-stage) === */
 function openDuel(catKey, qIndex) {
@@ -1703,5 +1709,6 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
