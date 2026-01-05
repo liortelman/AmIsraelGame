@@ -154,7 +154,7 @@ const QUESTIONS = {
 
         { "id": "figures-7", "points": 10, "type": "for_everyone",
           "image": "design/ilan.jpg",
-          "question": "למי שייכים החפצים הבאים?.",
+          "question": "למי שייכים החפצים הבאים?",
           "options": [],
           "answer": "אילן רמון.",
           "hint": "" }
@@ -1702,6 +1702,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
