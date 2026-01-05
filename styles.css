@@ -1069,3 +1069,14 @@ body{
   white-space: normal;
 }
 
+.answer {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(11,18,32,0.12);
+  font-weight: 800;
+}
+
+
+
