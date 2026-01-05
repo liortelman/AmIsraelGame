@@ -1019,3 +1019,11 @@ body{
 #modalQuestion {
   white-space: pre-wrap;
 }
+
+/* Used board cells by winner team */
+.board-btn.used.won-by-0 { background: #2d6cdf; color: white; }
+.board-btn.used.won-by-1 { background: #16a34a; color: white; }
+.board-btn.used.won-by-2 { background: #f59e0b; color: #111827; }
+
+.board-btn.used.burned { background: #e5e7eb; color: #6b7280; }
+
