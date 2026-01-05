@@ -1517,9 +1517,6 @@ function wireDuelButtons() {
   state.duel.revealed = true;
   saveState();
 
-  // ✅ start duel timer if configured
-  startTimer(Number(q.timerSeconds || 0));
-
   renderDuelFromState();
 });
   
@@ -1727,6 +1724,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
