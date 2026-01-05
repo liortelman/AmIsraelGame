@@ -303,7 +303,7 @@ const DEFAULT_STATE = {
   teamCount: 2,
   teams: [],
   currentTeamIndex: 0,
-  used: {},
+  used: {},                // { [qid]: {status, teamIndex, label} }
   duel: null,              // {catKey, qIndex, revealed}
   undoStack: [],            // stack of snapshots
   partialHits: {} // { [qid]: { [teamIndex]: hitsCount } }
@@ -338,7 +338,6 @@ function showOnlyScreen(screenId) {
   const target = $(screenId);
   if (target) target.classList.remove("hidden");
 }
-
 
 /* === Intro === */
 const INTRO_LOGO_SRC = "design/logo.png"; // logo path
@@ -379,7 +378,6 @@ function renderIntroScreen() {
     applyStateToUI();
   });
 }
-
 
 /* === Undo === */
 function snapshotForUndo() {
@@ -553,6 +551,24 @@ function renderTurnLabel() {
   el.textContent = t ? `תור: ${t.name}` : "";
 }
 
+/* === Board "label" control ===
+   כדי לשלוט מה כתוב על המשבצת לכל שאלה:
+   פשוט הוסיפי לשאלה שדה boardLabel בתוך QUESTIONS (מבלי לשנות לוגיקה אחרת).
+   אם אין boardLabel — ברירת מחדל היא ✓ כדי לא לחשוף תשובות.
+*/
+function getBoardLabelForQuestion(q) {
+  const s = String(q?.boardLabel || "").trim();
+  return s || "✓";
+}
+
+// תאימות אחורה: אם איכשהו יש "true" מגרסה ישנה — נתייחס כ"burned".
+function normalizeUsedEntry(entryRaw) {
+  if (!entryRaw) return null;
+  if (entryRaw === true) return { status: "burned", teamIndex: null, label: "—" };
+  if (typeof entryRaw === "object") return entryRaw;
+  return { status: "burned", teamIndex: null, label: "—" };
+}
+
 function buildBoard() {
   const board = $("board");
   if (!board) return;
@@ -571,7 +587,7 @@ function buildBoard() {
     board.appendChild(cell);
   });
 
-  // Rows: question numbers
+  // Rows: question numbers / labels
   for (let r = 0; r < rCount; r++) {
     const displayNumber = r + 1;
 
@@ -581,15 +597,38 @@ function buildBoard() {
       const btn = document.createElement("button");
       btn.className = "board-cell board-btn";
       btn.type = "button";
-      btn.textContent = String(displayNumber);
 
       btn.dataset.cat = catKey;
       btn.dataset.qindex = String(r);
       btn.dataset.qid = q?.id || "";
 
-      const isUsed = q?.id ? !!state.used[q.id] : true;
-      btn.disabled = !q || isUsed;
-      if (btn.disabled) btn.classList.add("used");
+      if (!q?.id) {
+        btn.disabled = true;
+        btn.classList.add("used");
+        btn.textContent = "";
+        board.appendChild(btn);
+        return;
+      }
+
+      const usedEntry = normalizeUsedEntry(state.used?.[q.id]);
+      const isUsed = !!usedEntry;
+
+      if (!isUsed) {
+        btn.textContent = String(displayNumber);
+        btn.disabled = false;
+      } else {
+        btn.disabled = true;
+        btn.classList.add("used");
+
+        const label = String(usedEntry.label ?? "").trim() || "—";
+        btn.textContent = label;
+
+        if (usedEntry.status === "won" && typeof usedEntry.teamIndex === "number") {
+          btn.classList.add(`won-by-${usedEntry.teamIndex}`);
+        } else {
+          btn.classList.add("burned");
+        }
+      }
 
       btn.addEventListener("click", () => {
         if (!q) return;
@@ -626,10 +665,23 @@ let activeQIndex = null;
 let timerInterval = null;
 let timerRemaining = 0;
 
-function markUsed(catKey, qIndex) {
+/* === Mark used (NEW structure) ===
+  state.used[qid] = { status: "won"|"burned", teamIndex: number|null, label: string }
+*/
+function markUsed(catKey, qIndex, teamIndex = null, labelOverride = null, status = "won") {
   const q = getQuestionBy(catKey, qIndex);
   if (!q?.id) return;
-  state.used[q.id] = true;
+
+  const label = (labelOverride != null)
+    ? String(labelOverride)
+    : getBoardLabelForQuestion(q);
+
+  state.used[q.id] = {
+    status: String(status || "won"),
+    teamIndex: (typeof teamIndex === "number") ? teamIndex : null,
+    label
+  };
+
   saveState();
 }
 
@@ -669,7 +721,7 @@ function openQuestionModal(catKey, qIndex) {
 
   setText("modalQuestion", q.question || "");
 
-    // media (image)
+  // media (image)
   const media = $("modalMedia");
   const img = $("modalImage");
   const src = String(q.image || "").trim();
@@ -691,20 +743,20 @@ function openQuestionModal(catKey, qIndex) {
   }
 
   // audio
-const aWrap = $("modalAudioWrap");
-const audioEl = $("modalAudio");
-const aSrc = String(q.audio || "").trim();
+  const aWrap = $("modalAudioWrap");
+  const audioEl = $("modalAudio");
+  const aSrc = String(q.audio || "").trim();
 
-if (aWrap && audioEl) {
-  if (aSrc) {
-    audioEl.src = aSrc;
-    aWrap.classList.remove("hidden");
-  } else {
-    audioEl.pause();
-    audioEl.removeAttribute("src");
-    aWrap.classList.add("hidden");
+  if (aWrap && audioEl) {
+    if (aSrc) {
+      audioEl.src = aSrc;
+      aWrap.classList.remove("hidden");
+    } else {
+      audioEl.pause();
+      audioEl.removeAttribute("src");
+      aWrap.classList.add("hidden");
+    }
   }
-}
 
   // options
   const optWrap = $("modalOptions");
@@ -740,7 +792,8 @@ if (aWrap && audioEl) {
                 return;
               }
               pushUndo();
-              markUsed(activeCatKey, activeQIndex);
+              // ✅ burned: בלי צבע קבוצה + טקסט "—"
+              markUsed(activeCatKey, activeQIndex, null, "—", "burned");
               closeQuestionModal();
               advanceTurn();
               rerenderBoardUI();
@@ -774,7 +827,8 @@ if (aWrap && audioEl) {
       none.onclick = () => {
         if (!confirmBurnIfNeeded()) return;
         pushUndo();
-        markUsed(activeCatKey, activeQIndex);
+        // ✅ burned: בלי צבע קבוצה + טקסט "—"
+        markUsed(activeCatKey, activeQIndex, null, "—", "burned");
         closeQuestionModal();
         advanceTurn();
         rerenderBoardUI();
@@ -804,7 +858,6 @@ function closeQuestionModal() {
     audioEl.removeAttribute("src");
   }
   if (aWrap) aWrap.classList.add("hidden");
-
 }
 
 function renderTeamAwardButtons(points) {
@@ -865,7 +918,8 @@ function renderTeamAwardButtons(points) {
     none.onclick = () => {
       if (!confirmBurnIfNeeded()) return;
       pushUndo();
-      markUsed(activeCatKey, activeQIndex);
+      // ✅ burned: בלי צבע קבוצה, אבל "✓" כדי לסמן סיום (אפשר לשנות ל-"—" אם תרצי)
+      markUsed(activeCatKey, activeQIndex, null, "✓", "burned");
       closeQuestionModal();
       advanceTurn();
       rerenderBoardUI();
@@ -881,7 +935,9 @@ function awardPoints(teamIndex, points) {
     state.teams[teamIndex].score += pts;
   }
 
-  markUsed(activeCatKey, activeQIndex);
+  // ✅ won: צבע לפי קבוצה + label לפי boardLabel (או ✓ כברירת מחדל)
+  markUsed(activeCatKey, activeQIndex, teamIndex);
+
   saveState();
 
   closeQuestionModal();
@@ -940,7 +996,6 @@ function updateTimerUI(remaining, total) {
   text.textContent = `${remaining}s`;
 }
 
-
 /* === Duel logic (2-stage) === */
 function openDuel(catKey, qIndex) {
   state.phase = "duel";
@@ -951,12 +1006,14 @@ function openDuel(catKey, qIndex) {
 }
 
 function closeDuel(goNextTurnIfRevealed) {
-    stopTimer();
-    updateTimerUI(0, 0);
+  stopTimer();
+  updateTimerUI(0, 0);
+
   if (goNextTurnIfRevealed) {
     if (!confirmBurnIfNeeded()) return;
     pushUndo();
-    markUsed(state.duel?.catKey, state.duel?.qIndex);
+    // ✅ burned אחרי reveal: בלי צבע קבוצה + "—"
+    markUsed(state.duel?.catKey, state.duel?.qIndex, null, "—", "burned");
     state.phase = "board";
     state.duel = null;
     saveState();
@@ -1005,7 +1062,7 @@ function renderDuelFromState() {
       : "דו־קרב! קודם כולם מוכנים, ואז לוחצים 'הצג שאלה'."
   );
 
-    const backBtn = $("btnDuelBack");
+  const backBtn = $("btnDuelBack");
   if (backBtn) {
     backBtn.textContent = d.revealed ? "סיום מתן ניקוד" : "חזרה ללוח";
   }
@@ -1018,7 +1075,7 @@ function renderDuelFromState() {
   if (area) area.classList.toggle("hidden", !d.revealed);
   if (showBtn) showBtn.disabled = !!d.revealed;
 
-   // ✅ Duel image rules:
+  // ✅ Duel image rules:
   // Before reveal -> ALWAYS show duel.jpg
   // After reveal  -> show q.image only if exists, else hide
   const media = $("duelMedia");
@@ -1074,7 +1131,7 @@ function renderDuelFromState() {
     else b2.classList.add("hidden");
   }
 
-  // --- MODE 1: Manual scoring duel (5 clicks x 4 = 20 max per team) ---
+  // --- MODE 1: Manual scoring duel ---
   if (q.type === "duel" && q.manualScoring === true) {
     const maxAwards = Number(q.manualMaxAwards ?? 5);
     const perAward = Number(q.manualPerAward ?? 4);
@@ -1082,7 +1139,7 @@ function renderDuelFromState() {
     // IMPORTANT: manual uses a separate hits-key so it doesn't collide with per_hit counters
     const manualKey = q.id ? `manual_awards__${q.id}` : "";
 
-    setText("duelIntro", "המנחה: תנו נקודות ידנית (עד 5 לחיצות לכל קבוצה):");
+    setText("duelIntro", "המנחה: תנו נקודות ידנית:");
 
     const updateManualBtn = (btn, teamIndex) => {
       if (!btn) return;
@@ -1103,7 +1160,7 @@ function renderDuelFromState() {
     return;
   }
 
-  // --- MODE 2: per_hit duel (each click adds perCorrect, up to maxHits per team) ---
+  // --- MODE 2: per_hit duel ---
   if (isPerHitScoring(q)) {
     const per = Number(q.perCorrect || 0);
     const maxHits = getMaxHits(q);
@@ -1151,7 +1208,7 @@ function renderDuelFromState() {
 }
 
 function awardDuelWinner(teamIndex) {
-  stopTimer()
+  stopTimer();
   const d = state.duel;
   if (!d) return;
 
@@ -1165,7 +1222,9 @@ function awardDuelWinner(teamIndex) {
     state.teams[teamIndex].score += Number(points || 0);
   }
 
-  markUsed(d.catKey, d.qIndex);
+  // ✅ won: צבע לפי קבוצה + label לפי boardLabel (או ✓)
+  markUsed(d.catKey, d.qIndex, teamIndex);
+
   state.phase = "board";
   state.duel = null;
   saveState();
@@ -1176,7 +1235,7 @@ function awardDuelWinner(teamIndex) {
 }
 
 function awardDuelHit(teamIndex) {
-  stopTimer()
+  stopTimer();
   const d = state.duel;
   if (!d) return;
 
@@ -1191,7 +1250,7 @@ function awardDuelHit(teamIndex) {
   if (totalBefore >= maxHits) return;
 
   const hitsTeam = getHits(qid, teamIndex);
-  if (hitsTeam >= maxHits) return; // להשאיר כדי שלא תעלה “מעבר למותר” לקבוצה
+  if (hitsTeam >= maxHits) return;
 
   pushUndo();
 
@@ -1207,11 +1266,12 @@ function awardDuelHit(teamIndex) {
   // ✅ אם הגענו למקסימום הכולל – סוגרים דו־קרב וממשיכים תור
   const totalAfter = getTotalHits(qid);
   if (totalAfter >= maxHits) {
-    // מסיימים דו-קרב כמו ניצחון: מסמנים שאלה כשומשה וממשיכים תור
     if (!confirmBurnIfNeeded()) return;
 
     pushUndo();
-    markUsed(d.catKey, d.qIndex);
+    // per_hit נגמר: מסמנים כ"used" בלי צבע (אין מנצח חד-משמעי)
+    markUsed(d.catKey, d.qIndex, null, "✓", "won");
+
     state.phase = "board";
     state.duel = null;
     saveState();
@@ -1506,41 +1566,41 @@ function wireModalButtons() {
 }
 
 function wireDuelButtons() {
-  
+
   $("btnDuelShowQuestion")?.addEventListener("click", () => {
-  if (!state.duel) return;
+    if (!state.duel) return;
 
-  const q = getQuestionBy(state.duel.catKey, state.duel.qIndex);
-  if (!q) return;
+    const q = getQuestionBy(state.duel.catKey, state.duel.qIndex);
+    if (!q) return;
 
-  pushUndo();
-  state.duel.revealed = true;
-  saveState();
+    pushUndo();
+    state.duel.revealed = true;
+    saveState();
 
-  renderDuelFromState();
-});
-  
+    renderDuelFromState();
+  });
+
   $("btnDuelBack")?.addEventListener("click", () => {
     const revealed = !!state.duel?.revealed;
     closeDuel(revealed);
   });
 
   $("btnDuelStartTimer")?.addEventListener("click", () => {
-  const d = state.duel;
-  if (!d) return;
+    const d = state.duel;
+    if (!d) return;
 
-  const q = getQuestionBy(d.catKey, d.qIndex);
-  if (!q) return;
+    const q = getQuestionBy(d.catKey, d.qIndex);
+    if (!q) return;
 
-  const seconds = Number(q.timerSeconds || 0);
-  if (seconds <= 0) {
-    alert("לשאלה הזו אין timerSeconds");
-    return;
-  }
+    const seconds = Number(q.timerSeconds || 0);
+    if (seconds <= 0) {
+      alert("לשאלה הזו אין timerSeconds");
+      return;
+    }
 
-  // ✅ כל לחיצה מתחילה מחדש (אפשר גם כמה פעמים)
-  startTimer(seconds);
-});
+    // ✅ כל לחיצה מתחילה מחדש (אפשר גם כמה פעמים)
+    startTimer(seconds);
+  });
 
   // ---- helpers ----
   function isManualDuelQ(q) {
@@ -1582,8 +1642,6 @@ function wireDuelButtons() {
     const qid = q?.id || "";
     if (!qid) return;
 
-    // אצלך יש לוגיקה של totalHits בתוך renderDuelFromState/awardDuelHit,
-    // אבל פה מספיק להגן לא לעבור את מגבלת הקבוצה:
     if (getHits(qid, teamIndex) >= maxHits) return;
 
     pushUndo();
@@ -1672,7 +1730,7 @@ function wireKeyboardShortcuts() {
 
 /* === Apply state === */
 function applyStateToUI() {
-    // intro screen first (until user clicks "מתחילים")
+  // intro screen first (until user clicks "מתחילים")
   if (state.phase === "intro") {
     saveState();
     renderIntroScreen();
@@ -1720,15 +1778,10 @@ function boot() {
   if (loaded) state = loaded;
   if (!state.partialHits) state.partialHits = {};
 
+  // תאימות אחורה: אם יש used בצורה ישנה — לא חובה, אבל נשאר נקי.
+  if (!state.used) state.used = {};
+
   applyStateToUI();
 }
 
 document.addEventListener("DOMContentLoaded", boot);
-
-
-
-
-
-
-
-
