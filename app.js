@@ -984,7 +984,7 @@ function renderTeamAwardButtons(points) {
       if (!confirmBurnIfNeeded()) return;
       pushUndo();
       // ✅ burned: בלי צבע קבוצה, אבל "✓" כדי לסמן סיום (אפשר לשנות ל-"—" אם תרצי)
-      markUsed(activeCatKey, activeQIndex, null, "✓", "burned");
+      markUsed(activeCatKey, activeQIndex, null, "—", "burned");
       closeQuestionModal();
       advanceTurn();
       rerenderBoardUI();
@@ -1348,7 +1348,7 @@ function awardDuelHit(teamIndex) {
 
     pushUndo();
     // per_hit נגמר: מסמנים כ"used" בלי צבע (אין מנצח חד-משמעי)
-    markUsed(d.catKey, d.qIndex, null, "✓", "won");
+    markUsed(d.catKey, d.qIndex, null, "—", "won");
 
     state.phase = "board";
     state.duel = null;
@@ -1878,6 +1878,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
