@@ -1217,7 +1217,7 @@ function renderDuelFromState() {
     // IMPORTANT: manual uses a separate hits-key so it doesn't collide with per_hit counters
     const manualKey = q.id ? `manual_awards__${q.id}` : "";
 
-    setText("duelIntro", "המנחה: תנו נקודות ידנית:");
+    setText("duelIntro", "המנחה יבדוק את התשובות כשנגמר הזמן");
 
     const updateManualBtn = (btn, teamIndex) => {
       if (!btn) return;
@@ -1244,7 +1244,7 @@ function renderDuelFromState() {
     const maxHits = getMaxHits(q);
     const qid = q.id;
 
-    setText("duelIntro", "תנו נקודות לפי כל תשובה נכונה:");
+    setText("duelIntro", "המנחה יבדוק את התשובות כשנגמר הזמן");
 
     const updatePerHitBtn = (btn, teamIndex) => {
       if (!btn) return;
@@ -1266,7 +1266,7 @@ function renderDuelFromState() {
   }
 
   // --- MODE 3: Normal duel winner takes all ---
-  setText("duelIntro", "בחרו מנצח:");
+  setText("duelIntro", "המנחה יחליט איזו קבוצה ניצחה!");
 
   if (b0) {
     b0.textContent = `ניצחון: ${state.teams[0]?.name ?? "קבוצה 1"}`;
@@ -1878,4 +1878,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
