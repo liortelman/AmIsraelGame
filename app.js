@@ -1616,6 +1616,14 @@ function wireStartScreen() {
   }
 }
 
+function wireRulesScreen() {
+  $("btnRulesContinue")?.addEventListener("click", () => {
+    state.phase = "start";
+    saveState();
+    applyStateToUI();
+  });
+}
+
 function wireModalButtons() {
   $("btnCloseModal")?.addEventListener("click", closeQuestionModal);
 
@@ -1860,6 +1868,7 @@ function applyStateToUI() {
 function boot() {
   wireTopButtons();
   wireStartScreen();
+  wireRulesScreen();
   wireModalButtons();
   wireDuelButtons();
   wireEndButtons();
@@ -1878,6 +1887,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
