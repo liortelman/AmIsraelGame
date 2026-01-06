@@ -1077,3 +1077,63 @@ body{
   border: 1px solid rgba(11,18,32,0.12);
   font-weight: 800;
 }
+
+/* ===== Rules Screen ===== */
+.rulesCard {
+  max-width: 900px;
+}
+
+.rulesBlock {
+  margin-top: 18px;
+  padding: 16px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(11, 18, 32, 0.08);
+}
+
+.rulesTitle {
+  font-weight: 900;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.rulesText {
+  line-height: 1.7;
+  font-size: 15px;
+  opacity: 0.95;
+}
+
+.rulesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.rulesItem {
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(11, 18, 32, 0.08);
+}
+
+.rulesItemTitle {
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+
+.rulesItemText {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.rulesActions {
+  margin-top: 18px;
+}
+
+@media (max-width: 720px) {
+  .rulesGrid {
+    grid-template-columns: 1fr;
+  }
+}
