@@ -1839,6 +1839,12 @@ function applyStateToUI() {
     return;
   }
 
+  if (state.phase === "rules") {
+  saveState();
+  showOnlyScreen("screenRules");
+  return;
+  }
+
   if (!state.teams || !state.teams.length) {
     state.phase = "start";
     saveState();
@@ -1887,6 +1893,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
