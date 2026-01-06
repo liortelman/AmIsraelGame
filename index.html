@@ -31,35 +31,72 @@
     <div id="screenIntro" class="screen hidden">
       <div id="introWrap"></div>
     </div>
+    
 <!-- Rules Screen -->
 <section id="screenRules" class="screen hidden">
-  <div class="card">
-    <h1 class="h1">🧠 ?איך המשחק עובד</h1>
+  <div class="card rulesCard">
+    <h1 class="h1">איך משחקים?</h1>
 
-    <p class="p">
-      המשחק מחולק לקטגוריות ושאלות ברמות קושי שונות.
-    </p>
+    <div class="rulesBlock">
+      <div class="rulesTitle">1) הלוח</div>
+      <div class="rulesText">
+        במסך המשחק תראו <b>לוח קטגוריות</b> עם מספרים.
+        <br />
+        בכל תור, <b>הקבוצה שבתור</b> בוחרת שאלה מהלוח (קטגוריה + מספר).
+      </div>
+    </div>
 
-    <ul class="p">
-      <li><b>שאלה רגילה</b> – הקבוצה שבתור עונה.</li>
-      <li><b>שאלת “לכולם” (אמריקאי)</b> – בוחרים תשובה מהרשימה.</li>
-      <li><b>דו־קרב</b> – שתי הקבוצות מתחרות, והמנחה נותן ניקוד.</li>
-      <li>בחלק מהשאלות משתמשים ב<b>תמונה / מפה / שמע</b>.</li>
-      <li>יש אפשרות לטיימר וגלגלי הצלה (לפי המנחה).</li>
-    </ul>
+    <div class="rulesBlock">
+      <div class="rulesTitle">2) נקודות</div>
+      <div class="rulesText">
+        לכל שאלה יש ניקוד שמופיע בכותרת השאלה (למשל <b>10 נק׳</b> או <b>20 נק׳</b>).
+        <br />
+        אם עונים נכון – המנחה נותן נקודות, והשאלה נסגרת בלוח.
+      </div>
+    </div>
 
-    <p class="p">
-      המנחה מנהל את הניקוד והמעבר בין השאלות.
-    </p>
+    <div class="rulesBlock">
+      <div class="rulesTitle">3) סוגי שאלות</div>
 
-    <div class="row">
+      <div class="rulesGrid">
+        <div class="rulesItem">
+          <div class="rulesItemTitle">שאלה רגילה</div>
+          <div class="rulesItemText">הקבוצה שבתור עונה, והמנחה נותן ניקוד.</div>
+        </div>
+
+        <div class="rulesItem">
+          <div class="rulesItemTitle">אמריקאי (בחירה מרשימה)</div>
+          <div class="rulesItemText">בוחרים תשובה. אם לא נכון – תוצג התשובה ואז ממשיכים.</div>
+        </div>
+
+        <div class="rulesItem">
+          <div class="rulesItemTitle">דו־קרב</div>
+          <div class="rulesItemText">שתי קבוצות מתחרות / מבצעות משימה בזמן. המנחה נותן ניקוד.</div>
+        </div>
+
+        <div class="rulesItem">
+          <div class="rulesItemTitle">שאלות עם עזרים</div>
+          <div class="rulesItemText">לפעמים יש <b>תמונה / מפה / שמע</b> — עונים לפי מה שמופיע.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rulesBlock">
+      <div class="rulesTitle">4) עזרים וטיימר</div>
+      <div class="rulesText">
+        יש טיימר וגלגלי הצלה (לפי ההגדרה במשחק).
+        <br />
+        המנחה מנהל את הזמן והניקוד.
+      </div>
+    </div>
+
+    <div class="row rulesActions">
       <button id="btnRulesContinue" class="btn btn-primary" type="button">
         הבנתי – נתחיל ▶
       </button>
     </div>
   </div>
 </section>
-
 
     <!-- Start Screen -->
     <section id="screenStart" class="screen">
@@ -202,6 +239,7 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
