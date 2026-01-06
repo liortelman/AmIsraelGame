@@ -601,7 +601,7 @@ function renderTurnLabel() {
 */
 function getBoardLabelForQuestion(q) {
   const s = String(q?.boardLabel || "").trim();
-  return s || "✓";
+  return s || "—";
 }
 
 // תאימות אחורה: אם איכשהו יש "true" מגרסה ישנה — נתייחס כ"burned".
@@ -1878,5 +1878,6 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
