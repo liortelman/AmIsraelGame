@@ -342,7 +342,7 @@ const QUESTIONS = {
 
 /* === State === */
 const DEFAULT_STATE = {
-  phase: "intro",          // start | board | duel | end
+  phase: "intro",          // intro | rules | start | board | duel | end
   teamCount: 2,
   teams: [],
   currentTeamIndex: 0,
@@ -416,7 +416,7 @@ function renderIntroScreen() {
 
   $("btnIntroGo")?.addEventListener("click", () => {
     pushUndo();
-    state.phase = "start";
+    state.phase = "rules";
     saveState();
     applyStateToUI();
   });
@@ -1887,6 +1887,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
