@@ -1283,7 +1283,7 @@ body{
   margin-top: 8px;
   font-size: 13px;
   opacity: .85;
-  color: rgba(255,255,255,.86);
+  color: var(--ink); /* או rgba(11,18,32,.90) */
 }
 
 .i{ font-size: 16px; }
@@ -1304,4 +1304,5 @@ body{
 #screenRules .rulesText{
   color: rgba(11,18,32,.92) !important;
 }
+
 
