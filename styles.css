@@ -1139,19 +1139,15 @@ body{
 }
 
 /* ===== Rules Screen (Darker / richer) ===== */
-.rulesCard{
-  width: min(980px, 96vw);
-  max-width: 980px;
+.rulesCard {
+  max-width: 900px;
 
   background:
-    radial-gradient(900px 520px at 85% -10%, rgba(29,78,216,.22), transparent 55%),
-    radial-gradient(820px 520px at -10% 10%, rgba(56,189,248,.18), transparent 56%),
-    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04)),
-    rgba(10,18,40,.55);
+    radial-gradient(120% 120% at 20% 0%, rgba(56,189,248,.22), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.88), rgba(234,244,255,.92));
 
-  border: 1px solid rgba(255,255,255,.14);
-  box-shadow: 0 24px 60px rgba(11,18,32,.22);
-  color: rgba(255,255,255,.94);
+  border: 1px solid rgba(29,78,216,.14);
+  box-shadow: 0 20px 46px rgba(29,78,216,.16);
 }
 
 .rulesH1{
@@ -1185,19 +1181,32 @@ body{
   color: rgba(255,255,255,.92);
 }
 
-.rulesBlock{
-  margin-top: 16px;
-  padding: 16px 16px;
+.rulesBlock {
+  margin-top: 18px;
+  padding: 16px;
   border-radius: 16px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.14);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.92),
+      rgba(241,248,255,.95)
+    );
+
+  border: 1px solid rgba(29,78,216,.12);
 }
 
-.rulesTitle{
-  font-weight: 950;
-  font-size: 18px;
+.rulesTitle {
+  font-weight: 900;
+  font-size: 20px;
   margin-bottom: 8px;
-  color: rgba(255,255,255,.96);
+  color: var(--blue);
+}
+
+.rulesTitle::before {
+  content: "▸ ";
+  color: var(--sky);
+  font-weight: 900;
 }
 
 .rulesText{
@@ -1224,11 +1233,18 @@ body{
   margin-top: 12px;
 }
 
-.rulesItem{
+.rulesItem {
   padding: 14px;
   border-radius: 14px;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.16);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.95),
+      rgba(234,244,255,.95)
+    );
+
+  border: 1px solid rgba(29,78,216,.12);
 }
 
 .rulesItemTitle{
@@ -1288,3 +1304,4 @@ body{
   .rulesShots{ grid-template-columns: 1fr; }
   .shot img{ height: 170px; }
 }
+
