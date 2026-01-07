@@ -35,67 +35,105 @@
 <!-- Rules Screen -->
 <section id="screenRules" class="screen hidden">
   <div class="card rulesCard">
-    <h1 class="h1">איך משחקים?</h1>
-
-    <div class="rulesBlock">
-      <div class="rulesTitle">1) הלוח</div>
-      <div class="rulesText">
-        במסך המשחק תראו <b>לוח קטגוריות</b> עם מספרים.
-        <br />
-        בכל תור, <b>הקבוצה שבתור</b> בוחרת שאלה מהלוח (קטגוריה + מספר).
-      </div>
-    </div>
-
-    <div class="rulesBlock">
-      <div class="rulesTitle">2) נקודות</div>
-      <div class="rulesText">
-        לכל שאלה יש ניקוד שמופיע בכותרת השאלה (למשל <b>10 נק׳</b> או <b>20 נק׳</b>).
-        <br />
-        אם עונים נכון – המנחה נותן את הנקודות
-      </div>
-    </div>
-
-    <div class="rulesBlock">
-      <div class="rulesTitle">3) סוגי שאלות</div>
-
-      <div class="rulesGrid">
-        <div class="rulesItem">
-          <div class="rulesItemTitle">שאלה רגילה</div>
-          <div class="rulesItemText">הקבוצה שבתור עונה, והמנחה נותן ניקוד.</div>
-        </div>
-
-        <div class="rulesItem">
-          <div class="rulesItemTitle">אמריקאי (בחירה מרשימה)</div>
-          <div class="rulesItemText">בוחרים תשובה. אם לא נכון – תוצג התשובה ואז ממשיכים.</div>
-        </div>
-
-        <div class="rulesItem">
-          <div class="rulesItemTitle">דו־קרב</div>
-          <div class="rulesItemText">שתי קבוצות מתחרות / מבצעות משימה בזמן. המנחה נותן ניקוד.</div>
-        </div>
-
-        <div class="rulesItem">
-          <div class="rulesItemTitle">שאלות עם עזרים</div>
-          <div class="rulesItemText"> <b>תמונה / מפה / שמע</b> — עונים על השאלה באמצעות.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="rulesBlock">
-      <div class="rulesTitle">4) עזרים וטיימר</div>
-      <div class="rulesText">
-        יש טיימר וגלגלי הצלה (לפי ההגדרה במשחק).
-        <br />
-        המנחה מנהל את הזמן והניקוד.
-      </div>
-    </div>
-
-    <div class="row rulesActions">
-      <button id="btnRulesContinue" class="btn btn-primary" type="button">
-        הבנתי – נתחיל ▶
-      </button>
+  <div class="rulesHeader">
+    <h1 class="h1 rulesH1">איך משחקים?</h1>
+    <div class="rulesBadges">
+      <span class="rulesBadge"><span class="i">🧩</span> בוחרים שאלה מהלוח</span>
+      <span class="rulesBadge"><span class="i">⭐</span> רוב השאלות: 10 נק׳</span>
+      <span class="rulesBadge"><span class="i">⚔️</span> דו־קרב: עד 20 נק׳</span>
     </div>
   </div>
+
+  <!-- ✅ Screenshots row -->
+  <div class="rulesShots">
+    <figure class="shot">
+      <img src="design/shot-board.png" alt="צילום מסך של הלוח" />
+      <figcaption>כך נראה הלוח – כל קבוצה בתורה בוחרת קטגוריה + מספר.</figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="design/shot-question.png" alt="צילום מסך של שאלה לדוגמה" />
+      <figcaption>שאלה לדוגמה – הניקוד והפרטים מופיעים למעלה.</figcaption>
+    </figure>
+  </div>
+
+  <div class="rulesBlock">
+    <div class="rulesTitle">1) הלוח – איך בוחרים שאלה</div>
+    <div class="rulesText">
+      במסך המשחק יש <b>לוח קטגוריות</b> עם מספרים.
+      <br />
+      בכל תור, <b>הקבוצה שבתור</b> בוחרת שאלה מהלוח (קטגוריה + מספר).
+      <br />
+      אחרי שבוחרים – השאלה נפתחת, ובסוף המנחה נותן נקודות לקבוצה המתאימה.
+    </div>
+  </div>
+
+  <div class="rulesBlock">
+    <div class="rulesTitle">2) נקודות – חשוב להבין</div>
+    <div class="rulesText">
+      <b>כל שאלה רגילה שווה 10 נק׳.</b>
+      <br />
+      ב<b>דו־קרב</b> אפשר להגיע ל<b>עד 20 נק׳</b> (לפי החלטת המנחה / הכללים של הדו־קרב).
+      <br />
+      הניקוד של השאלה מופיע תמיד למעלה במסך השאלה.
+    </div>
+  </div>
+
+  <div class="rulesBlock">
+    <div class="rulesTitle">3) גלגלי הצלה – לכל קבוצה יש 2</div>
+    <div class="rulesGrid rulesGrid2">
+      <div class="rulesItem">
+        <div class="rulesItemTitle"><span class="i">⏱️</span> טיימר 20 שניות</div>
+        <div class="rulesItemText">
+          גלגל הצלה אחד לכל קבוצה: <b>20 שניות לחיפוש בגוגל</b>.
+        </div>
+      </div>
+
+      <div class="rulesItem">
+        <div class="rulesItemTitle"><span class="i">👩‍🏫</span> שאל את המורה</div>
+        <div class="rulesItemText">
+          גלגל הצלה אחד לכל קבוצה: <b>רמז/עזרה מהמורה</b> (המנחה מחליט איך לעזור).
+        </div>
+      </div>
+    </div>
+
+    <div class="rulesText rulesNote">
+      * המנחה הוא זה שלוחץ על גלגלי ההצלה ונותן נקודות בסוף.
+    </div>
+  </div>
+
+  <div class="rulesBlock">
+    <div class="rulesTitle">4) סוגי שאלות</div>
+
+    <div class="rulesGrid">
+      <div class="rulesItem">
+        <div class="rulesItemTitle">שאלה רגילה</div>
+        <div class="rulesItemText">הקבוצה שבתור עונה, והמנחה נותן ניקוד.</div>
+      </div>
+
+      <div class="rulesItem">
+        <div class="rulesItemTitle">אמריקאי (בחירה מרשימה)</div>
+        <div class="rulesItemText">בוחרים תשובה. אם לא נכון – התשובה מוצגת ואז ממשיכים.</div>
+      </div>
+
+      <div class="rulesItem">
+        <div class="rulesItemTitle">דו־קרב</div>
+        <div class="rulesItemText">שתי קבוצות מתחרות/מבצעות משימה בזמן. המנחה נותן ניקוד.</div>
+      </div>
+
+      <div class="rulesItem">
+        <div class="rulesItemTitle">שאלות עם עזרים</div>
+        <div class="rulesItemText"><b>תמונה / מפה / שמע</b> — עונים בעזרת העזר שמוצג.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row rulesActions">
+    <button id="btnRulesContinue" class="btn btn-primary" type="button">
+      הבנתי – נתחיל ▶
+    </button>
+  </div>
+</div>
 </section>
 
     <!-- Start Screen -->
@@ -239,6 +277,7 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
