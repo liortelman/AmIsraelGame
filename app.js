@@ -1580,16 +1580,6 @@ function wireTopButtons() {
     });
   }
 
-  const resumeBtn = $("btnResume");
-  if (resumeBtn) {
-    resumeBtn.addEventListener("click", () => {
-      const loaded = loadState();
-      if (!loaded) return;
-      state = loaded;
-      applyStateToUI();
-    });
-  }
-
   const finishBtn = $("btnFinish");
   if (finishBtn) {
     finishBtn.addEventListener("click", () => finishGame(true));
@@ -1893,4 +1883,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
