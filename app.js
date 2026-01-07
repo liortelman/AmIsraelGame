@@ -32,6 +32,7 @@ const QUESTIONS = {
         { "id": "history-3", "points": 20, "type": "duel",
           "timerSeconds": 60,
           "manualScoring": true, "manualMaxAwards": 10, "manualPerAward": 2,
+          "image": "design/dibrot.jpg",
           "question": "לכל קבוצה יש דקה לכתוב כמה שיותר מעשרת הדיברות, על כל אחד נכון תקבלו 2 נק'",
           "boardLabel": "עשרת הדיברות",
           "options": [], "answer": "", "hint": "אין גלגל הצלה" },
@@ -100,6 +101,7 @@ const QUESTIONS = {
         { "id": "places-5", "points": 20, "type": "duel",
           "timerSeconds": 60,
           "manualScoring": true, "manualMaxAwards": 10, "manualPerAward": 2,
+          "image": "design/shvatim.jpg",
           "question": "על כל קבוצה לכתוב כמה שיותר מקומות/אזורים בארץ שקרויים על שם שבטים שהתיישבו שם",
           "options": [],
           "answer": "דוגמאות: גוש דן–דן, מטה יהודה–יהודה, מדבר יהודה–יהודה, רמת מנשה–מנשה, מעלה אפרים–אפרים, מטה זבולון–זבולון, רמות נפתלי–נפתלי, בני שמעון–שמעון, מטה אשר–אשר.",
@@ -138,6 +140,7 @@ const QUESTIONS = {
 
         { "id": "figures-2", "points": 20, "type": "duel",
           "scoringMode": "per_hit", "perCorrect": 4, "maxHits": 5,
+          "image": "design/ester.png",
           "question": "דו־קרב: נכון/לא נכון – אסתר המלכה (כל תשובה נכונה = 4 נק׳)\n\n1) אסתר המלכה הייתה אשתו של המן בן אמדתא\n2) אסתר המלכה הלכה לארמון מרצון שיבחרו בה למלכה\n3) אסתר המלכה צמה שלושה ימים ושלושה לילות\n4) אסתר המלכה נתלתה על העץ כי מרדה במלך\n5) אסתר המלכה עשתה שתי משתאות לאחשוורוש והמן יום אחרי יום",
           "options": [],
           "answer": "1) לא נכון\n2) לא נכון\n3) נכון\n4) לא נכון\n5) נכון",
@@ -269,6 +272,7 @@ const QUESTIONS = {
           "hint": "" },
 
         { "id": "symbols-5", "points": 10, "type": "for_everyone", "autoScore": true,
+          "image": "design/mezuza.jpg",
           "question": "מה יש בתוך המזוזה?",
           "options": ["קלף עם פרשיות \"שמע\" ו\"והיה אם שמוע\"", "מטבע כסף קטן", "דף עם \"התקווה\"", "אבקה מיוחדת לברכה"],
           "answer": "קלף עם פרשיות \"שמע\" ו\"והיה אם שמוע\"",
@@ -276,6 +280,7 @@ const QUESTIONS = {
           "hint": "" },
 
         { "id": "symbols-6", "points": 20, "type": "duel",
+          "image": "design/jerusalem.jpg",
           "question": "ירושלים תמיד הייתה מושא לתפילות וחלומות. המשימה: לומר כמה שיותר שירי ירושלים תור־תור. מי שאחרי 5 שניות לא מוצא — מפסיד.",
           "options": [],
           "answer": "",
@@ -1883,4 +1888,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
