@@ -1150,9 +1150,8 @@ body{
   box-shadow: 0 20px 46px rgba(29,78,216,.16);
 }
 
-.rulesH1{
-  color: rgba(255,255,255,.96);
-  margin-bottom: 10px;
+#screenRules .h1 {
+  color: rgba(11,18,32,.95);
 }
 
 .rulesHeader{
@@ -1247,17 +1246,14 @@ body{
   border: 1px solid rgba(29,78,216,.12);
 }
 
-.rulesItemTitle{
-  font-weight: 950;
-  margin-bottom: 6px;
-  color: rgba(255,255,255,.96);
+#screenRules .rulesText,
+#screenRules .rulesItemText {
+  color: rgba(11,18,32,.9);
 }
 
-.rulesItemText{
-  font-size: 14px;
-  line-height: 1.6;
-  opacity: 0.9;
-  color: rgba(255,255,255,.88);
+#screenRules .rulesTitle,
+#screenRules .rulesItemTitle {
+  color: var(--blue);
 }
 
 .rulesActions{
@@ -1304,4 +1300,10 @@ body{
   .rulesShots{ grid-template-columns: 1fr; }
   .shot img{ height: 170px; }
 }
+
+/* ===== Rules Screen – text color fix ===== */
+#screenRules {
+  color: var(--ink); /* כחול כהה / כמעט שחור */
+}
+
 
