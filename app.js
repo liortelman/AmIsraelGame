@@ -712,6 +712,7 @@ let activeCatKey = null;
 let activeQIndex = null;
 let timerInterval = null;
 let autoAnswered = false; // האם בשאלה אמריקאית כבר נבחרה תשובה
+let autoAnswerWasCorrect = null; // null | true | false
 let timerRemaining = 0;
 
 /* === Mark used (NEW structure) ===
@@ -742,6 +743,8 @@ function confirmBurnIfNeeded() {
 function openQuestionModal(catKey, qIndex) {
   activeCatKey = catKey;
   activeQIndex = qIndex;
+  autoAnswered = false;
+  autoAnswerWasCorrect = null;
 
   const q = getQuestionBy(catKey, qIndex);
   if (!q) return;
@@ -1892,12 +1895,4 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
-
-
-
-
-
-
-
-
 
