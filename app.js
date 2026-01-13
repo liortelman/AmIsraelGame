@@ -856,7 +856,7 @@ function openQuestionModal(catKey, qIndex) {
     none.onclick = () => {
       if (!confirmBurnIfNeeded()) return;
       pushUndo();
-      markUsed(activeCatKey, activeQIndex, null, "—", "burned");
+      markUsed(activeCatKey, activeQIndex, null, null, "burned");
       closeQuestionModal();
       advanceTurn();
       rerenderBoardUI();
@@ -898,7 +898,7 @@ function openQuestionModal(catKey, qIndex) {
         if (!confirmBurnIfNeeded()) return;
         pushUndo();
         // ✅ burned: בלי צבע קבוצה + טקסט "—"
-        markUsed(activeCatKey, activeQIndex, null, "—", "burned");
+        markUsed(activeCatKey, activeQIndex, null, null, "burned");
         closeQuestionModal();
         advanceTurn();
         rerenderBoardUI();
@@ -989,7 +989,7 @@ function renderTeamAwardButtons(points) {
       if (!confirmBurnIfNeeded()) return;
       pushUndo();
       // ✅ burned: בלי צבע קבוצה, אבל "✓" כדי לסמן סיום (אפשר לשנות ל-"—" אם תרצי)
-      markUsed(activeCatKey, activeQIndex, null, "—", "burned");
+      markUsed(activeCatKey, activeQIndex, null, null, "burned");
       closeQuestionModal();
       advanceTurn();
       rerenderBoardUI();
@@ -1083,7 +1083,7 @@ function closeDuel(goNextTurnIfRevealed) {
     if (!confirmBurnIfNeeded()) return;
     pushUndo();
     // ✅ burned אחרי reveal: בלי צבע קבוצה + "—"
-    markUsed(state.duel?.catKey, state.duel?.qIndex, null, "—", "burned");
+    markUsed(state.duel?.catKey, state.duel?.qIndex, null, null, "burned");
     state.phase = "board";
     state.duel = null;
     saveState();
@@ -1353,7 +1353,7 @@ function awardDuelHit(teamIndex) {
 
     pushUndo();
     // per_hit נגמר: מסמנים כ"used" בלי צבע (אין מנצח חד-משמעי)
-    markUsed(d.catKey, d.qIndex, null, "—", "won");
+    markUsed(d.catKey, d.qIndex, null, null, "won");
 
     state.phase = "board";
     state.duel = null;
@@ -1888,5 +1888,6 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
