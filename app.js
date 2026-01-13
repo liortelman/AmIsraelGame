@@ -668,7 +668,7 @@ function buildBoard() {
         btn.disabled = true;
         btn.classList.add("used");
 
-        const label = String(usedEntry.label ?? "").trim() || "—";
+        const label = String(usedEntry.label ?? "").trim() || "✓";
         btn.textContent = label;
 
         if (usedEntry.status === "won" && typeof usedEntry.teamIndex === "number") {
@@ -1888,6 +1888,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
