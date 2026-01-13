@@ -229,7 +229,7 @@ const QUESTIONS = {
           "question": "עליכם לחשב את הגימטריה של הפסוק \"וַאֲהַבְתֶּם אֶת-הַגֵּר כִּי-גֵרִים הֱיִיתֶם בְּאֶרֶץ מִצְרָיִם\". מי שמגיע ראשון לתשובה הנכונה מנצח!",
           "options": [],
           "answer": "2480",
-          "boardLabel": "2480",
+          "boardLabel": "אהבת הגר",
           "hint": "אין גלגל הצלה" },
 
         { "id": "values-7", "points": 10, "type": "for_everyone",
@@ -1888,6 +1888,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
