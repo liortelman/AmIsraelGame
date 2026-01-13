@@ -24,7 +24,7 @@ const QUESTIONS = {
 
         { "id": "history-2", "points": 10, "type": "for_everyone", "autoScore": true,
           "question": "איזה חג חוגגים כזכרון ליציאת מצרים? ואיזו מצווה בחג היא זכרון לתקופה?",
-          "options": ["שבועות וספירת העומר", "כריסמס ועץ אשוח", "פסח ואכילת מצה", "שבת וקידוש"],
+          "options": ["שבועות וספירת העומר", "פורים ותחפושות", "פסח ואכילת מצה", "שבת וקידוש"],
           "boardLabel": "פסח ומצה",
           "answer": "פסח ואכילת מצה", "hint": "" },
 
@@ -1888,6 +1888,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
