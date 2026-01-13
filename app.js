@@ -141,6 +141,7 @@ const QUESTIONS = {
         { "id": "figures-2", "points": 20, "type": "duel",
           "scoringMode": "per_hit", "perCorrect": 4, "maxHits": 5,
           "image": "design/ester.png",
+          "timerSeconds": 60,
           "question": "דו־קרב: נכון/לא נכון – אסתר המלכה (כל תשובה נכונה = 4 נק׳)\n\n1) אסתר המלכה הייתה אשתו של המן בן אמדתא\n2) אסתר המלכה הלכה לארמון מרצון שיבחרו בה למלכה\n3) אסתר המלכה צמה שלושה ימים ושלושה לילות\n4) אסתר המלכה נתלתה על העץ כי מרדה במלך\n5) אסתר המלכה עשתה שתי משתאות לאחשוורוש והמן יום אחרי יום",
           "options": [],
           "answer": "1) לא נכון\n2) לא נכון\n3) נכון\n4) לא נכון\n5) נכון",
@@ -228,6 +229,7 @@ const QUESTIONS = {
         { "id": "values-6", "points": 20, "type": "duel",
           "question": "עליכם לחשב את הגימטריה של הפסוק \"וַאֲהַבְתֶּם אֶת-הַגֵּר כִּי-גֵרִים הֱיִיתֶם בְּאֶרֶץ מִצְרָיִם\". מי שמגיע ראשון לתשובה הנכונה מנצח!",
           "options": [],
+          "timerSeconds": 60,
           "answer": "2480",
           "boardLabel": "אהבת הגר",
           "hint": "אין גלגל הצלה" },
@@ -281,6 +283,7 @@ const QUESTIONS = {
 
         { "id": "symbols-6", "points": 20, "type": "duel",
           "image": "design/jerusalem.jpg",
+          "timerSeconds": 60,
           "question": "ירושלים תמיד הייתה מושא לתפילות וחלומות. המשימה: לומר כמה שיותר שירי ירושלים תור־תור. מי שאחרי 5 שניות לא מוצא — מפסיד.",
           "options": [],
           "answer": "",
@@ -1627,7 +1630,30 @@ function wireRulesScreen() {
 }
 
 function wireModalButtons() {
-  $("btnCloseModal")?.addEventListener("click", closeQuestionModal);
+  
+  $("btnCloseModal")?.addEventListener("click", () => {
+  const q = getQuestionBy(activeCatKey, activeQIndex);
+  if (!q) return closeQuestionModal();
+
+  // אם לא ענו (לא נלחצה אופציה) — סגירה רגילה, בלי שריפה ובלי ניקוד
+  if (!isAutoTrivia(q) || !autoAnswered) {
+    return closeQuestionModal();
+  }
+
+  // אם ענו נכון — כבר awardPoints סגר וסימן used, אז כאן זה כמעט לא יקרה.
+  // אבל נשאיר ליתר ביטחון:
+  if (autoAnswerWasCorrect === true) {
+    return closeQuestionModal();
+  }
+
+  // אם ענו לא נכון — "סגור" יסיים/ישרוף את השאלה בדיוק כמו "המשך"
+  if (!confirmBurnIfNeeded()) return;
+  pushUndo();
+  markUsed(activeCatKey, activeQIndex, null, null, "burned");
+  closeQuestionModal();
+  advanceTurn();
+  rerenderBoardUI();
+});
 
   $("btnHelpTeacher")?.addEventListener("click", () => {
     startTimer(0);
@@ -1895,4 +1921,5 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
