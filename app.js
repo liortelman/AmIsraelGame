@@ -711,6 +711,7 @@ function rerenderBoardUI() {
 let activeCatKey = null;
 let activeQIndex = null;
 let timerInterval = null;
+let autoAnswered = false; // האם בשאלה אמריקאית כבר נבחרה תשובה
 let timerRemaining = 0;
 
 /* === Mark used (NEW structure) ===
@@ -1888,6 +1889,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
