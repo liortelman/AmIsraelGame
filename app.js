@@ -827,10 +827,13 @@ function openQuestionModal(catKey, qIndex) {
           b.classList.add("selected");
 
           if (isAutoTrivia(q)) {
+            autoAnswered = true;
             optWrap.querySelectorAll(".option-btn").forEach(x => (x.disabled = true));
 
             const chosen = String(opt).trim();
             const correct = String(q.answer).trim();
+
+            autoAnswerWasCorrect = (chosen === correct);
 
             if (chosen === correct) {
               pushUndo();
@@ -1889,6 +1892,7 @@ function boot() {
 }
 
 document.addEventListener("DOMContentLoaded", boot);
+
 
 
 
